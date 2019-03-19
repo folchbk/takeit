@@ -19,3 +19,7 @@ framework:
     #assets:
     assets:
             base_path: 'assets'
+
+    templating:
+        engines: ['twig', 'php']
+
