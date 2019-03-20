@@ -1,0 +1,97 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% if error %}
+    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <form action="{{ path("fos_user_security_check") }}" method="post" class="login100-form validate-form">
+                {% if csrf_token %}
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                {% endif %}
+
+					<span class="login100-form-title p-b-26">
+						Take It!
+					</span>
+                <span class="login100-form-title p-b-48">
+						<i class="zmdi zmdi-font"></i>
+					</span>
+
+
+
+                <div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+                    <input class="input100" type="text"  id="username" name="_username" required="required" autocomplete="username" />
+                    <span class="focus-input100" data-placeholder="{{ 'security.login.username'|trans }}"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Enter password">
+						<span class="btn-show-pass">
+							<i class="zmdi zmdi-eye"></i>
+						</span>
+                    <input class="input100" type="password" id="password" name="_password" required="required" autocomplete="current-password" />
+                    <span class="focus-input100" data-placeholder="{{ 'security.login.password'|trans }}"></span>
+                </div>
+
+                <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+
+                <div class="container-login100-form-btn">
+                    <div class="wrap-login100-form-btn">
+                        <div class="login100-form-bgbtn"></div>
+                        <button type="submit" class="login100-form-btn" id="_submit" name="_submit"/>
+                            {{ 'security.login.submit'|trans }}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="text-center p-t-115">
+						<span class="txt1">
+							Don’t have an account?
+						</span>
+
+                    <a class="txt2" href="#">
+                        Sign Up
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{#<form action="{{ path("fos_user_security_check") }}" method="post">#}
+    {#{% if csrf_token %}#}
+        {#<input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />#}
+    {#{% endif %}#}
+
+    {#<label for="username">{{ 'security.login.username'|trans }}</label>#}
+    {#<input type="text" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" />#}
+
+    {#<label for="password">{{ 'security.login.password'|trans }}</label>#}
+    {#<input type="password" id="password" name="_password" required="required" autocomplete="current-password" />#}
+
+    {#<input type="checkbox" id="remember_me" name="_remember_me" value="on" />#}
+    {#<label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>#}
+
+    {#<input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />#}
+{#</form>#}
+
+<div id="dropDownSelect1"></div>
+<!--===============================================================================================-->
+<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/bootstrap/js/popper.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/daterangepicker/moment.min.js"></script>
+<script src="vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+<script src="js/main.js"></script>
