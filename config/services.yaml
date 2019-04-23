@@ -26,31 +26,3 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-
-    admin.producto:
-        class: App\Admin\ProductoAdmin
-        arguments: [~, App\Entity\Producto, App\Controller\ProductoAdminController]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: Producto }
-        public: true
-
-    admin.mesa:
-        class: App\Admin\MesaAdmin
-        arguments: [~, App\Entity\Mesa, App\Controller\MesaAdminController]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: Mesa }
-        public: true
-
-    admin.dispositivo:
-        class: App\Admin\DispositivoAdmin
-        arguments: [~, App\Entity\Dispositivo, App\Controller\DispositivoAdminController]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: Dispositivo }
-        public: true
-
-    admin.pedido:
-        class: App\Admin\PedidoAdmin
-        arguments: [~, App\Entity\Pedido, App\Controller\PedidoAdminController]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: Pedido }
-        public: true

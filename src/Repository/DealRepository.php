@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Dispositivo;
+use App\Entity\Deal;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Dispositivo|null find($id, $lockMode = null, $lockVersion = null)
- * @method Dispositivo|null findOneBy(array $criteria, array $orderBy = null)
- * @method Dispositivo[]    findAll()
- * @method Dispositivo[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Deal|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Deal|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Deal[]    findAll()
+ * @method Deal[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DispositivoRepository extends ServiceEntityRepository
+class DealRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Dispositivo::class);
+        parent::__construct($registry, Deal::class);
     }
 
     // /**
-    //  * @return Dispositivo[] Returns an array of Dispositivo objects
+    //  * @return Deal[] Returns an array of Deal objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class DispositivoRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Dispositivo
+    public function findOneBySomeField($value): ?Deal
     {
         return $this->createQueryBuilder('d')
             ->andWhere('d.exampleField = :val')

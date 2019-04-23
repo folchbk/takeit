@@ -1,32 +1,22 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bbartes
- * Date: 19/03/19
- * Time: 16:32
- */
-
-// src/Entity/User.php
 
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="fos_user")
+ * @ORM\Entity(repositoryClass="App\Repository\LocalRepository")
  */
-class User extends BaseUser
+class Local
 {
     /**
-     * @ORM\Id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -39,29 +29,30 @@ class User extends BaseUser
     private $phone;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $street;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $city;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $cp;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $style;
+    private $numEmployees;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Deal", inversedBy="locals")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $iban;
+    private $deal;
 
     /**
      * @ORM\Column(type="datetime")
@@ -79,21 +70,23 @@ class User extends BaseUser
     private $deletedAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Deal", mappedBy="users")
+     * @ORM\Column(type="boolean")
      */
-    private $deals;
+    private $enabled;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Client", mappedBy="userObject")
+     * @ORM\OneToMany(targetEntity="App\Entity\Table", mappedBy="local")
      */
-    private $clients;
+    private $tables;
 
     public function __construct()
     {
-        parent::__construct();
-        $this->deals = new ArrayCollection();
-        $this->clients = new ArrayCollection();
-        // your own logic
+        $this->tables = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     public function getName(): ?string
@@ -125,7 +118,7 @@ class User extends BaseUser
         return $this->street;
     }
 
-    public function setStreet(?string $street): self
+    public function setStreet(string $street): self
     {
         $this->street = $street;
 
@@ -137,7 +130,7 @@ class User extends BaseUser
         return $this->city;
     }
 
-    public function setCity(?string $city): self
+    public function setCity(string $city): self
     {
         $this->city = $city;
 
@@ -149,33 +142,33 @@ class User extends BaseUser
         return $this->cp;
     }
 
-    public function setCp(?string $cp): self
+    public function setCp(string $cp): self
     {
         $this->cp = $cp;
 
         return $this;
     }
 
-    public function getStyle(): ?int
+    public function getNumEmployees(): ?int
     {
-        return $this->style;
+        return $this->numEmployees;
     }
 
-    public function setStyle(int $style): self
+    public function setNumEmployees(?int $numEmployees): self
     {
-        $this->style = $style;
+        $this->numEmployees = $numEmployees;
 
         return $this;
     }
 
-    public function getIban(): ?string
+    public function getDeal(): ?Deal
     {
-        return $this->iban;
+        return $this->deal;
     }
 
-    public function setIban(?string $iban): self
+    public function setDeal(?Deal $deal): self
     {
-        $this->iban = $iban;
+        $this->deal = $deal;
 
         return $this;
     }
@@ -197,7 +190,7 @@ class User extends BaseUser
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -209,66 +202,50 @@ class User extends BaseUser
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(\DateTimeInterface $deletedAt): self
+    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
 
         return $this;
     }
 
-    /**
-     * @return Collection|Deal[]
-     */
-    public function getDeals(): Collection
+    public function getEnabled(): ?bool
     {
-        return $this->deals;
+        return $this->enabled;
     }
 
-    public function addDeal(Deal $deal): self
+    public function setEnabled(bool $enabled): self
     {
-        if (!$this->deals->contains($deal)) {
-            $this->deals[] = $deal;
-            $deal->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDeal(Deal $deal): self
-    {
-        if ($this->deals->contains($deal)) {
-            $this->deals->removeElement($deal);
-            $deal->removeUser($this);
-        }
+        $this->enabled = $enabled;
 
         return $this;
     }
 
     /**
-     * @return Collection|Client[]
+     * @return Collection|Table[]
      */
-    public function getClients(): Collection
+    public function getTables(): Collection
     {
-        return $this->clients;
+        return $this->tables;
     }
 
-    public function addClient(Client $client): self
+    public function addTable(Table $table): self
     {
-        if (!$this->clients->contains($client)) {
-            $this->clients[] = $client;
-            $client->setUserObject($this);
+        if (!$this->tables->contains($table)) {
+            $this->tables[] = $table;
+            $table->setLocal($this);
         }
 
         return $this;
     }
 
-    public function removeClient(Client $client): self
+    public function removeTable(Table $table): self
     {
-        if ($this->clients->contains($client)) {
-            $this->clients->removeElement($client);
+        if ($this->tables->contains($table)) {
+            $this->tables->removeElement($table);
             // set the owning side to null (unless already changed)
-            if ($client->getUserObject() === $this) {
-                $client->setUserObject(null);
+            if ($table->getLocal() === $this) {
+                $table->setLocal(null);
             }
         }
 

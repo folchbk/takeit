@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Pedido;
+use App\Entity\ProductIngredient;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Pedido|null find($id, $lockMode = null, $lockVersion = null)
- * @method Pedido|null findOneBy(array $criteria, array $orderBy = null)
- * @method Pedido[]    findAll()
- * @method Pedido[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ProductIngredient|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ProductIngredient|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ProductIngredient[]    findAll()
+ * @method ProductIngredient[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PedidoRepository extends ServiceEntityRepository
+class ProductIngredientRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Pedido::class);
+        parent::__construct($registry, ProductIngredient::class);
     }
 
     // /**
-    //  * @return Pedido[] Returns an array of Pedido objects
+    //  * @return ProductIngredient[] Returns an array of ProductIngredient objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class PedidoRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Pedido
+    public function findOneBySomeField($value): ?ProductIngredient
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')

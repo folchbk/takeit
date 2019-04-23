@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Mesa;
+use App\Entity\Menu;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Mesa|null find($id, $lockMode = null, $lockVersion = null)
- * @method Mesa|null findOneBy(array $criteria, array $orderBy = null)
- * @method Mesa[]    findAll()
- * @method Mesa[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Menu|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Menu|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Menu[]    findAll()
+ * @method Menu[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MesaRepository extends ServiceEntityRepository
+class MenuRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Mesa::class);
+        parent::__construct($registry, Menu::class);
     }
 
     // /**
-    //  * @return Mesa[] Returns an array of Mesa objects
+    //  * @return Menu[] Returns an array of Menu objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class MesaRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Mesa
+    public function findOneBySomeField($value): ?Menu
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.exampleField = :val')
