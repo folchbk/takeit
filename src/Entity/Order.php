@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OrderRepository")
+ * @ORM\Table(name="barorder")
  */
 class Order
 {
@@ -52,6 +53,7 @@ class Order
     public function __construct()
     {
         $this->orderProducts = new ArrayCollection();
+        $this->createdAt = new \DateTime("now");
     }
 
     public function getId(): ?int
@@ -149,4 +151,14 @@ class Order
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getClient()->getUserObject() . "[" . $this->getClient()->getTableObject() . "]";
+    }
+
+
 }

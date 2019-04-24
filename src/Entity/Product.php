@@ -63,6 +63,7 @@ class Product
         $this->productIngredients = new ArrayCollection();
         $this->menus = new ArrayCollection();
         $this->orderProducts = new ArrayCollection();
+        $this->createdAt = new \DateTime("now");
     }
 
     public function getId(): ?int
@@ -222,4 +223,14 @@ class Product
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+
 }

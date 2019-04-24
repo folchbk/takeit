@@ -82,6 +82,7 @@ class Local
     public function __construct()
     {
         $this->tables = new ArrayCollection();
+        $this->createdAt = new \DateTime("now");
     }
 
     public function getId(): ?int
@@ -251,4 +252,11 @@ class Local
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+
 }

@@ -62,6 +62,7 @@ class Deal
     {
         $this->users = new ArrayCollection();
         $this->locals = new ArrayCollection();
+        $this->createdAt = new \DateTime("now");
     }
 
     public function getId(): ?int
@@ -197,4 +198,11 @@ class Deal
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+
 }

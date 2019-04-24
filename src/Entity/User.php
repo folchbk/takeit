@@ -29,12 +29,12 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $phone;
 
@@ -54,7 +54,7 @@ class User extends BaseUser
     private $cp;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $style;
 
@@ -93,6 +93,7 @@ class User extends BaseUser
         parent::__construct();
         $this->deals = new ArrayCollection();
         $this->clients = new ArrayCollection();
+        $this->createdAt = new \DateTime("now");
         // your own logic
     }
 

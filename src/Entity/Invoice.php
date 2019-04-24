@@ -47,6 +47,7 @@ class Invoice
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->createdAt = new \DateTime("now");
     }
 
     public function getId(): ?int

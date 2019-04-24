@@ -59,6 +59,7 @@ class Client
     {
         $this->invoices = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->createdAt = new \DateTime("now");
     }
 
     public function getId(): ?int
@@ -187,4 +188,14 @@ class Client
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getUserObject()->getName() . "[" . $this->getId() . "]";
+    }
+
+
 }
