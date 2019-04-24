@@ -42,6 +42,7 @@ final class PedidoAdmin extends AbstractAdmin
             ->add('id')
             ->add('fecha')
             ->add('dispositivo')
+            ->add('ProductoXPedido')
             ;
     }
 
@@ -51,6 +52,7 @@ final class PedidoAdmin extends AbstractAdmin
             ->add('id')
             ->add('fecha')
             ->add('dispositivo')
+            ->add('ProductoXPedido')
             ;
     }
 }

@@ -16,7 +16,7 @@ final class DispositivoAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
-            ->add('id')
+//            ->add('id')
             ->add('mesa')
             ;
     }
@@ -37,7 +37,7 @@ final class DispositivoAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->add('id')
+//            ->add('id')
             ->add('mesa')
             ;
     }
