@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,66 +19,56 @@ class Menu
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="menus")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private $menu;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="menus")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $product;
+    private $name;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $quantity;
+    private $price;
+
+
+    public function __construct()
+    {
+        $this->menuProducts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getMenu(): ?Product
+    public function getName(): ?string
     {
-        return $this->menu;
+        return $this->name;
     }
 
-    public function setMenu(?Product $menu): self
+    public function setName(string $name): self
     {
-        $this->menu = $menu;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getProduct(): ?Product
+    public function getPrice(): ?float
     {
-        return $this->product;
+        return $this->price;
     }
 
-    public function setProduct(?Product $product): self
+    public function setPrice(float $price): self
     {
-        $this->product = $product;
+        $this->price = $price;
 
         return $this;
     }
 
-    public function getQuantity(): ?float
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(float $quantity): self
-    {
-        $this->quantity = $quantity;
-
-        return $this;
-    }
-
+    /**
+     * @return string
+     */
     public function __toString()
     {
-        return $this->getMenu()->getName();
+        return $this->getName();
     }
 
 
