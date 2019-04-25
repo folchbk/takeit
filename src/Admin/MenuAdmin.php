@@ -10,18 +10,15 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-final class ProductAdmin extends AbstractAdmin
+final class MenuAdmin extends AbstractAdmin
 {
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('id')
-            ->add('name')
-            ->add('price')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('deletedAt')
+            ->add('menu', null, ['multiple' => false, 'label' => 'Menu'])
+            ->add('product', null, ['multiple' => true, 'label' => 'Products'])
             ;
     }
 
@@ -29,11 +26,7 @@ final class ProductAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('id')
-            ->add('name')
-            ->add('price')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('deletedAt')
+            ->add('quantity')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -46,9 +39,9 @@ final class ProductAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->add('name')
-            ->add('price')
-            ->add('menus', null, ['multiple' => true, 'label' => 'Subproducts'])
+            ->add('menu', null, ['multiple' => false, 'label' => 'Menu'])
+            ->add('product', null, ['multiple' => false, 'label' => 'Products'])
+            ->add('quantity')
             ;
     }
 
@@ -56,11 +49,9 @@ final class ProductAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
-            ->add('name')
-            ->add('price')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('deletedAt')
+            ->add('menu', null, ['multiple' => false, 'label' => 'Menu'])
+            ->add('product', null, ['multiple' => true, 'label' => 'Products'])
+            ->add('quantity')
             ;
     }
 }
