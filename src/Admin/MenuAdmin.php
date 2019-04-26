@@ -44,16 +44,15 @@ final class MenuAdmin extends AbstractAdmin
         $formMapper
             ->add('name')
             ->add('price')
-//            ->add('menuProducts', null, ['multiple' => true, 'label' => 'Menus'])
-//            ->add('menuProducts', CollectionType::class, array(
-//                'label' => 'Productos',
-//                'entry_type' => MenuProductType::class,
-//                'entry_options' => array('label' => false),
-//                'allow_add' => true,
-//                'allow_delete' => true,
-//                'prototype' => true,
-//                'by_reference' => false
-//            ))
+            ->add('menuProducts', CollectionType::class, array(
+                'label' => 'Subproducts',
+                'entry_type' => MenuProductType::class,
+                'entry_options' => array('label' => false),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true,
+                'by_reference' => false
+            ))
             ;
     }
 
@@ -62,7 +61,7 @@ final class MenuAdmin extends AbstractAdmin
         $showMapper
             ->add('id')
             ->add('name')
-            ->add('menuProducts', null, ['multiple' => true, 'label' => 'Menus'])
+            ->add('menuProducts', null, ['label' => 'Products'])
             ->add('price')
             ;
     }

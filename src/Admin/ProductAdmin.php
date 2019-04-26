@@ -48,7 +48,6 @@ final class ProductAdmin extends AbstractAdmin
         $formMapper
             ->add('name')
             ->add('price')
-//            ->add('subproducts', null, ['multiple' => true, 'label' => 'Subproducts'])
             ;
     }
 
@@ -57,7 +56,6 @@ final class ProductAdmin extends AbstractAdmin
         $showMapper
             ->add('id')
             ->add('name')
-            ->add('subproducts')
             ->add('price')
             ->add('createdAt')
             ->add('updatedAt')

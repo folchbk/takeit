@@ -54,6 +54,11 @@ class Product
      */
     private $orderProducts;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MenuProduct", mappedBy="product")
+     */
+    private $menuProducts;
+
     public function __construct()
     {
         $this->productIngredients = new ArrayCollection();
@@ -195,6 +200,37 @@ class Product
     public function __toString()
     {
         return $this->getName();
+    }
+
+    /**
+     * @return Collection|MenuProduct[]
+     */
+    public function getMenuProducts(): Collection
+    {
+        return $this->menuProducts;
+    }
+
+    public function addMenuProduct(MenuProduct $menuProduct): self
+    {
+        if (!$this->menuProducts->contains($menuProduct)) {
+            $this->menuProducts[] = $menuProduct;
+            $menuProduct->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMenuProduct(MenuProduct $menuProduct): self
+    {
+        if ($this->menuProducts->contains($menuProduct)) {
+            $this->menuProducts->removeElement($menuProduct);
+            // set the owning side to null (unless already changed)
+            if ($menuProduct->getProduct() === $this) {
+                $menuProduct->setProduct(null);
+            }
+        }
+
+        return $this;
     }
 
 }
