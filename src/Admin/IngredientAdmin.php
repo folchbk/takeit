@@ -10,14 +10,22 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-final class OrderProductAdmin extends AbstractAdmin
+final class IngredientAdmin extends AbstractAdmin
 {
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('id')
-            ->add('quantity')
+            ->add('name')
+            ->add('kcal')
+            ->add('proteins')
+            ->add('carbohydrates')
+            ->add('fat')
+            ->add('stock')
+            ->add('createdAt')
+            ->add('updatedAt')
+            ->add('deletedAt')
             ;
     }
 
@@ -25,7 +33,15 @@ final class OrderProductAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('id')
-            ->add('quantity')
+            ->add('name')
+            ->add('kcal')
+            ->add('proteins')
+            ->add('carbohydrates')
+            ->add('fat')
+            ->add('stock')
+            ->add('createdAt')
+            ->add('updatedAt')
+            ->add('deletedAt')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -38,9 +54,12 @@ final class OrderProductAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->add('orderObject', null, ['multiple' => false, 'label' => 'Order'])
-            ->add('product', null, ['multiple' => false, 'label' => 'Product'])
-            ->add('quantity')
+            ->add('name')
+            ->add('kcal')
+            ->add('proteins')
+            ->add('carbohydrates')
+            ->add('fat')
+            ->add('stock')
             ;
     }
 
@@ -48,7 +67,15 @@ final class OrderProductAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
-            ->add('quantity')
+            ->add('name')
+            ->add('kcal')
+            ->add('proteins')
+            ->add('carbohydrates')
+            ->add('fat')
+            ->add('stock')
+            ->add('createdAt')
+            ->add('updatedAt')
+            ->add('deletedAt')
             ;
     }
 }

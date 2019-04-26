@@ -46,7 +46,7 @@ class Order
     private $deletedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\OrderProduct", mappedBy="orderObject")
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderProduct", mappedBy="orderObject", cascade={"persist", "remove"})
      */
     private $orderProducts;
 

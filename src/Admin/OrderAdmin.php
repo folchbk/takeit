@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Form\OrderProductType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 final class OrderAdmin extends AbstractAdmin
 {
@@ -45,6 +47,15 @@ final class OrderAdmin extends AbstractAdmin
     {
         $formMapper
             ->add('client',null,['multiple' => false, 'label' => 'Client'])
+            ->add('orderProducts', CollectionType::class, array(
+                'label' => 'Products',
+                'entry_type' => OrderProductType::class,
+                'entry_options' => array('label' => false),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true,
+                'by_reference' => false
+            ))
             ;
     }
 
@@ -53,7 +64,7 @@ final class OrderAdmin extends AbstractAdmin
         $showMapper
             ->add('id')
             ->add('client',null,['multiple' => false, 'label' => 'Client'])
-            ->add('orderProducts',null,['multiple' => true, 'label' => 'OrderProducts'])
+            ->add('orderProducts',null,['multiple' => true, 'label' => 'Products'])
             ->add('createdAt')
             ->add('updatedAt')
             ->add('deletedAt')

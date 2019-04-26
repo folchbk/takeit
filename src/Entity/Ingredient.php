@@ -64,13 +64,14 @@ class Ingredient
     private $deletedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProductIngredient", mappedBy="ingredient")
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductIngredient", mappedBy="ingredient", cascade={"persist", "remove"})
      */
     private $productIngredients;
 
     public function __construct()
     {
         $this->productIngredients = new ArrayCollection();
+        $this->createdAt = new \DateTime("now");
     }
 
     public function getId(): ?int
@@ -216,4 +217,14 @@ class Ingredient
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+
 }

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductIngredientRepository")
  */
@@ -18,13 +19,13 @@ class ProductIngredient
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="productIngredients")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $product;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Ingredient", inversedBy="productIngredients")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $ingredient;
 
@@ -73,4 +74,17 @@ class ProductIngredient
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getQuantity() . " " . $this->getIngredient();
+    }
+
+
+
+
+
 }

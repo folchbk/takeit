@@ -194,7 +194,7 @@ class Client
      */
     public function __toString()
     {
-        return $this->getUserObject()->getName() . "[" . $this->getId() . "]";
+        return "Cliente " . $this->getUserObject()->getName() . " en la mesa " . $this->getTableObject();
     }
 
 

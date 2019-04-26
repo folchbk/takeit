@@ -79,7 +79,7 @@ class OrderProduct
      */
     public function __toString()
     {
-        return $this->getProduct() . "[" . $this->getQuantity() . "]";
+        return $this->getQuantity() . " " . $this->getProduct();
     }
 
 
