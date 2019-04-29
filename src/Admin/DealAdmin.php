@@ -50,6 +50,7 @@ final class DealAdmin extends AbstractAdmin
             
             ->add('name')
             ->add('cif')
+            ->add('users', null, ['multiple' => true, 'label' => 'Users'])
             ->add('enabled')
             ;
     }
@@ -57,7 +58,6 @@ final class DealAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
-            
             ->add('name')
             ->add('cif')
             ->add('locals')

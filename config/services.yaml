@@ -96,3 +96,8 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: Ingredient }
         public: true
+
+    on_request_listener:
+        class: App\EventListener\OnRequestListener
+        tags:
+            - {name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

@@ -22,3 +22,8 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+        filters:
+            # An array of filters
+            user_filter:
+                class:                App\Library\Filters\UserFilter # Required
+                enabled:              false
