@@ -1,0 +1,71 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends base_template %}
+
+{% block title %}
+    {# NEXT_MAJOR: remove default filter #}
+    {% if objectId|default(admin.id(object)) is not null %}
+        {{ "title_edit"|trans({'%name%': admin.toString(object)|truncate(15) }, 'SonataAdminBundle') }}
+    {% else %}
+        {{ "title_create"|trans({}, 'SonataAdminBundle') }}
+    {% endif %}
+{% endblock %}
+
+{% block navbar_title %}
+    {{ block('title') }}
+{% endblock %}
+
+{%- block actions -%}
+    {% include '@SonataAdmin/CRUD/action_buttons.html.twig' %}
+{%- endblock -%}
+
+{%- block tab_menu -%}
+    {{ knp_menu_render(admin.sidemenu(action), {
+        'currentClass': 'active',
+        'template': get_global_template('tab_menu_template')
+    }, 'twig') }}
+    <script>
+        $(document).ready(function () {
+            var selectedProducts = new Array();
+            $('.sonata-collection-add').on('click',function () {
+                setTimeout(function () {
+                    $('.sonata-ba-field').on('select2-opening',function () {
+                        setTimeout(function () {
+                            $( ".select2-result-label .select2-match" ).each(function() {
+                                if (selectedProducts.includes(this.nextSibling.data))  {
+                                    $(this).parent().remove();
+                                }
+                            });
+                        },100);
+                    });
+                },100);
+            $('.sonata-ba-field').on('select2-selected',function () {
+                selectedProducts = new Array();
+                $('.select2-chosen').each(function () {
+                    selectedProducts.push(this.innerHTML);
+                    console.log(selectedProducts);
+                });
+            });
+            $('.sonata-ba-field').on('select2-selecting',function (e) {
+                console.log(e);
+                console.log(this);
+            });
+            });
+        });
+    </script>
+{%- endblock -%}
+
+{% use '@SonataAdmin/CRUD/base_edit_form.html.twig' with form as parentForm %}
+
+{% block form %}
+    {{ block('parentForm') }}
+{% endblock %}
