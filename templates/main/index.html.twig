@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MainController!{% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            height:100%;
+            width:100%;
+            margin:0;
+            padding:0 ;
+        }
+        .wrap {
+            height:100vh;
+            width:100%;
+            top:0;
+            position:absolute;
+            background-image: url("{{ asset('img/login_wrap.jpg') }}");
+            background-size : cover;
+            background-repeat: no-repeat;
+            z-index:-1;
+            opacity:0.5;
+        }
+        .logo {
+            position:absolute;
+            top:30px;
+            left:50px;
+            width:200px;
+        }
+        h1 {
+            margin-bottom:15px;
+            font-size:48px;
+        }
+        select {
+            text-align:center;
+        }
+    </style>
+    <div class="wrap">
+    </div>
+    <div class="logo">
+        <img width="100%" src="{{ asset('img/take-logo-02.png') }}">
+    </div>
+
+    <form>
+        <div class="container">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-12 d-flex justify-content-center align-items-center flex-column " style="height:90vh;">
+                    <div id="negocios-wrap" style="text-align: center">
+                        <h1>Selecciona un negocio</h1>
+                        <select id="negocios" >
+                            <option selected disabled>Seleccionar</option>
+                            {% for deal in deals %}
+                                <option data-id="{{ deal.id }}">{{ deal.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="locals" style="display:none;text-align: center">
+                        <h1>Selecciona el local que quieras gestionar</h1>
+                        <select id="locales" >
+                            <option selected disabled>Seleccionar</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+    <script>
+        $(document).ready(function () {
+           $('#negocios').on('change', function () {
+               $.ajax({
+                   type: "POST",
+                   data: {
+                       'deal': $('option:selected', this).attr('data-id'),
+                   },
+                   url: "/getLocals",
+                   dataType: "text",
+                   success: function (data) {
+                       var data = JSON.parse(data);
+                       $('#locales').find('option').remove().end().append('<option selected disabled>Seleccionar</option>');
+                       for (var i in data) {
+                           $('#locales').append('<option data-id="'+ i +'">' + data[i] + '</option>');
+                       }
+                       animateToLocals()
+                   },
+                   error : function (data) {
+                       alert("error");
+                   }
+               });
+           })
+        });
+        function animateToLocals() {
+            $('#negocios-wrap').fadeOut('normal', function(){
+                $('.locals').fadeIn();
+            });
+        }
+    </script>
+{% endblock %}
