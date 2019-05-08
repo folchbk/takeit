@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use Elastica\Query\Match;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -21,14 +22,12 @@ final class DealAdmin extends AbstractAdmin
             ->add('createdAt')
             ->add('updatedAt')
             ->add('deletedAt')
-            ->add('enabled')
-            ;
+            ->add('enabled');
     }
 
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            
             ->add('name')
             ->add('cif')
             ->add('createdAt')
@@ -47,12 +46,10 @@ final class DealAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            
             ->add('name')
             ->add('cif')
             ->add('users', null, ['multiple' => true, 'label' => 'Users'])
-            ->add('enabled')
-            ;
+            ->add('enabled');
     }
 
     protected function configureShowFields(ShowMapper $showMapper): void
@@ -64,7 +61,19 @@ final class DealAdmin extends AbstractAdmin
             ->add('createdAt')
             ->add('updatedAt')
             ->add('deletedAt')
-            ->add('enabled')
-            ;
+            ->add('enabled');
     }
+
+//    public function createQuery($context = 'list')
+//    {
+//        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+//        $deals = $user->getDeals();
+//
+//        $query = parent::createQuery($context);
+//        if ($deals[0] == null) {
+//            $query->andWhere('1 != 1');
+//            return $query;
+//        }
+//        return $query;
+//    }
 }
