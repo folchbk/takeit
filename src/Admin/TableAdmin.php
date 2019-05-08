@@ -9,16 +9,19 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Component\HttpFoundation\Session\Session;
+
 
 final class TableAdmin extends AbstractAdmin
 {
+
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('id')
             ->add('tableCode')
-            ->add('type')
+            ->add('z')
             ->add('createdAt')
             ->add('updatedAt')
             ->add('deletedAt')
@@ -68,4 +71,9 @@ final class TableAdmin extends AbstractAdmin
             ->add('enabled')
             ;
     }
+    public function createQuery($context = 'list') {
+        var_dump($this->get('session')->get('deal'));
+
+        return "aa";
+}
 }
