@@ -64,16 +64,21 @@ final class DealAdmin extends AbstractAdmin
             ->add('enabled');
     }
 
-//    public function createQuery($context = 'list')
-//    {
-//        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
-//        $deals = $user->getDeals();
-//
-//        $query = parent::createQuery($context);
-//        if ($deals[0] == null) {
-//            $query->andWhere('1 != 1');
-//            return $query;
-//        }
-//        return $query;
-//    }
+    public function createQuery($context = 'list')
+    {
+        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $deals = $user->getDeals();
+        $ids = [];
+
+        foreach($deals as $deal) {
+            $ids[] = $deal->getId();
+        }
+
+        $query = parent::createQuery($context);
+        $query->andWhere(
+            $query->expr()->in($query->getRootAliases()[0] . '.id', ':id')
+        );
+        $query->setParameter('id', $ids);
+        return $query;
+    }
 }
