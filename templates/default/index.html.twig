@@ -4,17 +4,59 @@
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+
+        display: flex;
+        background-color: #2C3E50;
+
+    }
+
+    h1 {
+        color: #fff;
+        text-shadow: 0 0 20px #000;
+        font-size: 3em;
+    }
+
+    a {
+        color: #000;
+        padding: 10px;
+        text-decoration: none;
+    }
+
+    a:hover {
+        border-bottom: 1px solid black;
+    }
+
+    ul,li {
+        text-decoration: none;
+        list-style: none;
+        display: inline-block;
+        color: #000;
+        margin-right: 20px;
+    }
+
+    .wrapper-center {
+        margin: 0 auto;
+        margin-top: 25vh;
+        text-align: center;
+    }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
+<div class="wrapper-center">
+    <h1>TAKE IT</h1>
     <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/html/takeit/src/Controller/DefaultController.php'|file_link(0) }}">src/Controller/DefaultController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/html/takeit/templates/default/index.html.twig'|file_link(0) }}">templates/default/index.html.twig</a></code></li>
+        <li>
+            <a href="/login">LOGIN</a>
+        </li>
+        <li>
+            <a href="/register">REGISTER</a>
+        </li>
     </ul>
 </div>
+
 {% endblock %}
