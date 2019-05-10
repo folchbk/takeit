@@ -29,7 +29,7 @@ services:
 
     admin.user:
         class: App\Admin\UserAdmin
-        arguments: [~, App\Entity\User, App\Controller\UserAdminController]
+        arguments: [~, App\Entity\User, App\Controller\SonataAdminControllers\UserAdminController]
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: User }
         public: true
@@ -43,56 +43,56 @@ services:
 
     admin.local:
         class: App\Admin\LocalAdmin
-        arguments: [~, App\Entity\Local, App\Controller\LocalAdminController]
+        arguments: [~, App\Entity\Local, App\Controller\SonataAdminControllers\LocalAdminController]
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: Local }
         public: true
 
     admin.table:
         class: App\Admin\TableAdmin
-        arguments: [~, App\Entity\Table, App\Controller\TableAdminController]
+        arguments: [~, App\Entity\Table, App\Controller\SonataAdminControllers\TableAdminController]
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: Table }
         public: true
 
     admin.client:
         class: App\Admin\ClientAdmin
-        arguments: [~, App\Entity\Client, App\Controller\ClientAdminController]
+        arguments: [~, App\Entity\Client, App\Controller\SonataAdminControllers\ClientAdminController]
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: Client }
         public: true
 
     admin.order:
         class: App\Admin\OrderAdmin
-        arguments: [~, App\Entity\Order, App\Controller\OrderAdminController]
+        arguments: [~, App\Entity\Order, App\Controller\SonataAdminControllers\OrderAdminController]
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: Order }
         public: true
 
     admin.invoice:
         class: App\Admin\InvoiceAdmin
-        arguments: [~, App\Entity\Invoice, App\Controller\InvoiceAdminController]
+        arguments: [~, App\Entity\Invoice, App\Controller\SonataAdminControllers\InvoiceAdminController]
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: Invoice }
         public: true
 
     admin.product:
         class: App\Admin\ProductAdmin
-        arguments: [~, App\Entity\Product, App\Controller\ProductAdminController]
+        arguments: [~, App\Entity\Product, App\Controller\SonataAdminControllers\ProductAdminController]
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: Product }
         public: true
 
     admin.menu:
         class: App\Admin\MenuAdmin
-        arguments: [~, App\Entity\Menu, App\Controller\MenuAdminController]
+        arguments: [~, App\Entity\Menu, App\Controller\SonataAdminControllers\MenuAdminController]
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: Menu }
         public: true
 
     admin.ingredient:
         class: App\Admin\IngredientAdmin
-        arguments: [~, App\Entity\Ingredient, App\Controller\IngredientAdminController]
+        arguments: [~, App\Entity\Ingredient, App\Controller\SonataAdminControllers\IngredientAdminController]
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: Ingredient }
         public: true
