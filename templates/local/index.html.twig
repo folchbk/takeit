@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Local index{% endblock %}
+
+{% block body %}
+    <h1>Local index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Street</th>
+                <th>City</th>
+                <th>Cp</th>
+                <th>NumEmployees</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>DeletedAt</th>
+                <th>Enabled</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for local in locals %}
+            <tr>
+                <td>{{ local.id }}</td>
+                <td>{{ local.name }}</td>
+                <td>{{ local.phone }}</td>
+                <td>{{ local.street }}</td>
+                <td>{{ local.city }}</td>
+                <td>{{ local.cp }}</td>
+                <td>{{ local.numEmployees }}</td>
+                <td>{{ local.createdAt ? local.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ local.updatedAt ? local.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ local.deletedAt ? local.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ local.enabled ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('local_show', {'id': local.id}) }}">show</a>
+                    <a href="{{ path('local_edit', {'id': local.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('local_new') }}">Create new</a>
+{% endblock %}

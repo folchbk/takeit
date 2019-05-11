@@ -19,6 +19,22 @@ class LocalRepository extends ServiceEntityRepository
         parent::__construct($registry, Local::class);
     }
 
+     /**
+      * @return Local[] Returns an array of Local objects
+      */
+    public function findByDeal($value)
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.deal = :val')
+            ->setParameter('val', $value)
+            ->orderBy('l.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
     // /**
     //  * @return Local[] Returns an array of Local objects
     //  */

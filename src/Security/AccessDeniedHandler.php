@@ -13,7 +13,7 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
     public function handle(Request $request, AccessDeniedException $accessDeniedException)
     {
         if ($accessDeniedException->getAttributes()[0] === "ROLE_SUPER_ADMIN") {
-            return new RedirectResponse("/admin/");
+            return new RedirectResponse("/backoffice/");
 
         } else if ($accessDeniedException->getAttributes()[0] === "ROLE_ADMIN" ||
             $accessDeniedException->getAttributes()[0] === "ROLE_USER") {

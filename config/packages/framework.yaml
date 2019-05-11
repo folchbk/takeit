@@ -18,7 +18,7 @@ framework:
 
     #assets:
     assets:
-            base_path: 'assets'
+            base_path: ''
 
     templating:
         engines: ['twig', 'php']
