@@ -25,7 +25,7 @@ class Table
     private $tableCode;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Local", inversedBy="tables")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Local", inversedBy="tables", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $local;
@@ -64,7 +64,6 @@ class Table
     public function __construct()
     {
         $this->clients = new ArrayCollection();
-        $this->createdAt = new \DateTime("now");
     }
 
     public function getId(): ?int

@@ -14,19 +14,19 @@ class HomeController extends AbstractController
      */
     public function index(LocalRepository $localRepository, SessionInterface $session)
     {
+        $session->set('user', $this->getUser());
         $selectedDeal = $session->get('deal');
         $selectedLocal = $session->get('local');
+        $user = $this->getUser();
+        $deals = $user->getDeals();
         $locals = ($selectedDeal != null) ? $localRepository->findByDeal($selectedDeal->getId()) : null;
 
         if ($selectedDeal != null && $selectedLocal != null) {
             return $this->render('home/index.html.twig', [
                 'deal' => $selectedDeal,
-                'local' => $selectedLocal,
+                'local' => $selectedLocal
             ]);
         }
-
-        $user = $this->getUser();
-        $deals = $user->getDeals();
 
         return $this->render('home/select.html.twig', [
             'deals' => $deals,

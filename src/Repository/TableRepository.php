@@ -19,6 +19,21 @@ class TableRepository extends ServiceEntityRepository
         parent::__construct($registry, Table::class);
     }
 
+     /**
+      * @return Table[] Returns an array of Table objects
+      */
+    public function findByLocal($local)
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.local = :local')
+            ->setParameter('local', $local)
+            ->orderBy('t.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Table[] Returns an array of Table objects
     //  */

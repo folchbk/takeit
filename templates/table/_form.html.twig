@@ -1,0 +1,51 @@
+{#{{ form_start(form) }}#}
+    {#{{ form_widget(form) }}#}
+    {#<button class="btn">{{ button_label|default('Save') }}</button>#}
+{#{{ form_end(form) }}#}
+
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Quick Example</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    {{ form_start(form) }}
+    <div class="box-body">
+        <div class="form-group">
+            <label>Table code</label>
+            {{ form_widget(form.tableCode, {'attr': {
+                'class': 'form-control',
+                'placeholder': 'Enter table code',
+            }}) }}
+            <div class="form-error">
+                {{ form_errors(form.tableCode) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Type</label>
+            {{ form_widget(form.type, {'attr': {
+                'class': 'form-control',
+                'placeholder': 'Enter table type',
+            }}) }}
+            <div class="form-error">
+                {{ form_errors(form.type) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Enabled: </label>
+            {{ form_widget(form.enabled, {'attr': {
+                'class': 'flat-green'
+            }}) }}
+            <div class="form-error">
+                {{ form_errors(form.enabled) }}
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+
+    <div class="box-footer">
+        <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    </div>
+    {{ form_end(form) }}
+</div>

@@ -1,6 +1,12 @@
 {
+    "almasaeed2010/adminlte": {
+        "version": "v2.4.3"
+    },
     "cocur/slugify": {
         "version": "v3.2"
+    },
+    "composer/installers": {
+        "version": "v1.6.0"
     },
     "doctrine/annotations": {
         "version": "1.0",

@@ -1,0 +1,19 @@
+{% extends 'base-backoffice.html.twig' %}
+
+{% block title %}New Table{% endblock %}
+
+{% block body %}
+
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <div class="content-header">
+                <h1>Create new Table</h1>
+            </div>
+            <section class="content">
+                {{ include('table/_form.html.twig') }}
+
+                <a href="{{ path('table_index') }}">back to list</a>
+            </section>
+        </div>
+    </div>
+{% endblock %}
