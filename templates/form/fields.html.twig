@@ -1,0 +1,69 @@
+{% block form_row %}
+
+
+    <div class="form-group">
+        {{ form_label(form) }}
+        {% if form.vars.help ?? false %}
+            <a href="#" data-toggle="tooltip" title="{{ form.vars.help }}" data-html="true" data-placement="right"><i class="fa fa-info"></i></a>
+        {% endif %}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+    </div>
+{% endblock form_row %}
+
+{%- block form_widget_simple -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control ')|trim}) %}
+    {%- set type = type|default('text') -%}
+    {%- if type == 'range' or type == 'color' -%}
+        {# Attribute "required" is not supported #}
+        {%- set required = false -%}
+    {%- endif -%}
+    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{%- endblock form_widget_simple -%}
+
+{%- block form_widget_compound -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control ')|trim}) %}
+    <div {{ block('widget_container_attributes') }}>
+        {%- if form is rootform -%}
+            {{ form_errors(form) }}
+        {%- endif -%}
+        {{- block('form_rows') -}}
+        {{- form_rest(form) -}}
+    </div>
+{%- endblock form_widget_compound -%}
+
+{%- block collection_widget -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control ')|trim}) %}
+    {% if prototype is defined %}
+        {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
+    {% endif %}
+    {{- block('form_widget') -}}
+{%- endblock collection_widget -%}
+
+{%- block choice_widget -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control ')|trim}) %}
+    {% if expanded %}
+        {{- block('choice_widget_expanded') -}}
+    {% else %}
+        {{- block('choice_widget_collapsed') -}}
+    {% endif %}
+{%- endblock choice_widget -%}
+
+
+{%- block button_row -%}
+    <div class="buttons_row">
+        {{- form_widget(form) -}}
+    </div>
+{%- endblock button_row -%}
+
+
+
+
+{% block date_widget %}
+
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' js-datepicker')|trim}) %}
+
+    {{ block('form_widget_simple') }}
+
+{% endblock %}
+

@@ -1,0 +1,35 @@
+{% extends 'base-backoffice.html.twig' %}
+
+{% block title %}ProductIngredient index{% endblock %}
+
+{% block body %}
+    <h1>ProductIngredient index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Quantity</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product_ingredient in product_ingredients %}
+            <tr>
+                <td>{{ product_ingredient.id }}</td>
+                <td>{{ product_ingredient.quantity }}</td>
+                <td>
+                    <a href="{{ path('product_ingredient_show', {'id': product_ingredient.id}) }}">show</a>
+                    <a href="{{ path('product_ingredient_edit', {'id': product_ingredient.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('product_ingredient_new') }}">Create new</a>
+{% endblock %}

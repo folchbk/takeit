@@ -1,0 +1,16 @@
+{% extends 'base-backoffice.html.twig' %}
+
+{% block title %}Edit Product{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <div class="content-header">
+                <h1>Edit</h1>
+            </div>
+            <section class="content">
+                {{ include('product/_form.html.twig', {'button_label': 'Update'}) }}
+            </section>
+        </div>
+    </div>
+{% endblock %}
