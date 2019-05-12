@@ -60,7 +60,7 @@ class Product
     private $menuProducts;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Local", inversedBy="products")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Local", inversedBy="products", cascade={"persist"}))
      * @ORM\JoinColumn(nullable=false)
      */
     private $local;

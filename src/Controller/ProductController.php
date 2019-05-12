@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\ProductIngredient;
 use App\Form\ProductType;
 use App\Repository\IngredientRepository;
 use App\Repository\ProductRepository;
@@ -39,6 +40,16 @@ class ProductController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $product->setLocal($session->get('local'));
+            $ingredients = $request->get('product')['productIngredients'];
+
+            $productIngredient = new ProductIngredient();
+            $productIngredient->setProduct($product);
+            $productIngredient->setIngredient($ingredientRepository->find(['id'=>$ingredients['ingredient']]));
+            $productIngredient->setQuantity($ingredients['quantity']);
+
+            $entityManager->persist($productIngredient);
+            $entityManager->flush();
+
             $entityManager->merge($product);
             $entityManager->flush();
 

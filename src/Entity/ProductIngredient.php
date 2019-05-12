@@ -18,13 +18,13 @@ class ProductIngredient
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="productIngredients")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="productIngredients", cascade={"persist"}))
      * @ORM\JoinColumn(nullable=true)
      */
     private $product;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Ingredient", inversedBy="productIngredients")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Ingredient", inversedBy="productIngredients", cascade={"persist"}))
      * @ORM\JoinColumn(nullable=true)
      */
     private $ingredient;
