@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\ProductIngredient;
+use App\Repository\IngredientRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,7 +13,11 @@ class ProductIngredientType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('ingredient')
+            ->add('ingredient', null, [
+                'query_builder' => function(IngredientRepository $repo) {
+                    return $repo->createAlphabeticalQueryBuilder();
+                }
+            ])
             ->add('quantity')
         ;
     }
@@ -23,4 +28,5 @@ class ProductIngredientType extends AbstractType
             'data_class' => ProductIngredient::class,
         ]);
     }
+
 }

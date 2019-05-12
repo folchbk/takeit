@@ -42,6 +42,14 @@ class IngredientRepository extends ServiceEntityRepository
         ;
     }
 
+    public function createAlphabeticalQueryBuilder() {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.local = :local')
+            ->setParameter('local',$this->local->getId())
+            ->orderBy('p.id', 'ASC')
+            ;
+    }
+
     // /**
     //  * @return Ingredient[] Returns an array of Ingredient objects
     //  */

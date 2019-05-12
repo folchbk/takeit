@@ -28,6 +28,21 @@ class ProductIngredientRepository extends ServiceEntityRepository
         $this->local = $this->session->get('local');
     }
 
+    //     /**
+//      * @return ProductIngredient[] Returns an array of ProductIngredient objects
+//      */
+//    public function findByLocal()
+//    {
+//        return $this->createQueryBuilder('p')
+//            ->andWhere('p.local = :local')
+//            ->setParameter('local', $this->local->getId())
+//            ->orderBy('p.id', 'ASC')
+//            ->setMaxResults(10)
+//            ->getQuery()
+//            ->getResult()
+//        ;
+//    }
+
 //     /**
 //      * @return ProductIngredient[] Returns an array of ProductIngredient objects
 //      */

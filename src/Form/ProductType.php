@@ -16,17 +16,7 @@ class ProductType extends AbstractType
         $builder
             ->add('name')
             ->add('price')
-            ->add('productIngredients', CollectionType::class, array(
-                    'label' => 'Ingredients',
-                    'entry_type' => ProductIngredientType::class,
-                    'entry_options' => array('label' => false),
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'prototype' => true,
-                    'by_reference' => true,
-                    'mapped' => false
-                )
-            );
+            ->add('productIngredients', ProductIngredientType::class, ['mapped' => false])
         ;
     }
 
