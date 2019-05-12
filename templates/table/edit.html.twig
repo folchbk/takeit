@@ -1,13 +1,16 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-backoffice.html.twig' %}
 
 {% block title %}Edit Table{% endblock %}
 
 {% block body %}
-    <h1>Edit Table</h1>
-
-    {{ include('table/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('table_index') }}">back to list</a>
-
-    {{ include('table/_delete_form.html.twig') }}
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <div class="content-header">
+                <h1>Edit</h1>
+            </div>
+            <section class="content">
+                {{ include('table/_form.html.twig', {'button_label': 'Update'}) }}
+            </section>
+        </div>
+    </div>
 {% endblock %}

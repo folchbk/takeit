@@ -25,7 +25,7 @@ class Table
     private $tableCode;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Local", inversedBy="tables", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Local", inversedBy="tables", cascade={"persist", "detach"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $local;

@@ -1,46 +1,54 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-backoffice.html.twig' %}
 
 {% block title %}Table{% endblock %}
 
 {% block body %}
-    <h1>Table</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ table.id }}</td>
-            </tr>
-            <tr>
-                <th>TableCode</th>
-                <td>{{ table.tableCode }}</td>
-            </tr>
-            <tr>
-                <th>Type</th>
-                <td>{{ table.type }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ table.createdAt ? table.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ table.updatedAt ? table.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>DeletedAt</th>
-                <td>{{ table.deletedAt ? table.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Enabled</th>
-                <td>{{ table.enabled ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('table_index') }}">back to list</a>
-
-    <a href="{{ path('table_edit', {'id': table.id}) }}">edit</a>
-
-    {{ include('table/_delete_form.html.twig') }}
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <section class="content col-md-12 col-lg-7" style="float:none; margin: 0 auto;">
+                <h3 class="box-title">Table {{ table.tableCode }}</h3>
+                <div class="box box-primary">
+                    <div class="box-body no-padding">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th>Id</th>
+                                <td>{{ table.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>TableCode</th>
+                                <td>{{ table.tableCode }}</td>
+                            </tr>
+                            <tr>
+                                <th>Type</th>
+                                <td>{{ table.type }}</td>
+                            </tr>
+                            <tr>
+                                <th>CreatedAt</th>
+                                <td>{{ table.createdAt ? table.createdAt|date('d/m/Y - H:i') : '' }}h</td>
+                            </tr>
+                            <tr>
+                                <th>UpdatedAt</th>
+                                <td>{{ table.updatedAt ? table.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>DeletedAt</th>
+                                <td>{{ table.deletedAt ? table.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Enabled</th>
+                                <td>{{ table.enabled ? '<i class="fa fa-circle text-success"></i>' : '<i class="fa fa-circle text-danger"></i>' }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="buttons">
+                            <a role="button" class="btn btn-success" href="{{ path('table_edit', {'id': table.id}) }}">edit</a>
+                            <a role="button">{{ include('table/_delete_form.html.twig') }}</a>
+                            <a role="button" class="btn btn-info" href="{{ path('table_index') }}">back to list</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
 {% endblock %}

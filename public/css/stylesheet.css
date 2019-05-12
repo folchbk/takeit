@@ -1,0 +1,27 @@
+td a {
+    margin: 5px;
+}
+
+tbody tr th {
+    /*max-width: 250px;*/
+}
+
+.buttons {
+    padding:15px;
+    float: right;
+}
+.buttons a form  {
+    display: inherit;
+}
+
+tbody tr th {
+    width: 4vh;
+}
+
+
+.fa-edit {
+    color: green;
+}
+.fa-trash {
+    color:darkred;
+}
