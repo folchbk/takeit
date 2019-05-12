@@ -6,6 +6,8 @@ namespace App\Admin;
 
 use App\Entity\ProductIngredient;
 use App\Form\OrderProductType;
+use App\Form\TypeProductType;
+
 use App\Form\ProductIngredientType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -23,6 +25,7 @@ final class ProductAdmin extends AbstractAdmin
             ->add('id')
             ->add('name')
             ->add('price')
+            ->add('category')
             ->add('createdAt')
             ->add('updatedAt')
             ->add('deletedAt');
@@ -34,6 +37,7 @@ final class ProductAdmin extends AbstractAdmin
             ->add('id')
             ->add('name')
             ->add('price')
+            ->add('category')
             ->add('createdAt')
             ->add('updatedAt')
             ->add('deletedAt')
@@ -51,6 +55,8 @@ final class ProductAdmin extends AbstractAdmin
         $formMapper
             ->add('name')
             ->add('price')
+            ->add('description')
+            ->add('type')
             ->add('productIngredients', CollectionType::class, array(
                 'label' => 'Ingredients',
                 'entry_type' => ProductIngredientType::class,
@@ -60,7 +66,9 @@ final class ProductAdmin extends AbstractAdmin
                 'prototype' => true,
                 'by_reference' => false
                 )
-            );
+            )
+            ->add('category')
+            ->add('type')
 
 //            ->add('productIngredients', null, [
 //                'multiple' => true,
@@ -76,6 +84,7 @@ final class ProductAdmin extends AbstractAdmin
             ->add('id')
             ->add('name')
             ->add('price')
+            ->add('category')
             ->add('productIngredients', null, ['label' => 'Ingredients'])
             ->add('createdAt')
             ->add('updatedAt')

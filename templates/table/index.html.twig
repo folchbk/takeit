@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Table index{% endblock %}
+
+{% block body %}
+    <h1>Table index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>TableCode</th>
+                <th>Type</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>DeletedAt</th>
+                <th>Enabled</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for table in tables %}
+            <tr>
+                <td>{{ table.id }}</td>
+                <td>{{ table.tableCode }}</td>
+                <td>{{ table.type }}</td>
+                <td>{{ table.createdAt ? table.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ table.updatedAt ? table.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ table.deletedAt ? table.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ table.enabled ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('table_show', {'id': table.id}) }}">show</a>
+                    <a href="{{ path('table_edit', {'id': table.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('table_new') }}">Create new</a>
+{% endblock %}
