@@ -29,11 +29,11 @@
                             </tr>
                             <tr>
                                 <th>UpdatedAt</th>
-                                <td>{{ table.updatedAt ? table.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                                <td>{{ table.updatedAt ? table.updatedAt|date('d/m/Y - H:i') : '' }}</td>
                             </tr>
                             <tr>
                                 <th>DeletedAt</th>
-                                <td>{{ table.deletedAt ? table.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
+                                <td>{{ table.deletedAt ? table.deletedAt|date('d/m/Y - H:i') : '' }}</td>
                             </tr>
                             <tr>
                                 <th>Enabled</th>

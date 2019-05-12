@@ -68,6 +68,12 @@ class Ingredient
      */
     private $productIngredients;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Local", inversedBy="ingredients", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $local;
+
     public function __construct()
     {
         $this->productIngredients = new ArrayCollection();
@@ -224,6 +230,18 @@ class Ingredient
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function getLocal(): ?Local
+    {
+        return $this->local;
+    }
+
+    public function setLocal(?Local $local): self
+    {
+        $this->local = $local;
+
+        return $this;
     }
 
 

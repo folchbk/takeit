@@ -59,6 +59,12 @@ class Product
      */
     private $menuProducts;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Local", inversedBy="products")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $local;
+
     public function __construct()
     {
         $this->productIngredients = new ArrayCollection();
@@ -229,6 +235,18 @@ class Product
                 $menuProduct->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLocal(): ?Local
+    {
+        return $this->local;
+    }
+
+    public function setLocal(?Local $local): self
+    {
+        $this->local = $local;
 
         return $this;
     }
