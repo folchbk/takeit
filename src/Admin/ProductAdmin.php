@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Entity\Image;
 use App\Entity\ProductIngredient;
+use App\Form\ImageType;
 use App\Form\OrderProductType;
 use App\Form\TypeProductType;
 
@@ -15,10 +17,49 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ProductAdmin extends AbstractAdmin
 {
 
+    public function prePersist($product)
+    {
+        $this->manageEmbeddedImageAdmins($product);
+    }
+
+    public function preUpdate($product)
+    {
+        $this->manageEmbeddedImageAdmins($product);
+    }
+
+    private function manageEmbeddedImageAdmins($product)
+    {
+        // Cycle through each field
+        foreach ($this->getFormFieldDescriptions() as $fieldName => $fieldDescription) {
+            // detect embedded Admins that manage Images
+            if ($fieldDescription->getType() === 'App\Form\ImageType' &&
+                ($associationMapping = $fieldDescription->getAssociationMapping()) &&
+                $associationMapping['targetEntity'] === 'App\Entity\Image'
+            ) {
+                $getter = 'get'.$fieldName;
+                $setter = 'set'.$fieldName;
+
+                /** @var Image $image */
+                $image = $product->$getter();
+
+                if ($image) {
+                    if ($image->getFile()) {
+                        // update the Image to trigger file management
+                        $image->refreshUpdated();
+                    } elseif (!$image->getFile() && !$image->getFilename()) {
+                        // prevent Sf/Sonata trying to create and persist an empty Image
+                        $product->$setter(null);
+                    }
+                }
+            }
+        }
+    }
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
@@ -69,14 +110,12 @@ final class ProductAdmin extends AbstractAdmin
             )
             ->add('category')
             ->add('type')
-
-//            ->add('productIngredients', null, [
-//                'multiple' => true,
-//                'label' => 'Ingredients',
-//                'group_by' => 'product'
-//            ])
+            ->add('image', ImageType::class, [
+                'required' => false
+            ])
             ;
     }
+
 
     protected function configureShowFields(ShowMapper $showMapper): void
     {
@@ -90,4 +129,5 @@ final class ProductAdmin extends AbstractAdmin
             ->add('updatedAt')
             ->add('deletedAt');
     }
+
 }
