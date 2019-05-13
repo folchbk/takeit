@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Entity\Image;
+use App\Entity\Product;
 use App\Entity\ProductIngredient;
+use App\Form\ImageType;
 use App\Form\OrderProductType;
 use App\Form\TypeProductType;
 
@@ -15,6 +18,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ProductAdmin extends AbstractAdmin
 {
@@ -41,6 +45,7 @@ final class ProductAdmin extends AbstractAdmin
             ->add('createdAt')
             ->add('updatedAt')
             ->add('deletedAt')
+            ->add('image')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -69,6 +74,8 @@ final class ProductAdmin extends AbstractAdmin
             )
             ->add('category')
             ->add('type')
+            ->add('image',ImageType::class, array('data_class' => null))
+
 
 //            ->add('productIngredients', null, [
 //                'multiple' => true,
@@ -90,4 +97,5 @@ final class ProductAdmin extends AbstractAdmin
             ->add('updatedAt')
             ->add('deletedAt');
     }
+
 }

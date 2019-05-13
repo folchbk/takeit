@@ -113,3 +113,18 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: CategoryProduct }
         public: true
+    App\Service\FileUploader:
+        arguments:
+            $targetDirectory: 'assets/img/UploadedIMG/'
+
+    App\EventListener\ImageUploadListener:
+        tags:
+        - { name: doctrine.event_listener, event: prePersist }
+        - { name: doctrine.event_listener, event: preUpdate }
+
+    admin.image:
+        class: App\Admin\ImageAdmin
+        arguments: [~, App\Entity\Image, App\Controller\ImageAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Image }
+        public: true
