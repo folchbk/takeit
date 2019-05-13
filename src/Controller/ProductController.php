@@ -40,18 +40,83 @@ class ProductController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $product->setLocal($session->get('local'));
-            $ingredients = $request->get('product')['productIngredients'];
 
+//            $ingredients = $request->get('product')['productIngredients'];
+//            foreach ($ingredients as $ingredient) {
+//                $quantity = $ingredient['quantity'];
+//                $ingredient = $ingredientRepository->find(['id' => $ingredient['ingredient']]);
+//
+//                $productIngredient = new ProductIngredient();
+//                $productIngredient->setIngredient($ingredient);
+//                $productIngredient->setProduct($product);
+//                $productIngredient->setQuantity($quantity);
+//
+//                $product->addProductIngredient($productIngredient);
+//                $ingredient->addProductIngredient($productIngredient);
+//
+//                $entityManager->persist($product);
+//                $entityManager->persist($ingredient);
+//                $entityManager->persist($productIngredient);
+//
+//                var_dump($productIngredient->getId());
+//                var_dump($product->getId());
+//                var_dump($product->getId());
+//                die();
+//                $entityManager->flush();
+//            }
+
+
+            $ingredient = $ingredientRepository->find(['id' => 1]);
             $productIngredient = new ProductIngredient();
-            $productIngredient->setProduct($product);
-            $productIngredient->setIngredient($ingredientRepository->find(['id'=>$ingredients['ingredient']]));
-            $productIngredient->setQuantity($ingredients['quantity']);
 
-            $entityManager->persist($productIngredient);
-            $entityManager->flush();
+//            $product->addProductIngredient($productIngredient);
+//            $ingredient->addProductIngredient($productIngredient);
 
+
+//            var_dump($productIngredient->getId());
+//            var_dump($product->getId());
+//            var_dump($ingredient->getId());
+//
+//            echo "-----------" . PHP_EOL;
+
+            $entityManager->merge($productIngredient);
             $entityManager->merge($product);
+            $entityManager->persist($ingredient);
+//            $entityManager->flush();
+
+
+//            $productIngredient->setIngredient($ingredient);
+//            $productIngredient->setProduct($product);
+//            $productIngredient->setQuantity(4);
+
+//            echo "ID:";
+//            var_dump($productIngredient->getId());
+//            echo "Product:";
+//            var_dump($productIngredient->getProduct()->getId());
+//            echo "Ingredient:";
+//            var_dump($productIngredient->getIngredient()->getId());
+
+            $product->addProductIngredient($productIngredient);
+            $ingredient->addProductIngredient($productIngredient);
+
+            $productIngredient->setQuantity(4);
+            $entityManager->merge($productIngredient);
             $entityManager->flush();
+
+
+//            var_dump($productIngredient->getId());
+//            var_dump($product->getId());
+//            var_dump($ingredient->getId());
+
+
+//            $product->addProductIngredient($productIngredient);
+//            $ingredient->addProductIngredient($productIngredient);
+
+//            $productIngredient->setIngredient($ingredient);
+//            $productIngredient->setProduct($product);
+
+            //                $productIngredient->setProduct($product);
+//                $productIngredient->setQuantity($quantity);
 
             return $this->redirectToRoute('product_index');
         }

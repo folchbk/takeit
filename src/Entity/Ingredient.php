@@ -64,7 +64,7 @@ class Ingredient
     private $deletedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProductIngredient", mappedBy="ingredient", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductIngredient", mappedBy="ingredient", cascade={"persist"})
      */
     private $productIngredients;
 
