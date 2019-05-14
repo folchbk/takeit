@@ -23,9 +23,17 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+    <script src="js/cart/Carrito.js"></script>
+    <script src="js/cart/Producto.js"></script>
     <style>
         body,html {
             height:100%;
+        }
+        .cart-open {
+            position: fixed;
+            bottom:50px;
+            right:50px;
         }
     </style>
 </head>
@@ -109,7 +117,7 @@
     }
     .item .img {
         background-repeat: no-repeat!important;
-        background-size: cover!important;
+        background-size: contain!important;
         height:250px!important;
         background-position: 60% 50%!important;
     }
@@ -139,11 +147,16 @@
         margin:5px;
         font-size:30px;
         color:#9f191f;
+        cursor: pointer;
+    }
+    .minus.disabled {
+        opacity:0.4;
     }
     .more {
         margin:5px;
         font-size:30px;
         color:#255625;
+        cursor: pointer;
     }
     .operations {
         display:flex;
@@ -157,6 +170,7 @@
         width:40px;
         text-align: center;
     }
+
 </style>
 
 <div class="container">
@@ -195,7 +209,11 @@
             </div>
         {% endfor %}
         <script>
+
+            var carrito = new Carrito();
+
             $(document).ready(function () {
+                $('.contador').val(0);
                 $('.subtype').click(function () {
                     var category = $(this).attr('data-parent');
                     var subCategory = $(this).attr('data-subCategory');
@@ -205,110 +223,82 @@
                         $('.' + category + '-item').not('.' + subCategory + '-type-item').hide();
                         $('.' + subCategory + '-type-item').show();
                     }
-                })
+                });
+
+                $('.more').click(function () {
+                    var id = $(this).closest('.item').attr('data-id');
+                    getProduct(id);
+                });
+                $('.minus').click(function () {
+                    if (!$(this).hasClass('disabled')) {
+                        var id = $(this).closest('.item').attr('data-id');
+                        deleteFromCarrito(id);
+                    }
+                });
             });
+
+            function getProduct(id) {
+                $.ajax({
+                    type: "POST",
+                    url: '/getProduct/'+id,
+                    success : function(data) {
+                        createProduct(data)
+                    }
+                });
+            }
+
+            function deleteFromCarrito(id) {
+                $.each(carrito.productos, function (i, val) {
+                    if (val.id == id) {
+                       val.downQuantity();
+                       updateContador(val);
+                    }
+                });
+                updateTotalPrice();
+            }
+            function createProduct(data) {
+                var pr = new Producto(data['id'],data['name'],data['description'],data['price']);
+                addProductToCarrito(pr)
+            }
+            function addProductToCarrito(product) {
+                var flag = true;
+                $.each(carrito.productos, function (i, val) {
+                    if (val.id == product.id) {
+                        val.upQuantity();
+                        updateContador(val);
+                        flag = false;
+                    }
+                });
+                if(flag) {
+                    product.upQuantity();
+                    carrito.addProducto(product);
+                    updateContador(product);
+                }
+                updateTotalPrice();
+            }
+            function updateContador(product) {
+                $('.item[data-id="'+product.id+'"] .contador').val(product.quantity);
+                enableOrDisableMinusButton($('.item[data-id="'+product.id+'"] .minus'), product);
+            }
+            function enableOrDisableMinusButton(object, product) {
+                product.quantity > 0 ? $(object).removeClass('disabled') : $(object).addClass('disabled');
+            }
+            function updateTotalPrice() {
+                carrito.totalPrice = 0;
+                for (var index in carrito.productos) {
+                    carrito.totalPrice += parseInt(carrito.productos[index]['price'])*carrito.productos[index]['quantity'];
+                }
+            }
         </script>
 
         </div>
     </div>
 </div>
 
+<span class="cart-open">
+    <img height=75 width=75 src="{{ asset('img/cart/cart-icon.png') }}">
+</span>
 
-<!-- ============ Our Beer  ============= -->
-
-
-<section id ="beer" class="description_content">
-    <div  class="beer background_content">
-        <h1>Great <span>Place</span> to enjoy</h1>
-    </div>
-    <div class="text-content container">
-        <div class="col-md-5">
-            <div class="img-section">
-                <img src="{{ asset('img/cart') }}/beer_spec.jpg" width="100%">
-            </div>
-        </div>
-        <br>
-        <div class="col-md-6 col-md-offset-1">
-            <h1>OUR BEER</h1>
-            <div class="icon-beer fa-2x"></div>
-            <p class="desc-text">Here at Restaurant we’re all about the love of beer. New and bold flavors enter our doors every week, and we can’t help but show them off. While we enjoy the classics, we’re always passionate about discovering something new, so stop by and experience our craft at its best.</p>
-        </div>
-    </div>
-</section>
-
-
-<!-- ============ Our Bread  ============= -->
-
-
-<section id="bread" class=" description_content">
-    <div  class="bread background_content">
-        <h1>Our Breakfast <span>Menu</span></h1>
-    </div>
-    <div class="text-content container">
-        <div class="col-md-6">
-            <h1>OUR BREAD</h1>
-            <div class="icon-bread fa-2x"></div>
-            <p class="desc-text">We love the smell of fresh baked bread. Each loaf is handmade at the crack of dawn, using only the simplest of ingredients to bring out smells and flavors that beckon the whole block. Stop by anytime and experience simplicity at its finest.</p>
-        </div>
-        <div class="col-md-6">
-            <img src="{{ asset('img/cart') }}/bread1.jpg" width="260" alt="Bread">
-            <img src="{{ asset('img/cart') }}/bread1.jpg" width="260" alt="Bread">
-        </div>
-    </div>
-</section>
-
-
-
-<!-- ============ Featured Dish  ============= -->
-
-<section id="featured" class="description_content">
-    <div  class="featured background_content">
-        <h1>Our Featured Dishes <span>Menu</span></h1>
-    </div>
-    <div class="text-content container">
-        <div class="col-md-6">
-            <h1>Have a look to our dishes!</h1>
-            <div class="icon-hotdog fa-2x"></div>
-            <p class="desc-text">Each food is handmade at the crack of dawn, using only the simplest of ingredients to bring out smells and flavors that beckon the whole block. Stop by anytime and experience simplicity at its finest.</p>
-        </div>
-        <div class="col-md-6">
-            <ul class="image_box_story2">
-                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                    <!-- Indicators -->
-                    <ol class="carousel-indicators">
-                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-                    </ol>
-
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <img src="{{ asset('img/cart') }}/slider1.jpg"  alt="...">
-                            <div class="carousel-caption">
-
-                            </div>
-                        </div>
-                        <div class="item">
-                            <img src="{{ asset('img/cart') }}/slider2.jpg" alt="...">
-                            <div class="carousel-caption">
-
-                            </div>
-                        </div>
-                        <div class="item">
-                            <img src="{{ asset('img/cart') }}/slider3.JPG" alt="...">
-                            <div class="carousel-caption">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </ul>
-        </div>
-    </div>
-</section>
-
-<!-- ============ Reservation  ============= -->
 
 <section  id="reservation"  class="description_content">
     <div class="featured background_content">

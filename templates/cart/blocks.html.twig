@@ -1,5 +1,5 @@
 {% block test %}
-    <div class="item row {{ category.name }}-item {% if product.type != "" %}{{ product.type|replace({' ': ''}) }}-type-item{% endif %}">
+    <div class="item row {{ category.name }}-item {% if product.type != "" %}{{ product.type|replace({' ': ''}) }}-type-item{% endif %}" data-id="{{ product.id }}">
         <div class="col-xs-8 content">
             <div class="row" style="height:auto;margin-bottom:10px;">
                 <div class="col-xs-9 title">{{ product.name }}</div>
@@ -10,13 +10,13 @@
                     {{ product.description }}
                 </div>
                 <div class="col-xs-4 operations">
-                                      <span class="minus">
-                                           <i class="far fa-minus-square"></i>
-                                      </span>
-                    <input type="text" value="0" disabled>
+                    <span class="minus disabled">
+                        <i class="far fa-minus-square"></i>
+                    </span>
+                    <input class="contador" type="text" value="0" disabled>
                     <span class="more">
-                                        <i class="far fa-plus-square"></i>
-                                      </span>
+                        <i class="far fa-plus-square"></i>
+                    </span>
                 </div>
             </div>
         </div>
