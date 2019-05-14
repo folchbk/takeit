@@ -6,6 +6,7 @@ use App\Entity\Product;
 use App\Entity\ProductIngredient;
 use App\Form\ProductType;
 use App\Repository\IngredientRepository;
+use App\Repository\LocalRepository;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +32,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/new", name="product_new", methods={"GET","POST"})
      */
-    public function new(Request $request, SessionInterface $session, IngredientRepository $ingredientRepository): Response
+    public function new(Request $request, SessionInterface $session): Response
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
@@ -39,92 +40,27 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $product->setLocal($session->get('local'));
+            $localRepository = $entityManager->getRepository('App\Entity\Local');
 
-//            $ingredients = $request->get('product')['productIngredients'];
-//            foreach ($ingredients as $ingredient) {
-//                $quantity = $ingredient['quantity'];
-//                $ingredient = $ingredientRepository->find(['id' => $ingredient['ingredient']]);
-//
-//                $productIngredient = new ProductIngredient();
-//                $productIngredient->setIngredient($ingredient);
-//                $productIngredient->setProduct($product);
-//                $productIngredient->setQuantity($quantity);
-//
-//                $product->addProductIngredient($productIngredient);
-//                $ingredient->addProductIngredient($productIngredient);
-//
-//                $entityManager->persist($product);
-//                $entityManager->persist($ingredient);
-//                $entityManager->persist($productIngredient);
-//
-//                var_dump($productIngredient->getId());
-//                var_dump($product->getId());
-//                var_dump($product->getId());
-//                die();
-//                $entityManager->flush();
-//            }
+            /*
+             * Recupero el local de sesion
+             * y se lo asigno a producto
+             */
+            $local_in_session = $session->get('local');
+            $local = $localRepository->find($local_in_session->getId());
+            $product->setLocal($local);
 
+            foreach ($product->getProductIngredients() as $ingredient) {
+                $ingredient->setProduct($product);
+            }
 
-            $ingredient = $ingredientRepository->find(['id' => 1]);
-            $productIngredient = new ProductIngredient();
-
-//            $product->addProductIngredient($productIngredient);
-//            $ingredient->addProductIngredient($productIngredient);
-
-
-//            var_dump($productIngredient->getId());
-//            var_dump($product->getId());
-//            var_dump($ingredient->getId());
-//
-//            echo "-----------" . PHP_EOL;
-
-            $entityManager->merge($productIngredient);
-            $entityManager->merge($product);
-            $entityManager->persist($ingredient);
-//            $entityManager->flush();
-
-
-//            $productIngredient->setIngredient($ingredient);
-//            $productIngredient->setProduct($product);
-//            $productIngredient->setQuantity(4);
-
-//            echo "ID:";
-//            var_dump($productIngredient->getId());
-//            echo "Product:";
-//            var_dump($productIngredient->getProduct()->getId());
-//            echo "Ingredient:";
-//            var_dump($productIngredient->getIngredient()->getId());
-
-            $product->addProductIngredient($productIngredient);
-            $ingredient->addProductIngredient($productIngredient);
-
-            $productIngredient->setQuantity(4);
-            $entityManager->merge($productIngredient);
+            $entityManager->persist($product);
             $entityManager->flush();
-
-
-//            var_dump($productIngredient->getId());
-//            var_dump($product->getId());
-//            var_dump($ingredient->getId());
-
-
-//            $product->addProductIngredient($productIngredient);
-//            $ingredient->addProductIngredient($productIngredient);
-
-//            $productIngredient->setIngredient($ingredient);
-//            $productIngredient->setProduct($product);
-
-            //                $productIngredient->setProduct($product);
-//                $productIngredient->setQuantity($quantity);
-
             return $this->redirectToRoute('product_index');
         }
-
         return $this->render('product/new.html.twig', [
             'product' => $product,
-            'form' => $form->createView(),
-            'ingredients' => $ingredientRepository->findAll()
+            'form' => $form->createView()
         ]);
     }
 

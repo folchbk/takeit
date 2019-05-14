@@ -23,6 +23,7 @@ final class ProductAdmin extends AbstractAdmin
             ->add('id')
             ->add('name')
             ->add('price')
+            ->add('local')
             ->add('createdAt')
             ->add('updatedAt')
             ->add('deletedAt');
@@ -34,6 +35,7 @@ final class ProductAdmin extends AbstractAdmin
             ->add('id')
             ->add('name')
             ->add('price')
+            ->add('local')
             ->add('createdAt')
             ->add('updatedAt')
             ->add('deletedAt')
@@ -49,6 +51,7 @@ final class ProductAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
+            ->add('local')
             ->add('name')
             ->add('price')
             ->add('productIngredients', CollectionType::class, array(
@@ -76,6 +79,7 @@ final class ProductAdmin extends AbstractAdmin
             ->add('id')
             ->add('name')
             ->add('price')
+            ->add('local')
             ->add('productIngredients', null, ['label' => 'Ingredients'])
             ->add('createdAt')
             ->add('updatedAt')

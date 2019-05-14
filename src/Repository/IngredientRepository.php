@@ -32,22 +32,30 @@ class IngredientRepository extends ServiceEntityRepository
       */
     public function findAll()
     {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.local = :local')
-            ->setParameter('local', $this->local->getId())
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        if ($this->local != null) {
+            return $this->createQueryBuilder('i')
+                ->andWhere('i.local = :local')
+                ->setParameter('local', $this->local->getId())
+                ->orderBy('i.id', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult()
+                ;
+        } else {
+            return $this->createQueryBuilder('i');
+        }
     }
 
     public function createAlphabeticalQueryBuilder() {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.local = :local')
-            ->setParameter('local',$this->local->getId())
-            ->orderBy('p.id', 'ASC')
-            ;
+
+        if ($this->local != null) {
+            return $this->createQueryBuilder('p')
+                ->andWhere('p.local = :local')
+                ->setParameter('local', $this->local->getId())
+                ->orderBy('p.id', 'ASC');
+        } else {
+            return $this->createQueryBuilder('p');
+        }
     }
 
     // /**

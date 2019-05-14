@@ -49,6 +49,7 @@ final class DealAdmin extends AbstractAdmin
         $formMapper
             
             ->add('name')
+            ->add('users')
             ->add('cif')
             ->add('enabled')
             ;
