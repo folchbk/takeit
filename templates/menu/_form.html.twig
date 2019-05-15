@@ -1,0 +1,62 @@
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Edit {{ menu.name }}</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    {{ form_start(form) }}
+    <div class="box-body">
+        <div class="form-group">
+            <label>Menu name</label>
+            {{ form_widget(form.name, {'attr': {
+                'class': 'form-control',
+                'placeholder': 'Enter menu name',
+            }}) }}
+            <div class="form-error">
+                {{ form_errors(form.name) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Price</label>
+            {{ form_widget(form.price, {'attr': {
+                'class': 'form-control',
+                'placeholder': 'Enter menu price',
+            }}) }}
+            <div class="form-error">
+                {{ form_errors(form.price) }}
+            </div>
+        </div>
+
+        <div class="form-group" style="background: #FDEBD0; padding: 15px;">
+            <div class="row js-product-ingredient-wrapper"
+                 data-prototype="{{ form_widget(form.menuProducts.vars.prototype)|e('html_attr') }}"
+                 data-index="{{ form.menuProducts|length }}">
+            </div>
+
+            <div class='js-product-ingredient-wrapper'><a href='#' class='js-product-ingredient-add' style="padding: 25px"><span class='fa fa-plus-circle'></span>Add</a></div>
+            {% for menuProduct in form.menuProducts %}
+                <div class="col-xs-4 js-product-ingredient-item form-group" style="padding: 25px">
+                    <a href="#" class="js-remove-ingredient pull-right">
+                        <span class="fa fa-close"></span>
+                    </a>
+                    {{ form_widget(menuProducts.ingredient, {'attr': {
+                        'class': 'form-control'
+                    }}) }}
+                    {{ form_widget(menuProducts.quantity, {'attr': {
+                        'class': 'form-control'
+                    }}) }}
+                    {{ form_errors(menuProducts) }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- /.box-body -->
+
+    <div class="box-footer">
+        <div style="float:right;">
+            <a class="btn btn-danger" role="button" href="{{ path('menu_index') }}">Back to list</a>
+            <button type="submit" class="btn btn-success">{{ button_label|default('Save') }}</button>
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>
