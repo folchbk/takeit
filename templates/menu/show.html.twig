@@ -23,6 +23,17 @@
                                 <th>Price</th>
                                 <td>{{ menu.price }}</td>
                             </tr>
+                            <tr>
+                                <th>Products</th>
+                                <td>
+                                    <ul>
+                                        {% for menuProduct in menu.menuProducts %}
+                                            <li>{{ menuProduct.product.name }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                            </tr>
+
                             </tbody>
                         </table>
 

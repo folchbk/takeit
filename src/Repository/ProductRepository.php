@@ -5,18 +5,56 @@ namespace App\Repository;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)
  * @method Product|null findOneBy(array $criteria, array $orderBy = null)
- * @method Product[]    findAll()
  * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ProductRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    private $session;
+    private $deal;
+    private $local;
+
+    public function __construct(RegistryInterface $registry, SessionInterface $session)
     {
         parent::__construct($registry, Product::class);
+        $this->session = $session;
+        $this->deal = $this->session->get('deal');
+        $this->local = $this->session->get('local');
+    }
+
+    /**
+     * @return Product[] Returns an array of Ingredient objects
+     */
+    public function findAll()
+    {
+        if ($this->local != null) {
+            return $this->createQueryBuilder('p')
+                ->andWhere('p.local = :local')
+                ->setParameter('local', $this->local->getId())
+                ->orderBy('p.id', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult()
+                ;
+        } else {
+            return $this->createQueryBuilder('i');
+        }
+    }
+
+    public function createAlphabeticalQueryBuilder() {
+
+        if ($this->local != null) {
+            return $this->createQueryBuilder('p')
+                ->andWhere('p.local = :local')
+                ->setParameter('local', $this->local->getId())
+                ->orderBy('p.id', 'ASC');
+        } else {
+            return $this->createQueryBuilder('p');
+        }
     }
 
     // /**

@@ -37,10 +37,14 @@ class MenuController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($menu);
+
+            $menuProducts = $menu->getMenuProducts();
+
+            foreach ($menuProducts as $menuProduct) {
+                $menuProduct->setMenu($menu);
+            }
+
             $entityManager->flush();
-
-
-
             return $this->redirectToRoute('menu_index');
         }
 

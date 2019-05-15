@@ -39,13 +39,13 @@
                     <a href="#" class="js-remove-ingredient pull-right">
                         <span class="fa fa-close"></span>
                     </a>
-                    {{ form_widget(menuProducts.ingredient, {'attr': {
+                    {{ form_widget(menuProduct.product, {'attr': {
                         'class': 'form-control'
                     }}) }}
-                    {{ form_widget(menuProducts.quantity, {'attr': {
+                    {{ form_widget(menuProduct.quantity, {'attr': {
                         'class': 'form-control'
                     }}) }}
-                    {{ form_errors(menuProducts) }}
+                    {{ form_errors(menuProduct) }}
                 </div>
             {% endfor %}
         </div>
