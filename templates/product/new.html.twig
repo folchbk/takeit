@@ -17,11 +17,12 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
+
+        /*
+            Para añadir más de un ingrediente:
+         */
         jQuery(document).ready(function() {
             var wrapper = $('.js-product-ingredient-wrapper');
-            console.log("Prototype:");
-            console.log(wrapper.data('prototype'));
-
             wrapper.on('click', '.js-product-ingredient-add', function(e) {
                 e.preventDefault();
                 // Get the data-prototype explained earlier
@@ -37,5 +38,8 @@
                 $(this).before(newForm);
             });
         });
+        $($('select')[0].addClass('form-control'));
     </script>
+
+
 {% endblock %}

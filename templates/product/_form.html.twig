@@ -26,44 +26,28 @@
                 {{ form_errors(form.price) }}
             </div>
         </div>
-        <div class="form-group">
-            <label>Product ingredients</label>
-            {#{{ form_widget(form.productIngredients, {'attr': {#}
-                {#'class': 'form-control',#}
-            {#}}) }}#}
-            {#<div class="form-error">#}
-                {#{{ form_errors(form.productIngredients) }}#}
-            {#</div>#}
-
+        <div class="form-group" style="background: #FDEBD0; padding: 15px;">
             <div class="row js-product-ingredient-wrapper"
                  data-prototype="{{ form_widget(form.productIngredients.vars.prototype)|e('html_attr') }}"
                  data-index="{{ form.productIngredients|length }}">
             </div>
 
+            <div class='js-product-ingredient-wrapper'><a href='#' class='js-product-ingredient-add' style="padding: 25px"><span class='fa fa-plus-circle'></span>Add</a></div>
             {% for productIngredient in form.productIngredients %}
-                <div class="col-xs-4 js-product-ingredient-item">
+                <div class="col-xs-4 js-product-ingredient-item form-group" style="padding: 25px">
                     <a href="#" class="js-remove-ingredient pull-right">
                         <span class="fa fa-close"></span>
                     </a>
+                    {{ form_widget(productIngredient.ingredient, {'attr': {
+                        'class': 'form-control'
+                    }}) }}
+                    {{ form_widget(productIngredient.quantity, {'attr': {
+                        'class': 'form-control'
+                    }}) }}
                     {{ form_errors(productIngredient) }}
-                    {{ form_row(productIngredient.ingredient) }}
-                    {{ form_row(productIngredient.quantity) }}
                 </div>
             {% endfor %}
-
-
-            <div class="row js-product-ingredient-wrapper">
-                <a href="#" class="js-product-ingredient-add">
-                    <span class="fa fa-plus-circle"></span>
-                    Add
-                </a>
-            </div>
         </div>
-
-        {#<div class="category">#}
-            {#{{ form_row(form.productIngredients) }}#}
-        {#</div>#}
-
     </div>
     <!-- /.box-body -->
 
@@ -74,10 +58,4 @@
         </div>
     </div>
     {{ form_end(form) }}
-
-    {#{% form_theme form 'form/fields.html.twig' %}#}
-
-    {#{{ form_start(form) }}#}
-    {#{{ form_widget(form, { 'attr': {'class': 'card-body'}}) }}#}
-    {#{{ form_end(form) }}#}
 </div>

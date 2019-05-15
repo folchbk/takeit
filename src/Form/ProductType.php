@@ -19,15 +19,17 @@ class ProductType extends AbstractType
             ->add('name')
             ->add('price')
             ->add('productIngredients', CollectionType::class, array(
-                    'label' => 'Ingredients',
+                    'label' => '',
                     'entry_type' => ProductIngredientType::class,
-                    'entry_options' => array('label' => true),
+                    'entry_options' => array('label' => false),
                     'allow_add' => true,
                     'allow_delete' => true,
-                    'by_reference' => true
+                    'by_reference' => true,
+                    'attr' => array(
+                        'class' => 'form-control'
+                    )
                 )
             )
-//        ->add('productIngredients')
         ;
 
     }

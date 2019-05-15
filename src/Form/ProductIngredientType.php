@@ -14,11 +14,15 @@ class ProductIngredientType extends AbstractType
     {
         $builder
             ->add('ingredient', null, [
-                'query_builder' => function(IngredientRepository $repo) {
-                    return $repo->createAlphabeticalQueryBuilder();
-                }
+                'query_builder' => function(IngredientRepository $repo) { return $repo->createAlphabeticalQueryBuilder();},
+                'attr' => [
+                    'class' => 'form-control col-xs-4',
+                ]
+
+                ])
+            ->add('quantity', null, [
+                'attr' => ['class' => 'form-control col-xs-2']
             ])
-            ->add('quantity')
         ;
     }
 
