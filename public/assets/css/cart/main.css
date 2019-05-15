@@ -13,6 +13,7 @@ Text Domain: restaurant
 GLOBAL
 =========================*/
 @import url('https://fonts.googleapis.com/css?family=Inconsolata|Roboto|Stylish');
+@import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah|Patrick+Hand+SC|Rubik+Mono+One');
 h1 {
     font-size: 37px;
     font-weight: 900;

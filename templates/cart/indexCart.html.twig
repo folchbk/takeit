@@ -34,405 +34,541 @@
             position: fixed;
             bottom:50px;
             right:50px;
+            cursor: pointer;
+            z-index:99;
         }
     </style>
 </head>
 
 <body>
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+<span class="wrapp">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="row">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">BriSe Restaurant</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav main-nav  clear navbar-right ">
+                        {% for category in categories %}
+                            <li><a class="color_animation menu-item" data-href="{{ category.name }}">{{ category.name }}</a></li>
+                        {% endfor %}
+
+                    </ul>
+                    <script>
+                        $(document).ready(function () {
+                            $('.menu-item').click(function () {
+                                $('body, html').animate({scrollTop:$('#'+$(this).attr('data-href')).offset().top-100}, 500);
+                            });
+                        });
+                    </script>
+                </div><!-- /.navbar-collapse -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div id="top" class="starter_container bg">
+        <div class="follow_container">
+            <div class="col-md-6 col-md-offset-3">
+                <h2 class="top-title"> Restaurant</h2>
+                <h2 class="white second-title">" Best in the city "</h2>
+                <hr>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ Pricing  ============= -->
+    <style>
+        .category  {
+            font-family: 'Stylish', sans-serif;
+            font-size:80px;
+            padding:20px;
+            margin:30px 0px;
+            background:#9f191f;
+            color:white;
+            cursor:pointer;
+        }
+        .subtypes {
+            text-align: right;
+            display:flex;
+            flex-flow: column;
+            align-items: flex-end;
+        }
+        .subtypes .subtype {
+            font-size:35px;
+            margin:5px 0;
+            border-bottom:2px solid white;
+            font-family: 'Inconsolata', monospace;
+        }
+        .item {
+            max-height: 250px;
+            min-height: 250px;
+            margin:30px 0px;
+            -webkit-box-shadow: 10px 10px 23px -6px rgba(0,0,0,0.75);
+            -moz-box-shadow: 10px 10px 23px -6px rgba(0,0,0,0.75);
+            box-shadow: 10px 10px 23px -6px rgba(0,0,0,0.75);
+            transition: all 1s;
+
+        }
+        .item .img {
+            background-repeat: no-repeat!important;
+            background-size: contain!important;
+            height:250px!important;
+            background-position: 60% 50%!important;
+        }
+        .item .content {
+            font-family: 'Stylish', sans-serif;
+            padding:20px;
+            display:flex;
+            flex-flow:column;
+            justify-content:space-between;
+            height:250px;
+        }
+        .content .title {
+            font-size:50px;
+            color: #9f191f;
+        }
+        .content .price {
+            font-size:50px;
+            color: #9f191f;
+            text-align: right;
+            padding-right:30px;
+        }
+        .description {
+            font-size:20px;
+            font-family: 'Roboto', sans-serif;
+        }
+        .minus {
+            margin:5px;
+            font-size:30px;
+            color:#9f191f;
+            cursor: pointer;
+        }
+        .minus.disabled {
+            opacity:0.4;
+        }
+        .more {
+            margin:5px;
+            font-size:30px;
+            color:#255625;
+            cursor: pointer;
+        }
+        .operations {
+            display:flex;
+            flex-flow:row nowrap;
+            justify-content: flex-end;
+            position:absolute;
+            bottom:30px;
+            right:20px;
+        }
+        .operations input {
+            width:40px;
+            text-align: center;
+        }
+
+    </style>
+
     <div class="container">
         <div class="row">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">BriSe Restaurant</a>
-            </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav main-nav  clear navbar-right ">
-                    {% for category in categories %}
-                        <li><a class="color_animation menu-item" data-href="{{ category.name }}">{{ category.name }}</a></li>
-                    {% endfor %}
-
-                </ul>
-                <script>
-                    $(document).ready(function () {
-                        $('.menu-item').click(function () {
-                            $('body, html').animate({scrollTop:$('#'+$(this).attr('data-href')).offset().top-100}, 500);
-                        });
-                    });
-                </script>
-            </div><!-- /.navbar-collapse -->
-        </div>
-    </div><!-- /.container-fluid -->
-</nav>
-<div id="top" class="starter_container bg">
-    <div class="follow_container">
-        <div class="col-md-6 col-md-offset-3">
-            <h2 class="top-title"> Restaurant</h2>
-            <h2 class="white second-title">" Best in the city "</h2>
-            <hr>
-        </div>
-    </div>
-</div>
-
-<!-- ============ Pricing  ============= -->
-<style>
-    .category  {
-        font-family: 'Stylish', sans-serif;
-        font-size:80px;
-        padding:20px;
-        margin:30px 0px;
-        background:#9f191f;
-        color:white;
-        cursor:pointer;
-    }
-    .subtypes {
-        text-align: right;
-        display:flex;
-        flex-flow: column;
-        align-items: flex-end;
-    }
-    .subtypes .subtype {
-        font-size:35px;
-        margin:5px 0;
-        border-bottom:2px solid white;
-        font-family: 'Inconsolata', monospace;
-    }
-    .item {
-        max-height: 250px;
-        min-height: 250px;
-        margin:30px 0px;
-        -webkit-box-shadow: 10px 10px 23px -6px rgba(0,0,0,0.75);
-        -moz-box-shadow: 10px 10px 23px -6px rgba(0,0,0,0.75);
-        box-shadow: 10px 10px 23px -6px rgba(0,0,0,0.75);
-        transition: all 1s;
-
-    }
-    .item .img {
-        background-repeat: no-repeat!important;
-        background-size: contain!important;
-        height:250px!important;
-        background-position: 60% 50%!important;
-    }
-    .item .content {
-        font-family: 'Stylish', sans-serif;
-        padding:20px;
-        display:flex;
-        flex-flow:column;
-        justify-content:space-between;
-        height:250px;
-    }
-    .content .title {
-        font-size:50px;
-        color: #9f191f;
-    }
-    .content .price {
-        font-size:50px;
-        color: #9f191f;
-        text-align: right;
-        padding-right:30px;
-    }
-    .description {
-        font-size:20px;
-        font-family: 'Roboto', sans-serif;
-    }
-    .minus {
-        margin:5px;
-        font-size:30px;
-        color:#9f191f;
-        cursor: pointer;
-    }
-    .minus.disabled {
-        opacity:0.4;
-    }
-    .more {
-        margin:5px;
-        font-size:30px;
-        color:#255625;
-        cursor: pointer;
-    }
-    .operations {
-        display:flex;
-        flex-flow:row nowrap;
-        justify-content: flex-end;
-        position:absolute;
-        bottom:30px;
-        right:20px;
-    }
-    .operations input {
-        width:40px;
-        text-align: center;
-    }
-
-</style>
-
-<div class="container">
-    <div class="row">
-
-        {% for category in categories %}
-            {% set subCategories = [] %}
-            {% for product in products %}
-                {% if category in product.category %}
-                     {% if product.type not in subCategories and product.type != "" %}
-                         {% set subCategories = subCategories|merge([product.type]) %}
-                     {% endif  %}
-                {% endif %}
+            {% for category in categories %}
+                {% set subCategories = [] %}
+                {% for product in products %}
+                    {% if category in product.category %}
+                         {% if product.type not in subCategories and product.type != "" %}
+                             {% set subCategories = subCategories|merge([product.type]) %}
+                         {% endif  %}
+                    {% endif %}
+                {% endfor %}
+                 <div class="col-xs-12 category" id="{{ category.name }}" data-toggle="collapse" >
+                     <div class="row">
+                        <div class="col-xs-12 title">{{ category.name }}</div>
+                     </div>
+                     <div class="row">
+                        <div class="col-xs-12 subtypes">
+                            {% if subCategories is not empty %}
+                                <div class="subtype " data-parent="{{ category }}" data-subCategory="">Todos</div>
+                            {% endif %}
+                            {% for subCategory in subCategories %}
+                                <div class="subtype" data-parent="{{ category }}" data-subCategory="{{ subCategory|replace({' ': ''}) }}">{{ subCategory }}</div>
+                            {% endfor %}
+                        </div>
+                     </div>
+                 </div>
+                <div class="col-xs-12 items" id="{{ category.name }}-items">
+                  {% for product in products %}
+                      {% if category in product.category %}
+                          {{ block('test', "cart/blocks.html.twig") }}
+                      {% endif %}
+                  {% endfor %}
+                </div>
             {% endfor %}
-             <div class="col-xs-12 category" id="{{ category.name }}" data-toggle="collapse" >
-                 <div class="row">
-                    <div class="col-xs-12 title">{{ category.name }}</div>
-                 </div>
-                 <div class="row">
-                    <div class="col-xs-12 subtypes">
-                        {% if subCategories is not empty %}
-                            <div class="subtype " data-parent="{{ category }}" data-subCategory="">Todos</div>
-                        {% endif %}
-                        {% for subCategory in subCategories %}
-                            <div class="subtype" data-parent="{{ category }}" data-subCategory="{{ subCategory|replace({' ': ''}) }}">{{ subCategory }}</div>
-                        {% endfor %}
-                    </div>
-                 </div>
-             </div>
-            <div class="col-xs-12 items" id="{{ category.name }}-items">
-              {% for product in products %}
-                  {% if category in product.category %}
-                      {{ block('test', "cart/blocks.html.twig") }}
-                  {% endif %}
-              {% endfor %}
-            </div>
-        {% endfor %}
-        <script>
+            <script>
 
-            var carrito = new Carrito();
+                var carrito = new Carrito();
 
-            $(document).ready(function () {
-                $('.contador').val(0);
-                $('.subtype').click(function () {
-                    var category = $(this).attr('data-parent');
-                    var subCategory = $(this).attr('data-subCategory');
-                    if (subCategory == "") {
-                        $('.' + category + '-item').show();
-                    } else {
-                        $('.' + category + '-item').not('.' + subCategory + '-type-item').hide();
-                        $('.' + subCategory + '-type-item').show();
-                    }
-                });
+                $(document).ready(function () {
+                    $('.contador').val(0);
+                    $('.subtype').click(function () {
+                        var category = $(this).attr('data-parent');
+                        var subCategory = $(this).attr('data-subCategory');
+                        if (subCategory == "") {
+                            $('.' + category + '-item').show();
+                        } else {
+                            $('.' + category + '-item').not('.' + subCategory + '-type-item').hide();
+                            $('.' + subCategory + '-type-item').show();
+                        }
+                    });
 
-                $('.more').click(function () {
-                    var id = $(this).closest('.item').attr('data-id');
-                    getProduct(id);
-                });
-                $('.minus').click(function () {
-                    if (!$(this).hasClass('disabled')) {
+                    $('.more').click(function () {
                         var id = $(this).closest('.item').attr('data-id');
-                        deleteFromCarrito(id);
-                    }
+                        getProduct(id);
+                    });
+                    $('.minus').click(function () {
+                        if (!$(this).hasClass('disabled')) {
+                            var id = $(this).closest('.item').attr('data-id');
+                            deleteFromCarrito(id);
+                        }
+                    });
                 });
-            });
 
-            function getProduct(id) {
-                $.ajax({
-                    type: "POST",
-                    url: '/getProduct/'+id,
-                    success : function(data) {
-                        createProduct(data)
-                    }
-                });
-            }
-
-            function deleteFromCarrito(id) {
-                $.each(carrito.productos, function (i, val) {
-                    if (val.id == id) {
-                       val.downQuantity();
-                       updateContador(val);
-                    }
-                });
-                updateTotalPrice();
-            }
-            function createProduct(data) {
-                var pr = new Producto(data['id'],data['name'],data['description'],data['price']);
-                addProductToCarrito(pr)
-            }
-            function addProductToCarrito(product) {
-                var flag = true;
-                $.each(carrito.productos, function (i, val) {
-                    if (val.id == product.id) {
-                        val.upQuantity();
-                        updateContador(val);
-                        flag = false;
-                    }
-                });
-                if(flag) {
-                    product.upQuantity();
-                    carrito.addProducto(product);
-                    updateContador(product);
+                function getProduct(id) {
+                    $.ajax({
+                        type: "POST",
+                        url: '/getProduct/'+id,
+                        success : function(data) {
+                            createProduct(data)
+                        }
+                    });
                 }
-                updateTotalPrice();
-            }
-            function updateContador(product) {
-                $('.item[data-id="'+product.id+'"] .contador').val(product.quantity);
-                enableOrDisableMinusButton($('.item[data-id="'+product.id+'"] .minus'), product);
-            }
-            function enableOrDisableMinusButton(object, product) {
-                product.quantity > 0 ? $(object).removeClass('disabled') : $(object).addClass('disabled');
-            }
-            function updateTotalPrice() {
-                carrito.totalPrice = 0;
-                for (var index in carrito.productos) {
-                    carrito.totalPrice += parseInt(carrito.productos[index]['price'])*carrito.productos[index]['quantity'];
-                }
-            }
-        </script>
 
+                function deleteFromCarrito(id) {
+                    $.each(carrito.productos, function (i, val) {
+                        if (val.id == id) {
+                           val.downQuantity();
+                           updateContador(val);
+                        }
+                    });
+                    updateTotalPrice();
+                }
+                function createProduct(data) {
+                    var pr = new Producto(data['id'],data['name'],data['description'],data['price']);
+                    addProductToCarrito(pr)
+                }
+                function addProductToCarrito(product) {
+                    var flag = true;
+                    $.each(carrito.productos, function (i, val) {
+                        if (val.id == product.id) {
+                            val.upQuantity();
+                            updateContador(val);
+                            flag = false;
+                        }
+                    });
+                    if(flag) {
+                        product.upQuantity();
+                        carrito.addProducto(product);
+                        updateContador(product);
+                    }
+                    updateTotalPrice();
+                }
+                function updateContador(product) {
+                    $('.item[data-id="'+product.id+'"] .contador').val(product.quantity);
+                    enableOrDisableMinusButton($('.item[data-id="'+product.id+'"] .minus'), product);
+                }
+                function enableOrDisableMinusButton(object, product) {
+                    product.quantity > 0 ? $(object).removeClass('disabled') : $(object).addClass('disabled');
+                }
+                function updateTotalPrice() {
+                    carrito.totalPrice = 0;
+                    for (var index in carrito.productos) {
+                        carrito.totalPrice += parseInt(carrito.productos[index]['price'])*carrito.productos[index]['quantity'];
+                    }
+                }
+                function openCart() {
+                    $('.carrito-container').addClass('active');
+                    $('.carrito-content').html(getCarritoHTML());
+
+                }
+                function getCarritoHTML() {
+                    var stringFinal = "";
+                    $.each(carrito.productos, function (i, val) {
+                        stringFinal += '<div class="row">' +
+                                '<div class="cart-item col-xs-12">' +
+                                    '<div class="row">'+
+                                        '<div class="col-xs-8 item-cart-title">'+
+                                            val.title+
+                                        '</div>'+
+                                        '<div class="col-xs-2 item-cart-operations">'+
+                                        '</div>'+
+                                        '<div class="col-xs-2 item-cart-price">'+
+                                            val.price+"€"+
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>'+
+                                '</div>';
+                    });
+                    stringFinal +=  '<div class="row">' +
+                            '<div class="cart-item-totalPrice col-xs-12">' +
+                                '<div class="row">'+
+                                  '<div class="col-xs-8 item-cart-totalPrice-text">'+
+                                         "Precio total" +
+                                    '</div>'+
+                                    '<div class="col-xs-2 ">'+
+                                    '</div>'+
+                                '<div class="col-xs-2 item-cart-totalPrice-number">'+
+                                       carrito.totalPrice+"€"+
+                                '</div>'+
+                                '</div>'+
+                                '</div>';
+                    return stringFinal;
+                }
+            </script>
+
+            </div>
         </div>
     </div>
-</div>
 
-<span class="cart-open">
-    <img height=75 width=75 src="{{ asset('img/cart/cart-icon.png') }}">
-</span>
+    <span class="cart-open" onclick="openCart()">
+        <img height=75 width=75 src="{{ asset('img/cart/cart-icon.png') }}">
+    </span>
 
 
-<section  id="reservation"  class="description_content">
-    <div class="featured background_content">
-        <h1>Reserve a Table!</h1>
-    </div>
-    <div class="text-content container">
-        <div class="inner contact">
-            <!-- Form Area -->
-            <div class="contact-form">
-                <!-- Form -->
-                <form id="contact-us" method="post" action="reserve.php">
-                    <!-- Left Inputs -->
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-8 col-md-6 col-xs-12">
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-xs-6">
-                                        <!-- Name -->
-                                        <input type="text" name="first_name" id="first_name" required="required" class="form" placeholder="First Name" />
-                                        <input type="text" name="last_name" id="last_name" required="required" class="form" placeholder="Last Name" />
-                                        <input type="text" name="state" id="state" required="required" class="form" placeholder="State" />
-                                        <input type="text" name="datepicker" id="datepicker" required="required" class="form" placeholder="Reservation Date" />
+    <section  id="reservation"  class="description_content">
+        <div class="featured background_content">
+            <h1>Reserve a Table!</h1>
+        </div>
+        <div class="text-content container">
+            <div class="inner contact">
+                <!-- Form Area -->
+                <div class="contact-form">
+                    <!-- Form -->
+                    <form id="contact-us" method="post" action="reserve.php">
+                        <!-- Left Inputs -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-8 col-md-6 col-xs-12">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-xs-6">
+                                            <!-- Name -->
+                                            <input type="text" name="first_name" id="first_name" required="required" class="form" placeholder="First Name" />
+                                            <input type="text" name="last_name" id="last_name" required="required" class="form" placeholder="Last Name" />
+                                            <input type="text" name="state" id="state" required="required" class="form" placeholder="State" />
+                                            <input type="text" name="datepicker" id="datepicker" required="required" class="form" placeholder="Reservation Date" />
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-xs-6">
+                                            <!-- Name -->
+                                            <input type="text" name="phone" id="phone" required="required" class="form" placeholder="Phone" />
+                                            <input type="text" name="guest" id="guest" required="required" class="form" placeholder="Guest Number" />
+                                            <input type="email" name="email" id="email" required="required" class="form" placeholder="Email" />
+                                            <input type="text" name="subject" id="subject" required="required" class="form" placeholder="Subject" />
+                                        </div>
+
+                                        <div class="col-xs-6 ">
+                                            <!-- Send Button -->
+                                            <button type="submit" id="submit" name="submit" class="text-center form-btn form-btn">Reserve</button>
+                                        </div>
+
                                     </div>
-
-                                    <div class="col-lg-6 col-md-6 col-xs-6">
-                                        <!-- Name -->
-                                        <input type="text" name="phone" id="phone" required="required" class="form" placeholder="Phone" />
-                                        <input type="text" name="guest" id="guest" required="required" class="form" placeholder="Guest Number" />
-                                        <input type="email" name="email" id="email" required="required" class="form" placeholder="Email" />
-                                        <input type="text" name="subject" id="subject" required="required" class="form" placeholder="Subject" />
-                                    </div>
-
-                                    <div class="col-xs-6 ">
-                                        <!-- Send Button -->
-                                        <button type="submit" id="submit" name="submit" class="text-center form-btn form-btn">Reserve</button>
-                                    </div>
-
                                 </div>
-                            </div>
 
-                            <div class="col-lg-4 col-md-6 col-xs-12">
-                                <!-- Message -->
-                                <div class="right-text">
-                                    <h2>Hours</h2><hr>
-                                    <p>Monday to Friday: 7:30 AM - 11:30 AM</p>
-                                    <p>Saturday & Sunday: 8:00 AM - 9:00 AM</p>
-                                    <p>Monday to Friday: 12:00 PM - 5:00 PM</p>
-                                    <p>Monday to Saturday: 6:00 PM - 1:00 AM</p>
-                                    <p>Sunday to Monday: 5:30 PM - 12:00 AM</p>
+                                <div class="col-lg-4 col-md-6 col-xs-12">
+                                    <!-- Message -->
+                                    <div class="right-text">
+                                        <h2>Hours</h2><hr>
+                                        <p>Monday to Friday: 7:30 AM - 11:30 AM</p>
+                                        <p>Saturday & Sunday: 8:00 AM - 9:00 AM</p>
+                                        <p>Monday to Friday: 12:00 PM - 5:00 PM</p>
+                                        <p>Monday to Saturday: 6:00 PM - 1:00 AM</p>
+                                        <p>Sunday to Monday: 5:30 PM - 12:00 AM</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Clear -->
-                    <div class="clear"></div>
-                </form>
-            </div><!-- End Contact Form Area -->
-        </div><!-- End Inner -->
-    </div>
-</section>
-
-<!-- ============ Social Section  ============= -->
-
-<section class="social_connect">
-    <div class="text-content container">
-        <div class="col-md-6">
-            <span class="social_heading">FOLLOW</span>
-            <ul class="social_icons">
-                <li><a class="icon-twitter color_animation" href="#" target="_blank"></a></li>
-                <li><a class="icon-github color_animation" href="#" target="_blank"></a></li>
-                <li><a class="icon-linkedin color_animation" href="#" target="_blank"></a></li>
-                <li><a class="icon-mail color_animation" href="#"></a></li>
-            </ul>
+                        <!-- Clear -->
+                        <div class="clear"></div>
+                    </form>
+                </div><!-- End Contact Form Area -->
+            </div><!-- End Inner -->
         </div>
-        <div class="col-md-4">
-            <span class="social_heading">OR DIAL</span>
-            <span class="social_info"><a class="color_animation" href="tel:883-335-6524">(941) 883-335-6524</a></span>
+    </section>
+
+    <!-- ============ Social Section  ============= -->
+
+    <section class="social_connect">
+        <div class="text-content container">
+            <div class="col-md-6">
+                <span class="social_heading">FOLLOW</span>
+                <ul class="social_icons">
+                    <li><a class="icon-twitter color_animation" href="#" target="_blank"></a></li>
+                    <li><a class="icon-github color_animation" href="#" target="_blank"></a></li>
+                    <li><a class="icon-linkedin color_animation" href="#" target="_blank"></a></li>
+                    <li><a class="icon-mail color_animation" href="#"></a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <span class="social_heading">OR DIAL</span>
+                <span class="social_info"><a class="color_animation" href="tel:883-335-6524">(941) 883-335-6524</a></span>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- ============ Contact Section  ============= -->
+    <!-- ============ Contact Section  ============= -->
 
-<section id="contact">
-    <div class="map">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3618.664063989472!2d91.8316103150038!3d24.909437984030877!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x37505558dd0be6a1%3A0x65c7e47c94b6dc45!2sTechnext!5e0!3m2!1sen!2sbd!4v1444461079802" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="inner contact">
-                    <!-- Form Area -->
-                    <div class="contact-form">
-                        <!-- Form -->
-                        <form id="contact-us" method="post" action="contact.php">
-                            <!-- Left Inputs -->
-                            <div class="col-md-6 ">
-                                <!-- Name -->
-                                <input type="text" name="name" id="name" required="required" class="form" placeholder="Name" />
-                                <!-- Email -->
-                                <input type="email" name="email" id="email" required="required" class="form" placeholder="Email" />
-                                <!-- Subject -->
-                                <input type="text" name="subject" id="subject" required="required" class="form" placeholder="Subject" />
-                            </div><!-- End Left Inputs -->
-                            <!-- Right Inputs -->
-                            <div class="col-md-6">
-                                <!-- Message -->
-                                <textarea name="message" id="message" class="form textarea"  placeholder="Message"></textarea>
-                            </div><!-- End Right Inputs -->
-                            <!-- Bottom Submit -->
-                            <div class="relative fullwidth col-xs-12">
-                                <!-- Send Button -->
-                                <button type="submit" id="submit" name="submit" class="form-btn">Send Message</button>
-                            </div><!-- End Bottom Submit -->
-                            <!-- Clear -->
-                            <div class="clear"></div>
-                        </form>
-                    </div><!-- End Contact Form Area -->
-                </div><!-- End Inner -->
+    <section id="contact">
+        <div class="map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3618.664063989472!2d91.8316103150038!3d24.909437984030877!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x37505558dd0be6a1%3A0x65c7e47c94b6dc45!2sTechnext!5e0!3m2!1sen!2sbd!4v1444461079802" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="inner contact">
+                        <!-- Form Area -->
+                        <div class="contact-form">
+                            <!-- Form -->
+                            <form id="contact-us" method="post" action="contact.php">
+                                <!-- Left Inputs -->
+                                <div class="col-md-6 ">
+                                    <!-- Name -->
+                                    <input type="text" name="name" id="name" required="required" class="form" placeholder="Name" />
+                                    <!-- Email -->
+                                    <input type="email" name="email" id="email" required="required" class="form" placeholder="Email" />
+                                    <!-- Subject -->
+                                    <input type="text" name="subject" id="subject" required="required" class="form" placeholder="Subject" />
+                                </div><!-- End Left Inputs -->
+                                <!-- Right Inputs -->
+                                <div class="col-md-6">
+                                    <!-- Message -->
+                                    <textarea name="message" id="message" class="form textarea"  placeholder="Message"></textarea>
+                                </div><!-- End Right Inputs -->
+                                <!-- Bottom Submit -->
+                                <div class="relative fullwidth col-xs-12">
+                                    <!-- Send Button -->
+                                    <button type="submit" id="submit" name="submit" class="form-btn">Send Message</button>
+                                </div><!-- End Bottom Submit -->
+                                <!-- Clear -->
+                                <div class="clear"></div>
+                            </form>
+                        </div><!-- End Contact Form Area -->
+                    </div><!-- End Inner -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <style>
+        .wrap {
+            overflow:hidden;
+        }
+        .carrito-container {
+            width:100vw;
+            height:100vh;
+            position: fixed;
+            left:100vw;
+            top:0px;
+            transition: all 0.8s;
+            background:white;
+            z-index:99;
+            padding-top:70px;
+        }
+        .carrito-container.active {
+            left:0;
+        }
+        .carrito-title {
+            margin-top:50px;
+            color:#9f191f;
+            font-size:60px;
+            font-family: 'Rubik Mono One', sans-serif;
+            padding:0px;
+            margin-bottom:30px;
+        }
+        .carrito-close {
+            padding:0px;
+            margin-top:50px;
+            color:#9f191f;
+            font-size:60px;
+            font-family: 'Rubik Mono One', sans-serif;
+        }
+        .cart-item {
+            margin:10px 0px;
+            padding:0px 40px;
+            border-bottom:1px dashed black;
+        }
+        .cart-item-totalPrice {
+            padding:0px 40px;
+        }
+        .carrito-close i {
+            float:right;
+            cursor:pointer;
+        }
+        .item-cart-title {
+            font-family: 'Patrick Hand SC', cursive;
+            font-size:60px;
+        }
+        .item-cart-price, .item-cart-totalPrice-text, .item-cart-totalPrice-number {
+            font-family: 'Patrick Hand SC', cursive;
+            font-size:60px;
+            text-align: right;
+
+        }
+        .cart-cupon {
+            margin:40px 0;
+            font-family: 'Gloria Hallelujah', cursive;
+            font-size:30px;
+        }
+        .cart-cupon input {
+            margin:0px 20px;
+        }
+        .cart-cupon i {
+            color: #004571;
+            font-size:30px;
+        }
+    </style>
+
+
+    <!-- ============ Footer Section  ============= -->
+
+    <footer class="sub_footer">
+        <div class="container">
+            <div class="col-md-4"><p class="sub-footer-text text-center">&copy; Restaurant 2014, Theme by <a href="https://themewagon.com/">ThemeWagon</a></p></div>
+            <div class="col-md-4"><p class="sub-footer-text text-center">Back to <a href="#top">TOP</a></p>
+            </div>
+            <div class="col-md-4"><p class="sub-footer-text text-center">Built With Care By <a href="#" target="_blank">Us</a></p></div>
+        </div>
+    </footer>
+    <div class=" carrito-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6 carrito-title">
+                    Resumen de tu pedido
+                </div>
+                <div class="col-xs-6 carrito-close">
+                    <i class="fas fa-times" onclick="$('.carrito-container').removeClass('active')"></i>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 carrito-content">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 cart-cupon">
+                    Introduce tu cupón <input type="text"><i class="fas fa-share"></i>
+                </div>
             </div>
         </div>
     </div>
-</section>
-
-<!-- ============ Footer Section  ============= -->
-
-<footer class="sub_footer">
-    <div class="container">
-        <div class="col-md-4"><p class="sub-footer-text text-center">&copy; Restaurant 2014, Theme by <a href="https://themewagon.com/">ThemeWagon</a></p></div>
-        <div class="col-md-4"><p class="sub-footer-text text-center">Back to <a href="#top">TOP</a></p>
-        </div>
-        <div class="col-md-4"><p class="sub-footer-text text-center">Built With Care By <a href="#" target="_blank">Us</a></p></div>
-    </div>
-</footer>
+</span>
 
 
 <script type="text/javascript" src="js/jquery-1.10.2.min.js"> </script>
