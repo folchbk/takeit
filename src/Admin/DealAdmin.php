@@ -31,6 +31,7 @@ final class DealAdmin extends AbstractAdmin
             
             ->add('name')
             ->add('cif')
+            ->add('owner')
             ->add('createdAt')
             ->add('updatedAt')
             ->add('deletedAt')
@@ -51,6 +52,7 @@ final class DealAdmin extends AbstractAdmin
             ->add('name')
             ->add('users')
             ->add('cif')
+            ->add('owner')
             ->add('enabled')
             ;
     }
@@ -61,7 +63,9 @@ final class DealAdmin extends AbstractAdmin
             
             ->add('name')
             ->add('cif')
+            ->add('users')
             ->add('locals')
+            ->add('owner')
             ->add('createdAt')
             ->add('updatedAt')
             ->add('deletedAt')

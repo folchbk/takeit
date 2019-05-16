@@ -48,15 +48,17 @@ class Deal
      */
     private $enabled;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="deals")
-     */
-    private $users;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Local", mappedBy="deal")
      */
     private $locals;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="deal")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $owner;
 
     public function __construct()
     {
@@ -143,32 +145,6 @@ class Deal
     }
 
     /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Local[]
      */
     public function getLocals(): Collection
@@ -202,6 +178,18 @@ class Deal
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
     }
 
 

@@ -34,33 +34,37 @@ file that was distributed with this source code.
         'template': get_global_template('tab_menu_template')
     }, 'twig') }}
     <script>
+        var selectedProducts = new Array();
+
         $(document).ready(function () {
-            var selectedProducts = new Array();
-            $('.sonata-collection-add').on('click',function () {
-                setTimeout(function () {
-                    $('.sonata-ba-field').on('select2-opening',function () {
-                        setTimeout(function () {
-                            $( ".select2-result-label .select2-match" ).each(function() {
-                                if (selectedProducts.includes(this.nextSibling.data))  {
-                                    $(this).parent().remove();
-                                }
-                            });
-                        },100);
-                    });
-                },100);
-            $('.sonata-ba-field').on('select2-selected',function () {
-                selectedProducts = new Array();
-                $('.select2-chosen').each(function () {
-                    selectedProducts.push(this.innerHTML);
-                    console.log(selectedProducts);
-                });
+            updateArray();
+            $(document).on('sonata-collection-item-deleted-successful',function () {
+               updateArray();
             });
-            $('.sonata-ba-field').on('select2-selecting',function (e) {
-                console.log(e);
-                console.log(this);
+            $(document).on('select2-selected',function () {
+                updateArray();
             });
+            $(document).on('select2-opening',function () {
+                deleteUsedProducts();
             });
         });
+
+        function deleteUsedProducts() {
+            setTimeout(function () {
+                $( ".select2-result-label .select2-match" ).each(function() {
+                    if (selectedProducts.includes(this.nextSibling.data))  {
+                        $(this).parent().remove();
+                    }
+                });
+            },1);
+        }
+        function updateArray() {
+            selectedProducts = new Array();
+            $('.select2-chosen').each(function () {
+                selectedProducts.push(this.innerHTML);
+                console.log(selectedProducts);
+            });
+        }
     </script>
 {%- endblock -%}
 

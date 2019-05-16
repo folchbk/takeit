@@ -79,14 +79,11 @@ class User extends BaseUser
     private $deletedAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Deal", mappedBy="users")
+     * @ORM\OneToMany(targetEntity="App\Entity\Deal", mappedBy="owner")
      */
-    private $deals;
+    private $deal;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Client", mappedBy="userObject")
-     */
-    private $clients;
+
 
     public function __construct()
     {
@@ -94,7 +91,7 @@ class User extends BaseUser
         $this->deals = new ArrayCollection();
         $this->clients = new ArrayCollection();
         $this->createdAt = new \DateTime("now");
-        // your own logic
+        $this->deal = new ArrayCollection();
     }
 
     public function getName(): ?string
@@ -222,13 +219,13 @@ class User extends BaseUser
      */
     public function getDeals(): Collection
     {
-        return $this->deals;
+        return $this->deal;
     }
 
     public function addDeal(Deal $deal): self
     {
-        if (!$this->deals->contains($deal)) {
-            $this->deals[] = $deal;
+        if (!$this->deal->contains($deal)) {
+            $this->deal[] = $deal;
             $deal->addUser($this);
         }
 
@@ -237,8 +234,8 @@ class User extends BaseUser
 
     public function removeDeal(Deal $deal): self
     {
-        if ($this->deals->contains($deal)) {
-            $this->deals->removeElement($deal);
+        if ($this->deal->contains($deal)) {
+            $this->deal->removeElement($deal);
             $deal->removeUser($this);
         }
 
@@ -246,33 +243,11 @@ class User extends BaseUser
     }
 
     /**
-     * @return Collection|Client[]
+     * @return Collection|Deal[]
      */
-    public function getClients(): Collection
+    public function getDeal(): Collection
     {
-        return $this->clients;
+        return $this->deal;
     }
 
-    public function addClient(Client $client): self
-    {
-        if (!$this->clients->contains($client)) {
-            $this->clients[] = $client;
-            $client->setUserObject($this);
-        }
-
-        return $this;
-    }
-
-    public function removeClient(Client $client): self
-    {
-        if ($this->clients->contains($client)) {
-            $this->clients->removeElement($client);
-            // set the owning side to null (unless already changed)
-            if ($client->getUserObject() === $this) {
-                $client->setUserObject(null);
-            }
-        }
-
-        return $this;
-    }
 }

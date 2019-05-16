@@ -65,12 +65,36 @@ class Product
      */
     private $local;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\TypeProduct", inversedBy="type")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $type;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\CategoryProduct", inversedBy="products")
+     */
+    private $category;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $image;
+
+
     public function __construct()
     {
         $this->productIngredients = new ArrayCollection();
         $this->orderProducts = new ArrayCollection();
         $this->createdAt = new \DateTime("now");
         $this->menuProducts = new ArrayCollection();
+        $this->category = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -250,5 +274,69 @@ class Product
 
         return $this;
     }
+
+    public function getType(): ?TypeProduct
+    {
+        return $this->type;
+    }
+
+    public function setType(?TypeProduct $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CategoryProduct[]
+     */
+    public function getCategory(): Collection
+    {
+        return $this->category;
+    }
+
+    public function addCategory(CategoryProduct $category): self
+    {
+        if (!$this->category->contains($category)) {
+            $this->category[] = $category;
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(CategoryProduct $category): self
+    {
+        if ($this->category->contains($category)) {
+            $this->category->removeElement($category);
+        }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(Image $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+
 
 }
