@@ -48,9 +48,6 @@ services:
             - { name: sonata.admin, manager_type: orm, group: admin, label: Local }
         public: true
 
-    App\Admin\PlaylistAdmin:
-        calls:
-            - [addChild, ['App\Admin\TableAdmin', 'conjunto']]
     admin.table:
         class: App\Admin\TableAdmin
         arguments: [~, App\Entity\Table, App\Controller\SonataAdminControllers\TableAdminController]
