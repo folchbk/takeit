@@ -127,23 +127,4 @@ class ProductController extends AbstractController
         return $this->redirectToRoute('product_index');
     }
 
-    /**
-     * @Route("/getProduct/{id}", name="getProduct")
-     */
-    public function getProduct($id)
-    {
-        $em = $this->getDoctrine()->getManager()->getRepository(Product::class);
-        $product = $em->findOneBy(array('id'=>$id));
-
-        $filteredProduct = array(
-            'id' => $product->getId(),
-            'name' => $product->getName(),
-            'description' => $product->getDescription(),
-            'price' => $product->getPrice()
-        );
-
-        $response = new Response(json_encode($filteredProduct));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
 }

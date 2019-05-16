@@ -246,7 +246,7 @@
                 function getProduct(id) {
                     $.ajax({
                         type: "POST",
-                        url: '/getProduct/'+id,
+                        url: 'getProduct/'+id,
                         success : function(data) {
                             createProduct(data)
                         }
