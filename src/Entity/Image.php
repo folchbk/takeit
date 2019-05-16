@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping\PreUpdate;
 class Image
 {
 
-    const SERVER_PATH_TO_IMAGE_FOLDER = 'assets/img/ProductsIMG';
+    const SERVER_PATH_TO_IMAGE_FOLDER = 'img/ProductsIMG';
 
     /**
      * Unmapped property to handle file uploads

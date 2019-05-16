@@ -50,7 +50,7 @@ final class DealAdmin extends AbstractAdmin
         $formMapper
             
             ->add('name')
-            ->add('users')
+            
             ->add('cif')
             ->add('owner')
             ->add('enabled')
@@ -60,10 +60,9 @@ final class DealAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
-            
             ->add('name')
             ->add('cif')
-            ->add('users')
+            
             ->add('locals')
             ->add('owner')
             ->add('createdAt')

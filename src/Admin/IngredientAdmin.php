@@ -60,6 +60,7 @@ final class IngredientAdmin extends AbstractAdmin
             ->add('carbohydrates')
             ->add('fat')
             ->add('stock')
+            ->add('local')
             ;
     }
 

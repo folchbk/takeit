@@ -52,11 +52,6 @@ p.desc-text{
 }
 @font-face {
     font-family: 'icomoon';
-    src:url('../../fonts/carticomoonacfe.eot?-yinaf8');
-    src:url('../../fonts/carticomoond41d.eot?#iefix-yinaf8') format('embedded-opentype'),
-    url('../../fonts/carticomoonacfe.woff?-yinaf8') format('woff'),
-    url('../../fonts/carticomoonacfe.ttf?-yinaf8') format('truetype'),
-    url('../../fonts/carticomoonacfe.svg?-yinaf8#icomoon') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -201,7 +196,7 @@ INTRO CONTAINER
     padding: 0;
     min-width: 100%;
     height: 100%;
-    background: url('../../img/cart/steak.jpg') no-repeat center center;
+    background: url('../../assets/img/cart/steak.jpg') no-repeat center center;
     background-size: cover;
     text-align: center;
     background-position: center;  
@@ -268,7 +263,7 @@ INTRO CONTAINER
 }
 
 .beer.background_content{
-    background: url('../../img/cart/beer.jpg') no-repeat center center; 
+    background: url('../../assets/img/cart/beer.jpg') no-repeat center center;
     background-size: cover;
     background-position: 70% 50%;
 }
@@ -279,25 +274,25 @@ INTRO CONTAINER
     background-position: 70% 50%;
 }
  .featured.background_content{
-    background: url('../../img/cart/featured.jpg') no-repeat center center; 
+    background: url('../../assets/img/cart/featured.jpg') no-repeat center center;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
  .pricing.background_content{
-    background: url('../../img/cart/pricing.jpg') no-repeat center center; 
+    background: url('../../assets/img/cart/pricing.jpg') no-repeat center center;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
 .reservation.background_content{
-    background: url('../../img/cart/reservation-seat.jpg') no-repeat center center; 
+    background: url('../../assets/img/cart/reservation-seat.jpg') no-repeat center center;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
 .bread.background_content{
-    background: url('../../img/cart/breakfast.jpg') no-repeat center center; 
+    background: url('../../assets/img/cart/breakfast.jpg') no-repeat center center;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;

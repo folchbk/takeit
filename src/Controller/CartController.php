@@ -22,7 +22,6 @@ class CartController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $categories = $em->getRepository(CategoryProduct::class)->findAll();
         $products = $em->getRepository(Product::class)->findAll();
-        $product = $em->getRepository(Product::class)->findOneBy(array('id'=>22));
 
         return $this->render('cart/indexCart.html.twig', array(
             'categories' => $categories,

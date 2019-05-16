@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="{{ asset('css/cart/main.css') }}" media="screen" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Playball' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css/style-portfolio.css">
-    <link rel="stylesheet" href="css/picto-foundry-food.css" />
-    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="{{ asset('css/style-portfolio.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/picto-foundry-food.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link rel="icon" href="favicon-1.ico" type="image/x-icon">
+    <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
+    <link rel="icon" href="{{ asset('favicon-1.ico') }}" type="image/x-icon">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
@@ -24,8 +24,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
-    <script src="js/cart/Carrito.js"></script>
-    <script src="js/cart/Producto.js"></script>
+    <script src="{{ asset('js/cart/Carrito.js') }}"></script>
+    <script src="{{ asset('js/cart/Producto.js') }}"></script>
     <style>
         body,html {
             height:100%;
@@ -183,6 +183,8 @@
                 {% set subCategories = [] %}
                 {% for product in products %}
                     {% if category in product.category %}
+                        {{ product.category|length }}
+                        {{ product.type|length }}
                          {% if product.type not in subCategories and product.type != "" %}
                              {% set subCategories = subCategories|merge([product.type]) %}
                          {% endif  %}
@@ -205,6 +207,7 @@
                  </div>
                 <div class="col-xs-12 items" id="{{ category.name }}-items">
                   {% for product in products %}
+
                       {% if category in product.category %}
                           {{ block('test', "cart/blocks.html.twig") }}
                       {% endif %}
@@ -569,13 +572,7 @@
         </div>
     </div>
 </span>
-
-
-<script type="text/javascript" src="js/jquery-1.10.2.min.js"> </script>
-<script type="text/javascript" src="js/bootstrap.min.js" ></script>
-<script type="text/javascript" src="js/jquery-1.10.2.js"></script>
-<script type="text/javascript" src="js/jquery.mixitup.min.js" ></script>
-<script type="text/javascript" src="js/main.js" ></script>
+<script type="text/javascript" src="{{ asset('js/main.js') }}" ></script>
 
 </body>
 </html>
