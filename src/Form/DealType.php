@@ -14,11 +14,6 @@ class DealType extends AbstractType
         $builder
             ->add('name')
             ->add('cif')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('deletedAt')
-            ->add('enabled')
-            ->add('users')
         ;
     }
 

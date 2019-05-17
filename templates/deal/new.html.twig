@@ -1,11 +1,16 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-backoffice.html.twig' %}
 
 {% block title %}New Deal{% endblock %}
 
 {% block body %}
-    <h1>Create new Deal</h1>
-
-    {{ include('deal/_form.html.twig') }}
-
-    <a href="{{ path('deal_index') }}">back to list</a>
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <div class="content-header">
+                <h1>Create new deal</h1>
+            </div>
+            <section class="content">
+                {{ include('deal/_form.html.twig') }}
+            </section>
+        </div>
+    </div>
 {% endblock %}

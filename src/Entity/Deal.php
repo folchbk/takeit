@@ -62,7 +62,6 @@ class Deal
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
         $this->locals = new ArrayCollection();
         $this->createdAt = new \DateTime("now");
     }

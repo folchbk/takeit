@@ -44,7 +44,7 @@
                                             <td>{{ product.name }}</td>
                                             <td>{{ product.price }}</td>
                                             <td>{{ product.description }}</td>
-                                            <td>{{ product.createdAt ? product.createdAt|date('d/m/Y - H:i') : '' }}h
+                                            <td>{{ product.createdAt ? product.createdAt|date('d/m/Y - H:i') : '' }}{{ product.createdAt ? 'h' : 'Never'}}</td>
                                             </td>
                                             <td>
                                                 <a href="{{ path('product_show', {'id': product.id}) }}"><i
