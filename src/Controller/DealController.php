@@ -36,6 +36,8 @@ class DealController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $deal->setEnabled(false);
+            $deal->setOwner($this->getUser());
             $entityManager->persist($deal);
             $entityManager->flush();
 
@@ -54,7 +56,7 @@ class DealController extends AbstractController
     public function show(Deal $deal): Response
     {
         return $this->render('deal/show.html.twig', [
-            'deal' => $deal,
+            'business' => $deal,
         ]);
     }
 
@@ -75,7 +77,7 @@ class DealController extends AbstractController
         }
 
         return $this->render('deal/edit.html.twig', [
-            'deal' => $deal,
+            'business' => $deal,
             'form' => $form->createView(),
         ]);
     }

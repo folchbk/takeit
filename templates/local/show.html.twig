@@ -1,62 +1,67 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-backoffice.html.twig' %}
 
 {% block title %}Local{% endblock %}
 
 {% block body %}
-    <h1>Local</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ local.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ local.name }}</td>
-            </tr>
-            <tr>
-                <th>Phone</th>
-                <td>{{ local.phone }}</td>
-            </tr>
-            <tr>
-                <th>Street</th>
-                <td>{{ local.street }}</td>
-            </tr>
-            <tr>
-                <th>City</th>
-                <td>{{ local.city }}</td>
-            </tr>
-            <tr>
-                <th>Cp</th>
-                <td>{{ local.cp }}</td>
-            </tr>
-            <tr>
-                <th>NumEmployees</th>
-                <td>{{ local.numEmployees }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ local.createdAt ? local.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ local.updatedAt ? local.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>DeletedAt</th>
-                <td>{{ local.deletedAt ? local.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Enabled</th>
-                <td>{{ local.enabled ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('local_index') }}">back to list</a>
-
-    <a href="{{ path('local_edit', {'id': local.id}) }}">edit</a>
-
-    {{ include('local/_delete_form.html.twig') }}
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <section class="content col-md-12 col-lg-7" style="float:none; margin: 0 auto;">
+                <h3 class="box-title">{{ local.name }}</h3>
+                <div class="box box-primary">
+                    <div class="box-body no-padding">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th>Id</th>
+                                <td>{{ local.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Name</th>
+                                <td>{{ local.name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Phone</th>
+                                <td>{{ local.phone }}</td>
+                            </tr>
+                            <tr>
+                                <th>Street</th>
+                                <td>{{ local.street }}</td>
+                            </tr>
+                            <tr>
+                                <th>City</th>
+                                <td>{{ local.city }}</td>
+                            </tr>
+                            <tr>
+                                <th>Cp</th>
+                                <td>{{ local.cp }}</td>
+                            </tr>
+                            <tr>
+                                <th>NumEmployees</th>
+                                <td>{{ local.numEmployees }}</td>
+                            </tr>
+                            <tr>
+                                <th>CreatedAt</th>
+                                <td>{{ local.createdAt ? local.createdAt|date('d/m/Y - H:i') : '' }}h</td>
+                            </tr>
+                            <tr>
+                                <th>UpdatedAt</th>
+                                <td>{{ local.updatedAt ? local.updatedAt|date('d/m/Y - H:i') : '' }}{{ local.updatedAt ? 'h' : 'Never'}}</td>
+                            </tr>
+                            <tr>
+                                <th>Enabled</th>
+                                <td>{{ local.enabled ? '<i class="fa fa-circle text-success"></i>' : '<i class="fa fa-circle text-danger"></i>' }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="buttons">
+                            <a role="button" class="btn btn-success"
+                               href="{{ path('local_edit', {'id': local.id}) }}">Edit</a>
+                            <a role="button">{{ include('local/_delete_form.html.twig') }}</a>
+                            <a role="button" class="btn btn-info" href="{{ path('local_index') }}">Back to list</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
 {% endblock %}

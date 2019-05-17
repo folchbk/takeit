@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Local;
+use App\Repository\DealRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,15 +15,16 @@ class LocalType extends AbstractType
         $builder
             ->add('name')
             ->add('phone')
-            ->add('street')
             ->add('city')
+            ->add('street')
             ->add('cp')
             ->add('numEmployees')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('deletedAt')
             ->add('enabled')
-            ->add('deal')
+            ->add('deal', null, [
+                'query_builder' => function (DealRepository $repo) {
+                    return $repo->createAlphabeticalQueryBuilder();
+                },
+            ])
         ;
     }
 

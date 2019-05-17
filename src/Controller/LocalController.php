@@ -21,10 +21,8 @@ class LocalController extends AbstractController
      */
     public function index(LocalRepository $localRepository, SessionInterface $session): Response
     {
-        $active_deal = $session->get('deal');
-
         return $this->render('local/index.html.twig', [
-            'locals' => $localRepository->findByDeal($active_deal),
+            'locals' => $localRepository->findAll(),
         ]);
     }
 
