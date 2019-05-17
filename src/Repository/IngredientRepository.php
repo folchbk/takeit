@@ -46,6 +46,14 @@ class IngredientRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Método utilizado en los FormsTypes para añadir
+     * una cláusula WHERE en la consulta que recupera
+     * los elementos. En este caso solo recupera
+     * los ingredientes que tienen relación con el
+     * local activo.
+     * @return \Doctrine\ORM\QueryBuilder
+     */
     public function createAlphabeticalQueryBuilder() {
 
         if ($this->local != null) {
