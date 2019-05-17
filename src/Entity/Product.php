@@ -87,6 +87,11 @@ class Product
      */
     private $image;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $glutenFree;
+
 
     public function __construct()
     {
@@ -333,6 +338,18 @@ class Product
     public function setImage(Image $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getGlutenFree(): ?bool
+    {
+        return $this->glutenFree;
+    }
+
+    public function setGlutenFree(?bool $glutenFree): self
+    {
+        $this->glutenFree = $glutenFree;
 
         return $this;
     }

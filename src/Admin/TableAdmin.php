@@ -15,18 +15,8 @@ use Sonata\AdminBundle\Route\RouteCollection;
 final class TableAdmin extends AbstractAdmin
 {
 
-    protected $parentAssociationMapping = 'table_id';
 
-    protected function configureRoutes(RouteCollection $collection)
-    {
-        if ($this->isChild()) {
-            return;
-        }
-
-        // This is the route configuration as a parent
-        $collection->clear();
-    }
-        protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('id')
