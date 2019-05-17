@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 /**
  * @method Local|null find($id, $lockMode = null, $lockVersion = null)
  * @method Local|null findOneBy(array $criteria, array $orderBy = null)
- * @method Local[]    findAll()
  * @method Local[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class LocalRepository extends ServiceEntityRepository
@@ -31,16 +30,19 @@ class LocalRepository extends ServiceEntityRepository
      /**
       * @return Local[] Returns an array of Local objects
       */
-    public function findByDeal($value)
+    public function findAll()
     {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.deal = :val')
-            ->setParameter('val', $value)
-            ->orderBy('l.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        if ($this->deal != null) {
+            return $this->createQueryBuilder('l')
+                ->andWhere('l.deal = :deal')
+                ->setParameter('deal', $this->deal)
+                ->orderBy('l.id', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult();
+        } else {
+            return $this->createQueryBuilder('l');
+        }
     }
 
     /**
@@ -56,7 +58,7 @@ class LocalRepository extends ServiceEntityRepository
         if ($this->deal != null) {
             return $this->createQueryBuilder('l')
                 ->andWhere('l.deal = :deal')
-                ->setParameter('deal', $this->deal->getId())
+                ->setParameter('deal', $this->deal)
                 ->orderBy('l.id', 'ASC');
         } else {
             return $this->createQueryBuilder('l');

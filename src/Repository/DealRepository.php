@@ -26,7 +26,6 @@ class DealRepository extends ServiceEntityRepository
         $this->local = $this->session->get('local');
     }
 
-
     /**
      * @return Deal[] Returns an array of Ingredient objects
      */
@@ -43,6 +42,27 @@ class DealRepository extends ServiceEntityRepository
                 ;
         } else {
             return $this->createQueryBuilder('i');
+        }
+    }
+
+
+    /**
+     * Método utilizado en los FormsTypes para añadir
+     * una cláusula WHERE en la consulta que recupera
+     * los elementos. En este caso solo recupera
+     * los locales que tienen relación con el
+     * negocio activo.
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function createAlphabeticalQueryBuilder() {
+
+        if ($this->deal != null) {
+            return $this->createQueryBuilder('d')
+                ->andWhere('d.owner = :owner')
+                ->setParameter('owner', $this->session->get('user'))
+                ->orderBy('d.id', 'ASC');
+        } else {
+            return $this->createQueryBuilder('d');
         }
     }
 
