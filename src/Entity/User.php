@@ -83,6 +83,10 @@ class User extends BaseUser
      */
     private $deal;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Local", inversedBy="users")
+     */
+    private $locals;
 
 
     public function __construct()
@@ -92,6 +96,7 @@ class User extends BaseUser
         $this->clients = new ArrayCollection();
         $this->createdAt = new \DateTime("now");
         $this->deal = new ArrayCollection();
+        $this->locals = new ArrayCollection();
     }
 
     public function getName(): ?string
@@ -248,6 +253,32 @@ class User extends BaseUser
     public function getDeal(): Collection
     {
         return $this->deal;
+    }
+
+    /**
+     * @return Collection|Local[]
+     */
+    public function getLocals(): Collection
+    {
+        return $this->locals;
+    }
+
+    public function addLocal(Local $local): self
+    {
+        if (!$this->locals->contains($local)) {
+            $this->locals[] = $local;
+        }
+
+        return $this;
+    }
+
+    public function removeLocal(Local $local): self
+    {
+        if ($this->locals->contains($local)) {
+            $this->locals->removeElement($local);
+        }
+
+        return $this;
     }
 
 }

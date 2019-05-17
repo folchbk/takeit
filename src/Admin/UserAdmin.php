@@ -76,6 +76,7 @@ final class UserAdmin extends AbstractAdmin
             ->add('username')
             ->add('email')
             ->add('enabled')
+            ->add('locals')
             ->add('password')
             ->add('roles')
             ->add('name')
@@ -91,18 +92,19 @@ final class UserAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
+            ->add('id')
             ->add('username')
             ->add('usernameCanonical')
             ->add('email')
             ->add('emailCanonical')
             ->add('enabled')
+            ->add('locals')
             ->add('salt')
             ->add('password')
             ->add('lastLogin')
             ->add('confirmationToken')
             ->add('passwordRequestedAt')
             ->add('roles')
-            ->add('id')
             ->add('name')
             ->add('phone')
             ->add('street')

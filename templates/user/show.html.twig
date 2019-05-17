@@ -1,0 +1,100 @@
+{% extends 'base-backoffice.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <section class="content col-md-12 col-lg-7" style="float:none; margin: 0 auto;">
+                <h3 class="box-title">User {{ selected_user.name }}</h3>
+                <div class="box box-primary">
+                    <div class="box-body no-padding">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th>Id</th>
+                                <td>{{ selected_user.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Name</th>
+                                <td>{{ selected_user.name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Username</th>
+                                <td>{{ selected_user.username }}</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>{{ selected_user.email }}</td>
+                            </tr>
+                            <tr>
+                                <th>Locals</th>
+                                <td>
+                                    <ul>
+                                        {% for local in selected_user.locals %}
+                                            <li>{{ local.name }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Enabled</th>
+                                <td>{{ selected_user.enabled ? '<i class="fa fa-circle text-success"></i>' : '<i class="fa fa-circle text-danger"></i>' }}</td>
+                            </tr>
+                            <tr>
+                                <th>LastLogin</th>
+                                <td>{{ selected_user.lastLogin ? selected_user.lastLogin|date('Y-m-d H:i:s') : '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Roles</th>
+                                <td>{{ selected_user.roles ? selected_user.roles|join(', ') : '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Phone</th>
+                                <td>{{ selected_user.phone }}</td>
+                            </tr>
+                            <tr>
+                                <th>Street</th>
+                                <td>{{ selected_user.street }}</td>
+                            </tr>
+                            <tr>
+                                <th>City</th>
+                                <td>{{ selected_user.city }}</td>
+                            </tr>
+                            <tr>
+                                <th>Cp</th>
+                                <td>{{ selected_user.cp }}</td>
+                            </tr>
+                            <tr>
+                                <th>Style</th>
+                                <td>{{ selected_user.style }}</td>
+                            </tr>
+                            <tr>
+                                <th>Iban</th>
+                                <td>{{ selected_user.iban }}</td>
+                            </tr>
+                            <tr>
+                                <th>CreatedAt</th>
+                                <td>{{ selected_user.createdAt ? selected_user.createdAt|date('d/m/Y - H:i') : '' }}{{ selected_user.createdAt ? 'h' : 'Never'}}</td>
+                            </tr>
+                            <tr>
+                                <th>UpdatedAt</th>
+                                <td>{{ selected_user.updatedAt ? selected_user.updatedAt|date('d/m/Y - H:i') : '' }}{{ selected_user.updatedAt ? 'h' : 'Never'}}</td>
+                            </tr>
+                            <tr>
+                                <th>DeletedAt</th>
+                                <td>{{ selected_user.deletedAt ? selected_user.deletedAt|date('d/m/Y - H:i') : '' }}{{ selected_user.deletedAt ? 'h' : 'Never'}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="buttons">
+                            <a role="button" class="btn btn-success" href="{{ path('user_edit', {'id': selected_user.id}) }}">edit</a>
+                            <a role="button">{{ include('user/_delete_form.html.twig') }}</a>
+                            <a role="button" class="btn btn-info" href="{{ path('user_index') }}">back to list</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}

@@ -269,7 +269,7 @@ INTRO CONTAINER
 }
 
 .bread.background_content{
-    background: url('../../img/cart/read.jpg') no-repeat center center; 
+    /*background: url('../../img/cart/read.jpg') no-repeat center center; */
     background-size: cover;
     background-position: 70% 50%;
 }
@@ -377,7 +377,7 @@ FIRST FOOTER CONTENT
 .social_icons li {
     list-style: none;
     display: inline-block;
-    padding: none;
+    padding: unset;
 }
 
 .social_icons li:nth-child(1),
@@ -756,7 +756,7 @@ MEDIA QUERIES TABLET
         width: 325px;
     } 
 
-} /*END OF MEDIA QUERY*/
+/*END OF MEDIA QUERY*/
 
 /*========================
 MEDIA QUERIE DESKTOP

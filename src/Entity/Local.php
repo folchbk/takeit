@@ -89,12 +89,18 @@ class Local
      */
     private $ingredients;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="locals")
+     */
+    private $users;
+
     public function __construct()
     {
         $this->tables = new ArrayCollection();
         $this->createdAt = new \DateTime("now");
         $this->products = new ArrayCollection();
         $this->ingredients = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -327,6 +333,34 @@ class Local
             if ($ingredient->getLocal() === $this) {
                 $ingredient->setLocal(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addLocal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeLocal($this);
         }
 
         return $this;

@@ -295,6 +295,10 @@ class Product
         return $this->category;
     }
 
+    /**
+     * @param CategoryProduct $category
+     * @return Product
+     */
     public function addCategory(CategoryProduct $category): self
     {
         if (!$this->category->contains($category)) {

@@ -24,6 +24,32 @@
                                 <td>{{ product.price }}</td>
                             </tr>
                             <tr>
+                                <th>Description</th>
+                                <td>{{ product.description }}</td>
+                            </tr>
+                            <tr>
+                                <th>Categories</th>
+                                <td>
+                                {% for categori in product.category %}
+                                    <li>{{ categori.name }}</li>
+                                {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Ingredients</th>
+                                <td>
+                                    {% for ingredient in product.productIngredients %}
+                                        <li>{{ ingredient.ingredient.name }}</li>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Image</th>
+                                <td>
+                                    <img style="max-width: 150px;" src="{{ asset('/img/ProductsIMG/') }}{{ product.image }}">
+                                </td>
+                            </tr>
+                            <tr>
                                 <th>CreatedAt</th>
                                 <td>{{ product.createdAt ? product.createdAt|date('d/m/Y - H:i') : '' }}h</td>
                             </tr>

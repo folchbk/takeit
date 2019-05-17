@@ -6,6 +6,7 @@ use App\Entity\Product;
 use PhpParser\ErrorHandler\Collecting;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -18,6 +19,8 @@ class ProductType extends AbstractType
         $builder
             ->add('name')
             ->add('price')
+            ->add('description')
+            ->add('category')
             ->add('productIngredients', CollectionType::class, array(
                     'label' => '',
                     'entry_type' => ProductIngredientType::class,
@@ -30,6 +33,7 @@ class ProductType extends AbstractType
                     )
                 )
             )
+            ->add('image', ImageType::class, [])
         ;
 
     }

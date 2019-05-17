@@ -18,12 +18,22 @@ use Doctrine\ORM\Mapping\PreUpdate;
 class Image
 {
 
+
+
     const SERVER_PATH_TO_IMAGE_FOLDER = 'img/ProductsIMG';
 
     /**
      * Unmapped property to handle file uploads
      */
     private $file;
+
+    /**
+     * Image constructor.
+     */
+    public function __construct()
+    {
+        $this->setUpdated(new \DateTime());
+    }
 
     /**
      * @param UploadedFile $file
@@ -129,4 +139,11 @@ class Image
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getFilename();
+    }
+
+
 }
