@@ -60,6 +60,16 @@ class Table
      */
     private $clients;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $hash;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Device", mappedBy="linkedTable", cascade={"persist", "remove"})
+     */
+    private $device;
+
 
     public function __construct()
     {
@@ -193,6 +203,47 @@ class Table
     public function __toString()
     {
         return $this->getTableCode();
+    }
+
+    public function getHash(): ?string
+    {
+        return $this->hash;
+    }
+
+    public function setHash(string $hash): self
+    {
+        $this->hash = $hash;
+
+        return $this;
+    }
+
+
+    public function generateHash() {
+
+        $toHash = $this->getId() .
+            $this->getTableCode() .
+            $this->getLocal()->getName();
+
+        return substr(md5(time() . $toHash), 0, 7);
+
+    }
+
+    public function getDevice(): ?Device
+    {
+        return $this->device;
+    }
+
+    public function setDevice(?Device $device): self
+    {
+        $this->device = $device;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newLinkedTable = $device === null ? null : $this;
+        if ($newLinkedTable !== $device->getLinkedTable()) {
+            $device->setLinkedTable($newLinkedTable);
+        }
+
+        return $this;
     }
 
 

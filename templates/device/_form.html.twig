@@ -1,0 +1,26 @@
+
+
+<div class="wrapper-center">
+    <h1>LINK DEVICE</h1>
+    {{ form_start(form) }}
+    <div class="box-body">
+        <div class="form-group">
+            {{ form_widget(form.hashCode, {'attr': {
+                'class': 'form-control',
+                'placeholder': 'Introduce table code',
+                'maxlength':7,
+                'autocomplete':'off'
+            }}) }}
+            <div class="form-error">
+                {{ form_errors(form.hashCode) }}
+            </div>
+        </div>
+    <!-- /.box-body -->
+
+    <div class="box-footer">
+        <div class="col-12" style="padding:0;">
+            <button type="submit" class="col-12 btn btn-success">{{ button_label|default('Add linked device') }}</button>
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>
