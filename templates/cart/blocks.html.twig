@@ -1,5 +1,12 @@
 {% block test %}
-    <div class="item row {{ category.name }}-item {% if product.type != "" %}{{ product.type|replace({' ': ''}) }}-type-item{% endif %}" data-id="{{ product.id }}">
+    {% set outOfStock = "" %}
+    {% for ingredient in product.productIngredients %}
+        {% if ingredient.ingredient.stock  < ingredient.quantity  %}
+            {% set outOfStock = "outOfStock" %}
+        {% endif %}
+    {% endfor %}
+    <div class="item row {{ category.name }}-item {% if product.type != "" %}{{ product.type|replace({' ': ''}) }}-type-item{% endif %} {{ outOfStock }}" data-id="{{ product.id }}">
+        <div class="outOfStockProduct">No hay stock!</div>
         <div class="col-xs-8 content">
             <div class="row" style="height:auto;margin-bottom:10px;">
                 <div class="col-xs-9 title">{{ product.name }}</div>
@@ -8,6 +15,10 @@
             <div class="row"  style="height:50%">
                 <div class="col-xs-8 description">
                     {{ product.description }}
+                    {% if product.glutenFree == 1 %}
+                        <br><br>
+                        <img width="50" height=50 src="{{ asset('img/ProductsIMG/USDGF.png') }}">
+                    {% endif %}
                 </div>
                 <div class="col-xs-4 operations">
                     <span class="minus disabled">

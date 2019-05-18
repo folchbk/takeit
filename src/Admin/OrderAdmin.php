@@ -10,6 +10,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 final class OrderAdmin extends AbstractAdmin
@@ -19,6 +20,7 @@ final class OrderAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('id')
+            ->add('status')
             ->add('client',null,['multiple' => false, 'label' => 'Client'])
             ->add('createdAt')
             ->add('updatedAt')
@@ -30,6 +32,7 @@ final class OrderAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('id')
+            ->add('status')
             ->add('client',null,['multiple' => false, 'label' => 'Client'])
             ->add('createdAt')
             ->add('updatedAt')
@@ -47,6 +50,11 @@ final class OrderAdmin extends AbstractAdmin
     {
         $formMapper
             ->add('client',null,['multiple' => false, 'label' => 'Client'])
+            ->add('status',ChoiceType::class, [
+                'choices' => array(
+                    'pending' => 'pending',
+                    'finished' => 'finished'
+                )])
             ->add('orderProducts', CollectionType::class, array(
                 'label' => 'Products',
                 'entry_type' => OrderProductType::class,
@@ -63,6 +71,7 @@ final class OrderAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
+            ->add('status')
             ->add('client',null,['multiple' => false, 'label' => 'Client'])
             ->add('orderProducts',null,['multiple' => true, 'label' => 'Products'])
             ->add('createdAt')

@@ -37,28 +37,58 @@
             cursor: pointer;
             z-index:99;
         }
+        .all {
+            height:100vh;
+            width:100vw;
+            overflow:hidden;
+        }
+        .cart-barra {
+            overflow-y: scroll;
+            height:100%;
+            position:absolute;
+            right:0;
+            overflow-x:hidden;
+        }
+        .gestion {
+            position:absolute;
+            height:100%;
+        }
+        .gestion .pendiente_pago {
+            height:50vh;
+            border-bottom:1px solid grey;
+        }
+        .gestion .solicita_camarero {
+            height: 50vh;
+            border-top:1px solid grey;
+        }
     </style>
 </head>
 
 <body>
-<span class="wrapp">
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container">
+{#<div class="header">#}
+    {#<img width="200" src="{{ asset('img/ProductsIMG/BSCK-01.png') }}">#}
+{#</div>#}
+<div class="container-fluid all">
+    <div class="row">
+        <div class="col-xs-6 gestion" style="border-right:1px solid grey;">
+            <div class="row">
+                <div class="col-xs-12 pendiente_pago">
+                    PEDIDOS PENDIENTES DE PAGO
+                </div>
+                <div class="col-xs-12 solicita_camarero">
+                    SE SOLICITA UN KAMARERO EN LA MESA
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 cart-barra" style="border-left:1px solid grey;padding:0px;">
+            <span class="wrapp">
+                <div class="">
+             <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="position:relative;">
             <div class="row">
                 <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">BriSe Restaurant</a>
-                </div>
-
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav main-nav  clear navbar-right ">
+                    <ul class="nav navbar-nav main-nav  clear navbar-left " style="padding:0 30px;">
                         {% for category in categories %}
                             <li><a class="color_animation menu-item" data-href="{{ category.name }}">{{ category.name }}</a></li>
                         {% endfor %}
@@ -67,25 +97,15 @@
                     <script>
                         $(document).ready(function () {
                             $('.menu-item').click(function () {
-                                $('body, html').animate({scrollTop:$('#'+$(this).attr('data-href')).offset().top-100}, 500);
+                                $('.cart-barra').animate({scrollTop:$('#'+$(this).attr('data-href')).offset().top-100}, 500);
                             });
                         });
                     </script>
                 </div><!-- /.navbar-collapse -->
             </div>
-        </div><!-- /.container-fluid -->
     </nav>
-    <div id="top" class="starter_container bg">
-        <div class="follow_container">
-            <div class="col-md-6 col-md-offset-3">
-                <h2 class="top-title"> Restaurant</h2>
-                <h2 class="white second-title">" Best in the city "</h2>
-                <hr>
-            </div>
-        </div>
-    </div>
-
-    <!-- ============ Pricing  ============= -->
+                    </div>
+                <!-- ============ Pricing  ============= -->
     <style>
         .category  {
             font-family: 'Stylish', sans-serif;
@@ -126,10 +146,10 @@
             display:none;
             position:absolute;
             font-size:40px;
-        bottom:50px;
+            bottom:50px;
             margin:auto;
             text-align: center;
-            //width:100%;
+        //width:100%;
             left:40px;
             z-index:50;
         }
@@ -194,19 +214,18 @@
 
     </style>
 
-    <div class="container">
-        <div class="row">
+        <div class="">
 
             {% for category in categories %}
                 {% set subCategories = [] %}
                 {% for product in products %}
                     {% if category in product.category %}
-                         {% if product.type not in subCategories and product.type != "" %}
-                             {% set subCategories = subCategories|merge([product.type]) %}
-                         {% endif  %}
+                        {% if product.type not in subCategories and product.type != "" %}
+                            {% set subCategories = subCategories|merge([product.type]) %}
+                        {% endif  %}
                     {% endif %}
                 {% endfor %}
-                 <div class="col-xs-12 category" id="{{ category.name }}" data-toggle="collapse" >
+                <div class="col-xs-12 category" id="{{ category.name }}" data-toggle="collapse" >
                      <div class="row">
                         <div class="col-xs-12 title">{{ category.name }}</div>
                      </div>
@@ -272,8 +291,8 @@
                 function deleteFromCarrito(id) {
                     $.each(carrito.productos, function (i, val) {
                         if (val.id == id) {
-                           val.downQuantity();
-                           updateContador(val);
+                            val.downQuantity();
+                            updateContador(val);
                         }
                     });
                     updateTotalPrice();
@@ -320,209 +339,186 @@
                     var stringFinal = "";
                     $.each(carrito.productos, function (i, val) {
                         stringFinal += '<div class="row">' +
-                                '<div class="cart-item col-xs-12">' +
-                                    '<div class="row">'+
-                                        '<div class="col-xs-8 item-cart-title">'+
-                                            val.title+
-                                        '</div>'+
-                                        '<div class="col-xs-2 item-cart-operations">'+
-                                        '</div>'+
-                                        '<div class="col-xs-2 item-cart-price">'+
-                                            val.price+"€"+
-                                        '</div>'+
-                                    '</div>'+
-                                '</div>'+
-                                '</div>';
+                            '<div class="cart-item col-xs-12">' +
+                            '<div class="row">'+
+                            '<div class="col-xs-8 item-cart-title">'+
+                            val.title+
+                            '</div>'+
+                            '<div class="col-xs-2 item-cart-operations">'+
+                            '</div>'+
+                            '<div class="col-xs-2 item-cart-price">'+
+                            val.price+"€"+
+                            '</div>'+
+                            '</div>'+
+                            '</div>'+
+                            '</div>';
                     });
                     stringFinal +=  '<div class="row">' +
-                            '<div class="cart-item-totalPrice col-xs-12">' +
-                                '<div class="row">'+
-                                  '<div class="col-xs-8 item-cart-totalPrice-text">'+
-                                         "Precio total" +
-                                    '</div>'+
-                                    '<div class="col-xs-2 ">'+
-                                    '</div>'+
-                                '<div class="col-xs-2 item-cart-totalPrice-number">'+
-                                       carrito.totalPrice+"€"+
-                                '</div>'+
-                                '</div>'+
-                                '</div>';
+                        '<div class="cart-item-totalPrice col-xs-12">' +
+                        '<div class="row">'+
+                        '<div class="col-xs-8 item-cart-totalPrice-text">'+
+                        "Precio total" +
+                        '</div>'+
+                        '<div class="col-xs-2 ">'+
+                        '</div>'+
+                        '<div class="col-xs-2 item-cart-totalPrice-number">'+
+                        carrito.totalPrice+"€"+
+                        '</div>'+
+                        '</div>'+
+                        '</div>';
                     return stringFinal;
                 }
             </script>
 
             </div>
-        </div>
-    </div>
 
-    <span class="cart-open" onclick="openCart()">
+        <span class="cart-open" onclick="openCart()">
         <img height=75 width=75 src="{{ asset('img/cart/cart-icon.png') }}">
     </span>
 
 
 
 
-    <style>
-        .wrap {
-            overflow:hidden;
-        }
-        .carrito-container {
-            width:100vw;
-            height:100vh;
-            position: fixed;
-            left:100vw;
-            top:0px;
-            transition: all 0.8s;
-            background:white;
-            z-index:99;
-            padding-top:70px;
-        }
-        .carrito-container.active {
-            left:0;
-        }
-        .carrito-title {
-            margin-top:50px;
-            color:#9f191f;
-            font-size:60px;
-            font-family: 'Rubik Mono One', sans-serif;
-            padding:0px;
-            margin-bottom:30px;
-        }
-        .carrito-close {
-            padding:0px;
-            margin-top:50px;
-            color:#9f191f;
-            font-size:60px;
-            font-family: 'Rubik Mono One', sans-serif;
-        }
-        .cart-item {
-            margin:10px 0px;
-            padding:0px 40px;
-            border-bottom:1px dashed black;
-        }
-        .cart-item-totalPrice {
-            padding:0px 40px;
-        }
-        .carrito-close i {
-            float:right;
-            cursor:pointer;
-        }
-        .item-cart-title {
-            font-family: 'Patrick Hand SC', cursive;
-            font-size:60px;
-        }
-        .item-cart-price, .item-cart-totalPrice-text, .item-cart-totalPrice-number {
-            font-family: 'Patrick Hand SC', cursive;
-            font-size:60px;
-            text-align: right;
+        <style>
+            .wrap {
+                overflow:hidden;
+            }
+            .carrito-container {
+                width:50vw;
+                height:100vh;
+                position: fixed;
+                right:-100vw;
+                top:0px;
+                transition: all 0.8s;
+                background:white;
+                z-index:99;
+                padding-top:70px;
+                padding:40px;
+            }
+            .carrito-container.active {
+                right:0;
+            }
+            .carrito-title {
+                margin-top:50px;
+                color:#9f191f;
+                font-size:60px;
+                font-family: 'Rubik Mono One', sans-serif;
+                padding:0px;
+                margin-bottom:30px;
+            }
+            .carrito-close {
+                padding:0px;
+                margin-top:50px;
+                color:#9f191f;
+                font-size:60px;
+                font-family: 'Rubik Mono One', sans-serif;
+            }
+            .cart-item {
+                margin:10px 0px;
+                padding:0px 40px;
+                border-bottom:1px dashed black;
+            }
+            .cart-item-totalPrice {
+                padding:0px 40px;
+            }
+            .carrito-close i {
+                float:right;
+                cursor:pointer;
+            }
+            .item-cart-title {
+                font-family: 'Patrick Hand SC', cursive;
+                font-size:60px;
+            }
+            .item-cart-price, .item-cart-totalPrice-text, .item-cart-totalPrice-number {
+                font-family: 'Patrick Hand SC', cursive;
+                font-size:60px;
+                text-align: right;
 
-        }
-        .cart-cupon {
-            margin:40px 0;
-            font-family: 'Gloria Hallelujah', cursive;
-            font-size:30px;
-        }
-        .cart-cupon input {
-            margin:0px 20px;
-        }
-        .cart-cupon i {
-            color: #004571;
-            font-size:30px;
-        }
-        .carrito-pagar {
-            background-color:black;
-            color:white;
-            padding:20px;
-            font-family: 'Rubik Mono One', sans-serif;
-            font-size:30px;
-            width:200px;
-            text-align: center;
-            float:right;
-            margin:15px 0px;
-            cursor:pointer;
-        }
-        .pay-mode {
-            width:auto;
-            max-width: 40%;
-            background:white;
-            border-radius: 30px;
-            text-align:center;
-            padding:15px 30px;
-            cursor:pointer;
-            font-size:30px;
-            font-family: 'Rubik Mono One', sans-serif;
-            color:white;
-        }
-        .pay-mode i {
-            margin:0 5px;
-            color:white;
-        }
-        .cash-pay {
-            float:left;
-            background:#00cc66;
-        }
-        .credit-card-pay {
-            float:right;
-            background:black;
-        }
-    </style>
+            }
+            .cart-cupon {
+                margin:40px 0;
+                font-family: 'Gloria Hallelujah', cursive;
+                font-size:30px;
+            }
+            .cart-cupon input {
+                margin:0px 20px;
+            }
+            .cart-cupon i {
+                color: #004571;
+                font-size:30px;
+            }
+            .carrito-pagar {
+                background-color:black;
+                color:white;
+                padding:20px;
+                font-family: 'Rubik Mono One', sans-serif;
+                font-size:30px;
+                width:200px;
+                text-align: center;
+                margin:15px auto;
+                cursor:pointer;
+            }
+            .pay-mode {
+                width:auto;
+                max-width: 40%;
+                background:white;
+                border-radius: 30px;
+                text-align:center;
+                padding:15px 30px;
+                cursor:pointer;
+                font-size:30px;
+                font-family: 'Rubik Mono One', sans-serif;
+                color:white;
+            }
+            .pay-mode i {
+                margin:0 5px;
+                color:white;
+            }
+            .cash-pay {
+                float:left;
+                background:#00cc66;
+            }
+            .credit-card-pay {
+                float:right;
+                background:black;
+            }
+        </style>
 
 
-    <!-- ============ Footer Section  ============= -->
 
-    <footer class="sub_footer">
-        <div class="container">
-            <div class="col-md-4"><p class="sub-footer-text text-center">&copy; Restaurant 2014, Theme by <a href="https://themewagon.com/">ThemeWagon</a></p></div>
-            <div class="col-md-4"><p class="sub-footer-text text-center">Back to <a href="#top">TOP</a></p>
-            </div>
-            <div class="col-md-4"><p class="sub-footer-text text-center">Built With Care By <a href="#" target="_blank">Us</a></p></div>
-        </div>
-    </footer>
-    <div class=" carrito-container">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-6 carrito-title">
-                    Resumen de tu pedido
+        <div class=" carrito-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-6 carrito-title">
+                        Resumen del pedido
+                    </div>
+                    <div class="col-xs-6 carrito-close">
+                        <i class="fas fa-times" onclick="$('.carrito-container').removeClass('active')"></i>
+                    </div>
                 </div>
-                <div class="col-xs-6 carrito-close">
-                    <i class="fas fa-times" onclick="$('.carrito-container').removeClass('active')"></i>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 carrito-content">
+                <div class="row">
+                    <div class="col-xs-12 carrito-content">
 
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 cart-cupon">
-                    Introduce tu cupón <input type="text"><i class="fas fa-share"></i>
+                <div class="row">
+                    <div class="col-xs-12 cart-cupon">
+                        Introduce tu cupón <input type="text"><i class="fas fa-share"></i>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="carrito-pagar" onclick="pagarModal()">Pagar!</div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="carrito-pagar" >Pagar</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</span>
-<!-- Modal -->
-<div id="payModal" class="modal fade" role="dialog">
-    <div class="modal-dialog" style="margin:0px;width:100vw;height:100vh;">
-        <!-- Modal content-->
-        <div class="modal-content" style="width:100%;background:transparent;box-shadow: none;border:0;">
-            <div class="modal-body" style="background:transparent;width:100%;padding:20%;">
-                <div class="pay-mode cash-pay">
-                    Pagar en efectivo<i class="fas fa-money-bill-wave"></i>
-                </div>
-                <div class="pay-mode credit-card-pay">
-                   Pagar con targeta(No disponible)<i class="fas fa-credit-card"></i>
-                </div>
-            </div>
-        </div>
-
+        </span>
     </div>
 </div>
+</div>
+
+
 <script>
     function pagarModal() {
         carrito.totalPrice == 0 ? resetAll() : $('#payModal').modal('show');
@@ -541,10 +537,11 @@
             generateOrder();
         }
     }
-    $('.cash-pay').click(function () {
+    $('.carrito-pagar').click(function () {
         generateOrder('pending')
     });
     function generateOrder(status) {
+        console.log(JSON.stringify(carrito));
         $.ajax({
             type: "POST",
             'data': {
@@ -553,7 +550,7 @@
             },
             url: '/generateOrder',
             success : function(data) {
-                //resetAll();
+                resetAll();
             }
         });
     }

@@ -21,7 +21,7 @@ class Order
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="orders")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $client;
 
@@ -49,6 +49,11 @@ class Order
      * @ORM\OneToMany(targetEntity="App\Entity\OrderProduct", mappedBy="orderObject", cascade={"persist", "remove"})
      */
     private $orderProducts;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
 
     public function __construct()
     {
@@ -157,7 +162,20 @@ class Order
      */
     public function __toString()
     {
-        return $this->getClient()->getUserObject() . "[" . $this->getClient()->getTableObject() . "]";
+        return '#'.$this->id;
+       // return $this->getClient()->getUserObject() . "[" . $this->getClient()->getTableObject() . "]";
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
     }
 
 

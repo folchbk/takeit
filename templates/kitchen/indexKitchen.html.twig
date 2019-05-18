@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="{{ asset('css/cart/main.css') }}" media="screen" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Playball' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ asset('css/style-portfolio.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/picto-foundry-food.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
+    <link rel="icon" href="{{ asset('favicon-1.ico') }}" type="image/x-icon">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+    <style>
+        body,html {
+            height:100%;
+        }
+        body {
+            background:black;
+            padding:15px;
+        }
+        .wrapp {
+            background:white;
+            overflow: hidden;
+            height:100%;
+            width:100%;
+            padding:30px;
+            display:flex;
+            flex-flow: row wrap;
+            justify-content : flex-start;
+            align-items: flex-start;
+        }
+        .order {
+            border:1px solid #b83400;
+            display:flex;
+            flex-flow: column;
+            width:auto;
+            height:auto;
+            cursor:pointer;
+            margin:15px;
+
+        }
+        .order.focus{
+            border:4px solid black;
+        }
+        .order .order-id {
+            background: #b83400;
+            color:white;
+            padding:15px;
+            font-size:30px;
+            text-align:right;
+        }
+        .order .order-products {
+            display: grid;
+            grid-auto-flow: column;
+            grid-template-rows: repeat(6, auto);
+            padding:15px;
+        }
+        .order .order-products .product{
+            min-width:200px;
+            font-size:30px;
+        }
+        .kitchen-actions {
+            display:flex;
+            flex-flow: row nowrap;
+            border:1px solid black;
+            height:70px;
+            position:fixed;
+            bottom:40px;
+            right:40px;
+        }
+        .kitchen-actions .option {
+            padding:15px;
+            text-align: center;
+            cursor:pointer;
+        }
+        .kitchen-actions .option.finished {
+            background:green;
+        }
+        .kitchen-actions .option.delete {
+            background:red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapp">
+        {% for order in orders %}
+        <div class="order id_{{ order.id }}" data-id="{{ order.id }}">
+            <div class="col-xs-12 order-id">#{{ order.id }}</div>
+            <div class="order-products">
+                {% for product in order.orderProducts %}
+                 <div class="product">{{ product.product.name }}   {{ product.quantity }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+    <div class="kitchen-actions">
+        <div class="option delete">borrar</div>
+        <div class="option finished">enviar</div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.order').click(function () {
+                $('.focus').removeClass('focus');
+                $(this).addClass('focus');
+            });
+           setInterval(requestOrders,1000);
+           $('.finished').click(function () {
+              finishOrder($('.order.focus').attr('data-id'));
+           });
+
+        });
+        function requestOrders() {
+            $.ajax({
+                type: "POST",
+                url: '/getActiveOrders',
+                success : function(data) {
+                    addOrders(data);
+                }
+            });
+        }
+        function addOrders(data) {
+            $.each(data, function (i, val) {
+                if (validateNotExistOrder(val.id)) {
+                    var products = "";
+                    var appendOrder ="";
+                    $.each(val.orderProducts, function (i, val) {
+                        products += "<div class='product'>"+val.product.name+"   " +val.quantity+"</div>";
+                    });
+                    appendOrder =  '    <div class="order id_'+val.id+'" data-id="'+ val.id+'"> '  +
+                        '               <div class="col-xs-12 order-id">  '  +
+                        '                   #'+ val.id +' '  +
+                        '               </div>  '  +
+                        '               <div class="order-products">  '  +
+                                        products +
+                        '               </div>  '  +
+                        '          </div>  ' ;
+                    $('.wrapp').append(appendOrder);
+                }
+                $('.order').click(function () {
+                    $('.focus').removeClass('focus');
+                    $(this).addClass('focus');
+                });
+            });
+        }
+        function validateNotExistOrder(id) {
+            return $('.id_'+id).length == 0 ?  true: false;
+        }
+        function finishOrder(id) {
+            $.ajax({
+                type: "POST",
+                url: '/finishOrder/'+id,
+                success : function() {
+                    $('.id_'+id).remove();
+                }
+            });
+        }
+    </script>
+<script type="text/javascript" src="{{ asset('js/main.js') }}" ></script>
+</body>
+</html>

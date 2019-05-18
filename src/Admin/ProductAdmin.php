@@ -80,6 +80,7 @@ final class ProductAdmin extends AbstractAdmin
             ->add('name')
             ->add('price')
             ->add('local')
+            ->add('glutenFree')
             ->add('category')
             ->add('createdAt')
             ->add('updatedAt')
@@ -101,6 +102,7 @@ final class ProductAdmin extends AbstractAdmin
             ->add('price')
             ->add('description')
             ->add('type')
+            ->add('glutenFree')
             ->add('productIngredients', CollectionType::class, array(
                 'label' => 'Ingredients',
                 'entry_type' => ProductIngredientType::class,
