@@ -39,9 +39,9 @@ class TableController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $table->setCreatedAt(new DateTime('now'));
             $local = $session->get('local');
             $table->setLocal($local);
+            $table->setHash($table->generateHash());
             $entityManager->merge($table);
             $entityManager->flush();
 
