@@ -5,19 +5,48 @@ namespace App\Repository;
 use App\Entity\Client;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * @method Client|null find($id, $lockMode = null, $lockVersion = null)
  * @method Client|null findOneBy(array $criteria, array $orderBy = null)
- * @method Client[]    findAll()
  * @method Client[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ClientRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    private $session;
+    private $deal;
+    private $local;
+
+    public function __construct(RegistryInterface $registry, SessionInterface $session)
     {
         parent::__construct($registry, Client::class);
+        $this->session = $session;
+        $this->deal = $this->session->get('deal');
+        $this->local = $this->session->get('local');
     }
+
+    /**
+     * @return Client[] Returns an array of Ingredient objects
+     */
+    public function findAll()
+    {
+        if ($this->deal != null) {
+            return $this->createQueryBuilder('c')->select('cl')
+                ->from('App\Entity\Client', 'cl')
+                ->join('cl.tableObject', 't')
+                ->join('t.local', 'l')
+                ->where('l.id = :local')
+                ->setParameter('local', $this->local)
+                ->orderBy('c.createdAt', 'ASC')
+                ->getQuery()
+                ->getResult();
+        } else {
+            return $this->createQueryBuilder('u');
+        }
+    }
+
+
 
     // /**
     //  * @return Client[] Returns an array of Client objects
