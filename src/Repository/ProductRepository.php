@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 /**
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)
  * @method Product|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Product|null findByLocal($local, array $orderBy = null)
  * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ProductRepository extends ServiceEntityRepository
@@ -41,13 +42,7 @@ class ProductRepository extends ServiceEntityRepository
                 ->getResult()
                 ;
         } else {
-            return $this->
-                createQueryBuilder('pa')
-                ->select("p")
-                ->from(Product::class, "p")
-                ->orderBy("p.id", "ASC")
-                ->getQuery()
-                ->getResult();
+            return $this->createQueryBuilder('p');
         }
     }
 
