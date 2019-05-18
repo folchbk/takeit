@@ -1,0 +1,16 @@
+{% extends 'base-backoffice.html.twig' %}
+
+{% block title %}New Invoice{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <div class="content-header">
+                <h1>Create new Invoice</h1>
+            </div>
+            <section class="content">
+                {{ include('invoice/_form.html.twig') }}
+            </section>
+        </div>
+    </div>
+{% endblock %}

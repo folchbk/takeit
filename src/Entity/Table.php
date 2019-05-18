@@ -64,6 +64,7 @@ class Table
     public function __construct()
     {
         $this->clients = new ArrayCollection();
+        $this->createdAt = new \DateTime('now');
     }
 
     public function getId(): ?int
