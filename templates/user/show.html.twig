@@ -81,10 +81,6 @@
                                 <th>UpdatedAt</th>
                                 <td>{{ selected_user.updatedAt ? selected_user.updatedAt|date('d/m/Y - H:i') : '' }}{{ selected_user.updatedAt ? 'h' : 'Never'}}</td>
                             </tr>
-                            <tr>
-                                <th>DeletedAt</th>
-                                <td>{{ selected_user.deletedAt ? selected_user.deletedAt|date('d/m/Y - H:i') : '' }}{{ selected_user.deletedAt ? 'h' : 'Never'}}</td>
-                            </tr>
                             </tbody>
                         </table>
                         <div class="buttons">
