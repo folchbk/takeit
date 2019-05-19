@@ -94,6 +94,11 @@ class Local
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Disccount", mappedBy="local")
+     */
+    private $disccounts;
+
     public function __construct()
     {
         $this->tables = new ArrayCollection();
@@ -101,6 +106,7 @@ class Local
         $this->products = new ArrayCollection();
         $this->ingredients = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->disccounts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -361,6 +367,37 @@ class Local
         if ($this->users->contains($user)) {
             $this->users->removeElement($user);
             $user->removeLocal($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Disccount[]
+     */
+    public function getDisccounts(): Collection
+    {
+        return $this->disccounts;
+    }
+
+    public function addDisccount(Disccount $disccount): self
+    {
+        if (!$this->disccounts->contains($disccount)) {
+            $this->disccounts[] = $disccount;
+            $disccount->setLocal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDisccount(Disccount $disccount): self
+    {
+        if ($this->disccounts->contains($disccount)) {
+            $this->disccounts->removeElement($disccount);
+            // set the owning side to null (unless already changed)
+            if ($disccount->getLocal() === $this) {
+                $disccount->setLocal(null);
+            }
         }
 
         return $this;

@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Entity\Disccount;
+use App\Form\DisccountType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 final class LocalAdmin extends AbstractAdmin
 {
@@ -64,6 +67,13 @@ final class LocalAdmin extends AbstractAdmin
             ->add('city')
             ->add('cp')
             ->add('numEmployees')
+            ->add('disccounts',CollectionType::class, array(
+                'entry_type' => DisccountType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true,
+                'by_reference' => false
+            ))
             ->add('enabled')
             ;
     }

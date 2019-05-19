@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Restaurant</title>
+    <title>Barra</title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="{{ asset('css/cart/main.css') }}" media="screen" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
-    <link rel="icon" href="{{ asset('favicon-1.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('img/ProductsIMG/BSCK-01.png') }}" type="image/x-icon">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
@@ -202,6 +202,10 @@
             overflow:hidden;
             font-family: 'Barlow Semi Condensed', sans-serif;
         }
+        .totalPrice {
+            text-align: right;
+            font-size:25px;
+        }
     </style>
 </head>
 
@@ -227,6 +231,9 @@
                                     {% for product in order.orderProducts %}
                                         <div class="product">{{ product.quantity }}x {{ product.product.name }}</div>
                                     {% endfor %}
+                                    <div class="totalPrice">
+                                        Precio total: {{ order.totalPrice }}€
+                                    </div>
 
                                 </div>
                                 <div class="setpay">
@@ -266,7 +273,7 @@
                                     var appendRequest =  '    <div class="helpRequest request'+val.id+'" data-id="'+val.id+'">  '  +
                                         '                                   <div class="">  '  +
                                         '                                       <div class="col-xs-12 mesa-id">  '  +
-                                        '                                           MESA: '+val.fromTable.tableCode  +
+                                        '                                           MESA: '+val.table  +
                                         '                                       </div>  '  +
                                         '                                   </div>  '  +
                                         '                                   <div class="">  '  +
@@ -277,6 +284,10 @@
                                         '                              </div>  ' ;
                                     $('.wrapp2').append(appendRequest);
                                 }
+                            });
+                            $('.attendedHelpRequest').click(function () {
+                                attendHelpRequest($(this).closest('.helpRequest').attr('data-id'));
+                                $(this).closest('.helpRequest').remove();
                             });
                         }
                         function validateNotExistRequest(id) {
@@ -309,18 +320,22 @@
                         function addOrders(data) {
                             $.each(data, function (i, val) {
                                 if (validateNotExistOrder(val.id)) {
+                                    console.log(val);
                                     var products = "";
                                     var appendOrder ="";
                                     $.each(val.orderProducts, function (i, val) {
-                                        products += "<div class='product'>" +val.quantity+"x "+val.product.name+"</div>";
+                                        products += "<div class='product'>" +val.quantity+"x "+val.name+"</div>";
                                     });
                                     appendOrder =  '    <div class="order id_'+val.id+'" data-id="'+ val.id+'"> '  +
                                         '               <div class="col-xs-12 order-id">  '  +
-                                        '                   <span>M:'+val.client.tableObject.tableCode +'</span><span>#'+ val.id +'</span>'  +
+                                        '                   <span>M:'+val.tableCode +'</span><span>#'+ val.id +'</span>'  +
                                         '               </div>  '  +
                                         '               <div class="order-products">  '  +
                                         products +
                                         '               </div>  '  +
+                                        '<div class="totalPrice">'+
+                                       'Precio total:'+ val.totalPrice+ '€'+
+                                        ' </div>'+
                                             '  <div class="setpay">' +
                                         '                                    Cobrar' +
                                         '                                </div>' +

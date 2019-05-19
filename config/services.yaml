@@ -117,3 +117,10 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: Image }
         public: true
+
+    admin.disccount:
+        class: App\Admin\DisccountAdmin
+        arguments: [~, App\Entity\Disccount, App\Controller\DisccountAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Disccount }
+        public: true

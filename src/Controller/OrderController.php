@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-
+ini_set('memory_limit', '-1');
 class OrderController extends AbstractController
 {
     private $serializer;
@@ -51,12 +51,32 @@ class OrderController extends AbstractController
                 array_push($recentOrders,$order);
             }
         }
-
-        $response = new Response($this->serializer->serialize($recentOrders, 'json', [
-            'circular_reference_handler' => function ($object) {
-                return $object->getId();
+        $finalArray = [];
+        foreach ($recentOrders as $recentOrder) {
+            $array['id'] = $recentOrder->getId();
+            $array['orderProducts'] = [];
+            foreach ($recentOrder->getOrderProducts() as $orderProduct) {
+                $product['quantity'] = $orderProduct->getQuantity();
+                $product['name'] = $orderProduct->getProduct()->getName();
+                array_push($array['orderProducts'] ,$product);
             }
-        ]));
+            $array['totalPrice'] = $recentOrder->getTotalPrice();
+            $array['tableCode'] = $recentOrder->getClient()->getTableObject()->getTableCode();
+            array_push($finalArray,$array);
+        }
+//
+//        $json = $this->serializer->serialize($finalArray, 'json', [
+//            'circular_reference_handler' => function ($object) {
+//                return $object->getId();
+//            }
+//        ]);
+//        var_dump($json);
+//        $response = new Response($this->serializer->serialize($recentOrders, 'json', [
+//            'circular_reference_handler' => function ($object) {
+//                return $object->getId();
+//            }
+//        ]));
+        $response = new Response($this->serializer->serialize($finalArray, 'json', [ 'circular_reference_handler' => function ($object) {return $object->getId();}]));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -70,8 +90,25 @@ class OrderController extends AbstractController
         $order->setStatus('finished');
         $em->merge($order);
         $em->flush();
+        $this->updateStock($order);
 
         return new Response('ok');
+    }
+
+    public function updateStock($order) {
+        $em = $this->getDoctrine()->getManager();
+        foreach ($order->getOrderProducts() as $product) {
+            $quantity = $product->getQuantity();
+            $ingredientes = $product->getProduct()->getProductIngredients();
+            foreach ($ingredientes as $ingredient) {
+                $quantityInProduct = $ingredient->getQuantity();
+                $totalQuantity = $quantityInProduct * $quantity;
+                $ingrediente = $ingredient->getIngredient();
+                $ingrediente->setStock($ingrediente->getStock() - $totalQuantity);
+                $em->merge($ingrediente);
+                $em->flush();
+            }
+        }
     }
     /**
     * @Route("/deleteOrder/{id}", name="deleteOrder")
@@ -103,6 +140,7 @@ class OrderController extends AbstractController
           $order = new Order();
           $order->setStatus($_POST['status']);
           $order->setClient($client);
+          $order->setTotalPrice($productos['_totalPrice']);
           $em->persist($order);
           $em->flush();
           foreach ($productos["_productos"] as $producto) {

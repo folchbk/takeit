@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OrderRepository")
  * @ORM\Table(name="barorder")
@@ -22,6 +22,7 @@ class Order
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="orders")
      * @ORM\JoinColumn(nullable=true)
+     * @var self
      */
     private $client;
 
@@ -54,6 +55,11 @@ class Order
      * @ORM\Column(type="string", length=255)
      */
     private $status;
+
+    /**
+     * @ORM\Column(type="integer",nullable=true)
+     */
+    private $totalPrice;
 
     public function __construct()
     {
@@ -175,6 +181,18 @@ class Order
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getTotalPrice(): ?int
+    {
+        return $this->totalPrice;
+    }
+
+    public function setTotalPrice(int $totalPrice): self
+    {
+        $this->totalPrice = $totalPrice;
 
         return $this;
     }

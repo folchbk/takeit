@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Restaurant</title>
+    <title>BrisVeg Restaurant</title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="{{ asset('css/cart/main.css') }}" media="screen" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
-    <link rel="icon" href="{{ asset('favicon-1.ico') }}" type="image/x-icon">
+    <link rel="icon" href="http://images.sasongsmat.nu/vegetarianmark/vegetarian-mark.svg" type="image/x-icon">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
@@ -254,6 +254,35 @@
                             $('.' + subCategory + '-type-item').show();
                         }
                     });
+                    $('.fa-share').click(function () {
+                        $.ajax({
+                            type: "POST",
+                            url: ' getDisccount/'+$('.cupon-text').val(),
+                            success : function(data) {
+                                if (data != "false") {
+                                    addDiscount(data);
+                                } else {
+                                    $('.no-disccount').fadeIn('fast');
+                                    setTimeout(function () {$('.no-disccount').fadeOut('slow')},2000);
+                                }
+                            }
+                        });
+                    });
+                    function addDiscount(data) {
+                        if (carrito.descuento == 0) {
+                            var codigo = data[0];
+                            var descuento = data[1];
+                            carrito.descuento = descuento;
+                            updateTotalPrice();
+                            $('.item-cart-totalPrice-number').html(carrito.totalPrice+"€");
+                            $('.ok-disccount').fadeIn('fast');
+                            setTimeout(function () {$('.ok-disccount').fadeOut('slow')},2000);
+                        } else {
+                            $('.noMore-disccount').fadeIn('fast');
+                            setTimeout(function () {$('.noMore-disccount').fadeOut('slow')},2000);
+                        }
+
+                    }
 
                     $('.more').click(function () {
                         var id = $(this).closest('.item').attr('data-id');
@@ -318,6 +347,7 @@
                     for (var index in carrito.productos) {
                         carrito.totalPrice += parseInt(carrito.productos[index]['price'])*carrito.productos[index]['quantity'];
                     }
+                    carrito.totalPrice = carrito.totalPrice - ((carrito.totalPrice * carrito.descuento)/100);
                 }
                 function openCart() {
                     $('.carrito-container').addClass('active');
@@ -331,7 +361,7 @@
                                 '<div class="cart-item col-xs-12">' +
                                     '<div class="row">'+
                                         '<div class="col-xs-8 item-cart-title">'+
-                                            val.title+
+                                        val.quantity + 'x  ' +  val.title+
                                         '</div>'+
                                         '<div class="col-xs-2 item-cart-operations">'+
                                         '</div>'+
@@ -370,16 +400,7 @@
         <img height=100 width=100 src="https://iconsplace.com/wp-content/uploads/_icons/ffa500/256/png/help-icon-11-256.png">
     </span>
     <style>
-        .ok-request {
-            position:fixed;
-            top:60px;
-            font-size:30px;
-            width:100%;
-            text-align: center;
-            display:none;
-            z-index:999;
-        }
-        .no-productsOnCart {
+        .box-warning  {
             position:fixed;
             top:60px;
             font-size:30px;
@@ -389,13 +410,21 @@
             z-index:999;
         }
     </style>
-    <div class="alert alert-success ok-request">
+    <div class="alert alert-success box-warning  ok-request">
         <strong>En breves le atenderá un empleado</strong>
     </div>
-     <div class="alert alert-danger no-productsOnCart">
+     <div class="alert alert-danger box-warning  no-productsOnCart">
         <strong>Debes seleccionar al menos un producto para realizar el pedido</strong>
     </div>
-
+    <div class="alert alert-danger box-warning no-disccount">
+        <strong>Código de descuento invalido</strong>
+    </div>
+    <div class="alert alert-success box-warning ok-disccount">
+        <strong>Descuento aplicado con éxito</strong>
+    </div>
+     <div class="alert alert-warning box-warning noMore-disccount">
+        <strong>Solo puedes usar un cupón por pedido</strong>
+    </div>
 
     <style>
         .wrap {
@@ -540,7 +569,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 cart-cupon">
-                    Introduce tu cupón <input type="text"><i class="fas fa-share"></i>
+                    Introduce tu cupón <input class="cupon-text" type="text"><i class="fas fa-share" style="cursor:pointer"></i>
                 </div>
             </div>
             <div class="row">
@@ -589,7 +618,7 @@
         }
     }
     $('.cash-pay').click(function () {
-        generateOrder('pending-pay')
+        carrito.totalPrice == 0 ? generateOrder('pending') : generateOrder('pending-pay');
     });
     function addHelpRequest() {
         $.ajax({

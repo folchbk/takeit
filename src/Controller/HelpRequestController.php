@@ -68,14 +68,17 @@ class HelpRequestController extends AbstractController
 
         $helpRequest = $em->getRepository(HelpRequest::class)->findBy(array('status' => 'pending'));
 
+        $allRequest = [];
         foreach ($helpRequest as $singleHelp) {
             $orderTimeStamp =$singleHelp->getCreatedAt()->getTimestamp();
             $result = $timestamp- $orderTimeStamp ;
             if ($result < 5) {
-                array_push($recentRequest,$singleHelp);
+                $req['id'] = $singleHelp->getId();
+                $req['table'] = $singleHelp->getFromTable()->getTableCode();
+                array_push($allRequest,$req);
             }
         }
-        $response = new Response($this->serializer->serialize($recentRequest, 'json', [
+        $response = new Response($this->serializer->serialize($allRequest, 'json', [
             'circular_reference_handler' => function ($object) {
                 return $object->getId();
             }

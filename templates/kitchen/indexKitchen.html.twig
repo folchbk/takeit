@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Restaurant</title>
+    <title>Cocina</title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="{{ asset('css/cart/main.css') }}" media="screen" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
-    <link rel="icon" href="{{ asset('favicon-1.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('img/ProductsIMG/BSCK-01.png') }}" type="image/x-icon">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
@@ -31,6 +31,8 @@
         body {
             background:black;
             padding:15px;
+            max-height:100%;
+            overflow: hidden;
         }
         .wrapp {
             background:white;
@@ -178,11 +180,11 @@
                     var products = "";
                     var appendOrder ="";
                     $.each(val.orderProducts, function (i, val) {
-                        products += "<div class='product'>" +val.quantity+"x "+val.product.name+"</div>";
+                        products += "<div class='product'>" +val.quantity+"x "+val.name+"</div>";
                     });
                     appendOrder =  '    <div class="order id_'+val.id+'" data-id="'+ val.id+'"> '  +
                         '               <div class="col-xs-12 order-id">  '  +
-                        '                   <span>M:'+val.client.tableObject.tableCode +'</span><span>#'+ val.id +'</span> '  +
+                        '                   <span>M:'+val.tableCode +'</span><span>#'+ val.id +'</span> '  +
                         '               </div>  '  +
                         '               <div class="order-products">  '  +
                                         products +

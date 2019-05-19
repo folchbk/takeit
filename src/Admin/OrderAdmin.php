@@ -22,6 +22,7 @@ final class OrderAdmin extends AbstractAdmin
             ->add('id')
             ->add('status')
             ->add('client',null,['multiple' => false, 'label' => 'Client'])
+            ->add('totalPrice')
             ->add('createdAt')
             ->add('updatedAt')
             ->add('deletedAt')
@@ -34,6 +35,7 @@ final class OrderAdmin extends AbstractAdmin
             ->add('id')
             ->add('status')
             ->add('client',null,['multiple' => false, 'label' => 'Client'])
+            ->add('totalPrice')
             ->add('createdAt')
             ->add('updatedAt')
             ->add('deletedAt')
@@ -64,6 +66,7 @@ final class OrderAdmin extends AbstractAdmin
                 'prototype' => true,
                 'by_reference' => false
             ))
+            ->add('totalPrice')
             ;
     }
 
