@@ -39,9 +39,15 @@ class CategoryProduct
     private $categoryProduct;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CategoryProduct", mappedBy="categoryProduct")
+     * @ORM\OneToMany(targetEntity="App\Entity\CategoryProduct", mappedBy="categoryProduct", cascade={"persist", "remove"})
      */
     private $subCategories;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Local", inversedBy="categoryProducts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $local;
 
     public function __construct()
     {
@@ -152,6 +158,18 @@ class CategoryProduct
                 $subCategory->setCategoryProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLocal(): ?Local
+    {
+        return $this->local;
+    }
+
+    public function setLocal(?Local $local): self
+    {
+        $this->local = $local;
 
         return $this;
     }

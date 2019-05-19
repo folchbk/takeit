@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\CategoryProduct;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * @method CategoryProduct|null find($id, $lockMode = null, $lockVersion = null)
@@ -13,11 +14,27 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class CategoryProductRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    private $session;
+    private $deal;
+    private $local;
+
+    public function __construct(RegistryInterface $registry, SessionInterface $session)
     {
         parent::__construct($registry, CategoryProduct::class);
+        $this->session = $session;
+        $this->deal = $this->session->get('deal');
+        $this->local = $this->session->get('local');
     }
 
+    public function findByFamilyNull() {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.categoryProduct IS NULL')
+            ->andWhere('c.local = :local')
+            ->setParameter('local', $this->local)
+            ->orderBy('c.shownOrder', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 
     public function findAll()
     {

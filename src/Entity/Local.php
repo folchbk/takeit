@@ -94,6 +94,11 @@ class Local
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CategoryProduct", mappedBy="local")
+     */
+    private $categoryProducts;
+
     public function __construct()
     {
         $this->tables = new ArrayCollection();
@@ -101,6 +106,7 @@ class Local
         $this->products = new ArrayCollection();
         $this->ingredients = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->categoryProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -361,6 +367,37 @@ class Local
         if ($this->users->contains($user)) {
             $this->users->removeElement($user);
             $user->removeLocal($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CategoryProduct[]
+     */
+    public function getCategoryProducts(): Collection
+    {
+        return $this->categoryProducts;
+    }
+
+    public function addCategoryProduct(CategoryProduct $categoryProduct): self
+    {
+        if (!$this->categoryProducts->contains($categoryProduct)) {
+            $this->categoryProducts[] = $categoryProduct;
+            $categoryProduct->setLocal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategoryProduct(CategoryProduct $categoryProduct): self
+    {
+        if ($this->categoryProducts->contains($categoryProduct)) {
+            $this->categoryProducts->removeElement($categoryProduct);
+            // set the owning side to null (unless already changed)
+            if ($categoryProduct->getLocal() === $this) {
+                $categoryProduct->setLocal(null);
+            }
         }
 
         return $this;
