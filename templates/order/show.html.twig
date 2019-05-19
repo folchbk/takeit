@@ -1,0 +1,49 @@
+{% extends 'base-backoffice.html.twig' %}
+
+{% block title %}Order{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <section class="content col-md-12 col-lg-7" style="float:none; margin: 0 auto;">
+                <h3 class="box-title">Order {{ order.client.userObject.name }}</h3>
+                <div class="box box-primary">
+                    <div class="box-body no-padding">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th>Id</th>
+                                <td>{{ order.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>CreatedAt</th>
+                                <td>{{ order.createdAt ? order.createdAt|date('d/m/Y - H:i') : '' }}{{ order.createdAt ? 'h' : 'Never'}}</td>
+                            </tr>
+                            <tr>
+                                <th>UpdatedAt</th>
+                                <td>{{ order.updatedAt ? order.updatedAt|date('d/m/Y - H:i') : '' }}{{ order.updatedAt ? 'h' : 'Never'}}</td>
+                            </tr>
+                            <tr>
+                                <th>DeletedAt</th>
+                                <td>{{ order.deletedAt ? order.deletedAt|date('d/m/Y - H:i') : '' }}{{ order.deletedAt ? 'h' : 'Never'}}</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td>{{ order.status }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="buttons">
+                            <a role="button" class="btn btn-success"
+                               href="{{ path('order_edit', {'id': order.id}) }}">Edit</a>
+                            <a role="button">{{ include('order/_delete_form.html.twig') }}</a>
+                            <a role="button" class="btn btn-info" href="{{ path('order_index') }}">Back to list</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+{% endblock %}

@@ -6,10 +6,10 @@
     <div class="wrapper">
         <div class="content-wrapper">
             <div class="content-header">
-                <h1>Create new product</h1>
+                <h1>Create new order</h1>
             </div>
             <section class="content">
-                {{ include('product/_form.html.twig') }}
+                {{ include('order/_form.html.twig') }}
             </section>
         </div>
     </div>
@@ -18,10 +18,10 @@
     {{ parent() }}
     <script>
         /*
-            Para añadir más de un ingrediente:
+            Para añadir más de un pedido:
          */
         jQuery(document).ready(function() {
-            var wrapper = $('.js-product-ingredient-wrapper');
+            var wrapper = $('.js-order-product-wrapper');
             wrapper.on('click', '.js-product-ingredient-add', function(e) {
                 e.preventDefault();
                 // Get the data-prototype explained earlier
