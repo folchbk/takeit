@@ -22,7 +22,7 @@ class CategoryProductController extends AbstractController
     public function index(CategoryProductRepository $categoryProductRepository): Response
     {
         return $this->render('category_product/index.html.twig', [
-            'category_products' => $categoryProductRepository->findByFamilyNull(),
+            'category_products' => $categoryProductRepository->findFamilyNulls(),
         ]);
     }
 

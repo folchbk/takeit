@@ -26,7 +26,19 @@ class CategoryProductRepository extends ServiceEntityRepository
         $this->local = $this->session->get('local');
     }
 
-    public function findByFamilyNull() {
+    /**
+     * Para los formsTypes:
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function createAlphabeticalQueryBuilder() {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.categoryProduct IS NOT NULL')
+            ->andWhere('c.local = :local')
+            ->setParameter('local', $this->local)
+            ->orderBy('c.shownOrder', 'ASC');
+    }
+
+    public function findFamilyNulls() {
         return $this->createQueryBuilder('c')
             ->andWhere('c.categoryProduct IS NULL')
             ->andWhere('c.local = :local')
