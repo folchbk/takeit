@@ -64,6 +64,9 @@
             padding:15px;
             font-size:30px;
             text-align:right;
+            display:flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
         }
         .order .order-products {
             display: grid;
@@ -131,10 +134,10 @@
     <div class="wrapp">
         {% for order in orders %}
         <div class="order id_{{ order.id }}" data-id="{{ order.id }}">
-            <div class="col-xs-12 order-id">M:{{ order.client.tableObject.tableCode }}#{{ order.id }}</div>
+            <div class="col-xs-12 order-id"><span>M:{{ order.client.tableObject.tableCode }}</span><span>#{{ order.id }}</span></div>
             <div class="order-products">
                 {% for product in order.orderProducts %}
-                 <div class="product">{{ product.product.name }}   {{ product.quantity }}</div>
+                 <div class="product">{{ product.quantity }}x {{ product.product.name }}</div>
                 {% endfor %}
             </div>
         </div>
@@ -175,11 +178,11 @@
                     var products = "";
                     var appendOrder ="";
                     $.each(val.orderProducts, function (i, val) {
-                        products += "<div class='product'>"+val.product.name+"   " +val.quantity+"</div>";
+                        products += "<div class='product'>" +val.quantity+"x "+val.product.name+"</div>";
                     });
                     appendOrder =  '    <div class="order id_'+val.id+'" data-id="'+ val.id+'"> '  +
                         '               <div class="col-xs-12 order-id">  '  +
-                        '                   M:'+val.client.tableObject.tableCode +'#'+ val.id +' '  +
+                        '                   <span>M:'+val.client.tableObject.tableCode +'</span><span>#'+ val.id +'</span> '  +
                         '               </div>  '  +
                         '               <div class="order-products">  '  +
                                         products +
@@ -200,6 +203,18 @@
             $.ajax({
                 type: "POST",
                 url: '/finishOrder/'+id,
+                success : function() {
+                    $('.id_'+id).remove();
+                }
+            });
+        }
+        $('.delete').click(function () {
+            deleteOrder($('.order.focus').attr('data-id'));
+        });
+        function deleteOrder(id) {
+            $.ajax({
+                type: "POST",
+                url: '/deleteOrder/'+id,
                 success : function() {
                     $('.id_'+id).remove();
                 }

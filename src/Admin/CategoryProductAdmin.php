@@ -23,6 +23,7 @@ final class CategoryProductAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
+            ->add('shownOrder')
             ->add('name')
             ->add('_action', null, [
                 'actions' => [
@@ -36,6 +37,7 @@ final class CategoryProductAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
+            ->add('shownOrder')
             ->add('name')
             ;
     }
@@ -43,6 +45,7 @@ final class CategoryProductAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
+            ->add('shownOrder')
             ->add('name')
             ;
     }

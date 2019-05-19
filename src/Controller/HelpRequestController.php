@@ -41,6 +41,7 @@ class HelpRequestController extends AbstractController
             $em->persist($helpRequest);
             $em->flush();
         }
+        return new Response(200);
     }
     /**
      * @Route("/attendHelpRequest/{id}", name="attend-help_request")

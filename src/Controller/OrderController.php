@@ -74,6 +74,19 @@ class OrderController extends AbstractController
         return new Response('ok');
     }
     /**
+    * @Route("/deleteOrder/{id}", name="deleteOrder")
+    */
+    public function deleteOrder($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $order = $em->getRepository(Order::class)->findOneBy(array('id' => $id));
+        $order->setStatus('deleted');
+        $em->merge($order);
+        $em->flush();
+
+        return new Response('ok');
+    }
+    /**
      * @Route("/generateOrder", name="generateOrder")
      */
     public function generateOrder(Request $request) {

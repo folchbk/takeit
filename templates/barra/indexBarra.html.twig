@@ -29,6 +29,7 @@
     <style>
         body,html {
             height:100%;
+            max-height:100vh;
         }
         .cart-open {
             position: fixed;
@@ -72,6 +73,17 @@
             justify-content : flex-start;
             align-items: flex-start;
         }
+        .wrapp2 {
+            background:white;
+            overflow: hidden;
+            height:100%;
+            width:100%;
+            padding:30px;
+            display:flex;
+            flex-flow: row wrap;
+            justify-content : flex-start;
+            align-items: flex-start;
+        }
         .order {
             border:1px solid #676767;
             display:flex;
@@ -81,6 +93,25 @@
             margin:15px;
             box-shadow: 10px 10px 23px -6px rgba(0,0,0,0.75);
         }
+        .helpRequest {
+            border:1px solid #676767;
+            display:flex;
+            flex-flow: column;
+            width:auto;
+            height:auto;
+            margin:15px;
+            box-shadow: 10px 10px 23px -6px rgba(0,0,0,0.75);
+        }
+        .helpRequest .mesa-id {
+            background: #676767;
+            color:#f49738;
+            padding:15px;
+            font-size:30px;
+            text-align:right;
+            display:flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+        }
 
         .order .order-id {
             background: #676767;
@@ -88,6 +119,9 @@
             padding:15px;
             font-size:30px;
             text-align:right;
+            display:flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
         }
         .order .order-products {
             display: grid;
@@ -130,6 +164,15 @@
             padding:15px;
             cursor:pointer;
         }
+        .attendedHelpRequest {
+            width:100%;
+            background:white;
+            color:#676767;
+            font-weight: bold;
+            text-align: center;
+            padding:15px;
+            cursor:pointer;
+        }
         .pendiente_pago .text {
             font-size:30px;
             background:#f49738;
@@ -156,6 +199,7 @@
             width:100%;
             display:flex;
             align-items: center;
+            overflow:hidden;
             font-family: 'Barlow Semi Condensed', sans-serif;
         }
     </style>
@@ -167,7 +211,7 @@
 {#</div>#}
 <div class="container-fluid all">
     <div class="row">
-        <div class="col-xs-6 gestion" style="border-right:1px solid #f49738;">
+        <div class="col-xs-6 gestion" style="border-right:1px solid #f49738;overflow: hidden">
             <div class="row">
                 <div class="col-xs-12 pendiente_pago">
                     <div class="row">
@@ -178,10 +222,10 @@
                     <div class="wrapp1">
                         {% for order in orders %}
                             <div class="order id_{{ order.id }}" data-id="{{ order.id }}">
-                                <div class="col-xs-12 order-id">M:{{ order.client.tableObject.tableCode }}#{{ order.id }}</div>
+                                <div class="col-xs-12 order-id"><span>M:{{ order.client.tableObject.tableCode }}</span><span>#{{ order.id }}</span></div>
                                 <div class="order-products">
                                     {% for product in order.orderProducts %}
-                                        <div class="product">{{ product.product.name }}   {{ product.quantity }}</div>
+                                        <div class="product">{{ product.quantity }}x {{ product.product.name }}</div>
                                     {% endfor %}
 
                                 </div>
@@ -220,12 +264,12 @@
                                 if (validateNotExistRequest(val.id)) {
                                     console.log("aa");
                                     var appendRequest =  '    <div class="helpRequest request'+val.id+'" data-id="'+val.id+'">  '  +
-                                        '                                   <div class="row">  '  +
-                                        '                                       <div class="col-xs-12">  '  +
+                                        '                                   <div class="">  '  +
+                                        '                                       <div class="col-xs-12 mesa-id">  '  +
                                         '                                           MESA: '+val.fromTable.tableCode  +
                                         '                                       </div>  '  +
                                         '                                   </div>  '  +
-                                        '                                   <div class="row">  '  +
+                                        '                                   <div class="">  '  +
                                         '                                       <div class="col-xs-12 attendedHelpRequest">  '  +
                                         '                                          Atender!  '  +
                                         '                                       </div>  '  +
@@ -268,11 +312,11 @@
                                     var products = "";
                                     var appendOrder ="";
                                     $.each(val.orderProducts, function (i, val) {
-                                        products += "<div class='product'>"+val.product.name+"   " +val.quantity+"</div>";
+                                        products += "<div class='product'>" +val.quantity+"x "+val.product.name+"</div>";
                                     });
                                     appendOrder =  '    <div class="order id_'+val.id+'" data-id="'+ val.id+'"> '  +
                                         '               <div class="col-xs-12 order-id">  '  +
-                                        '                   M:'+val.client.tableObject.tableCode +'#'+ val.id +' '  +
+                                        '                   <span>M:'+val.client.tableObject.tableCode +'</span><span>#'+ val.id +'</span>'  +
                                         '               </div>  '  +
                                         '               <div class="order-products">  '  +
                                         products +
@@ -316,12 +360,12 @@
                     <div class="wrapp2">
                         {% for singleHelp in helpRequest %}
                             <div class="helpRequest request{{ singleHelp.id }}" data-id="{{ singleHelp.id }}">
-                                <div class="row">
-                                    <div class="col-xs-12">
+                                <div class="">
+                                    <div class="col-xs-12 mesa-id">
                                         MESA: {{ singleHelp.fromTable.tableCode }}
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="">
                                     <div class="col-xs-12 attendedHelpRequest">
                                        Atender!
                                     </div>
@@ -335,6 +379,7 @@
         <script>
             $('.attendedHelpRequest').click(function () {
                 attendHelpRequest($(this).closest('.helpRequest').attr('data-id'));
+                $(this).closest('.helpRequest').remove();
             });
             function attendHelpRequest(id) {
                 $.ajax({

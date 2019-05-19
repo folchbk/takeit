@@ -367,10 +367,34 @@
         <img height=100 width=100 src="https://www.guiabusinesshn.com/wp-content/uploads/2018/02/restaurant-cutlery-circular-symbol-of-a-spoon-and-a-fork-in-a-circle-copia.png">
     </span>
     <span class="help-request" onclick="addHelpRequest()">
-        <img height=100 width=100 src="https://www.guiabusinesshn.com/wp-content/uploads/2018/02/restaurant-cutlery-circular-symbol-of-a-spoon-and-a-fork-in-a-circle-copia.png">
+        <img height=100 width=100 src="https://iconsplace.com/wp-content/uploads/_icons/ffa500/256/png/help-icon-11-256.png">
     </span>
-
-
+    <style>
+        .ok-request {
+            position:fixed;
+            top:60px;
+            font-size:30px;
+            width:100%;
+            text-align: center;
+            display:none;
+            z-index:999;
+        }
+        .no-productsOnCart {
+            position:fixed;
+            top:60px;
+            font-size:30px;
+            width:100%;
+            text-align: center;
+            display:none;
+            z-index:999;
+        }
+    </style>
+    <div class="alert alert-success ok-request">
+        <strong>En breves le atenderá un empleado</strong>
+    </div>
+     <div class="alert alert-danger no-productsOnCart">
+        <strong>Debes seleccionar al menos un producto para realizar el pedido</strong>
+    </div>
 
 
     <style>
@@ -549,12 +573,12 @@
 </div>
 <script>
     function pagarModal() {
-        carrito.totalPrice == 0 ? resetAll() : $('#payModal').modal('show');
+        carrito.productos.length == 0 ? resetAll() : $('#payModal').modal('show');
     }
     function resetAll() {
         if (carrito.productos.length == 0 ) {
-            alert('no as pedido na');
-
+            $('.no-productsOnCart').fadeIn('fast');
+            setTimeout(function () {$('.no-productsOnCart').fadeOut('slow')},2000);
         } else {
             carrito = new Carrito();
             $('.carrito-container').removeClass('active');
@@ -562,7 +586,6 @@
             $('.minus').addClass('disabled');
             $('.contador').val(0);
             $('.carrito-content').html('');
-            generateOrder();
         }
     }
     $('.cash-pay').click(function () {
@@ -575,8 +598,9 @@
                 'status': 'pending',
             },
             url: '/addHelpRequest',
-            success : function(data) {
-                //resetAll();
+            success : function() {
+                $('.ok-request').fadeIn('fast');
+                setTimeout(function () {$('.ok-request').fadeOut('slow')},2000);
             }
         });
     }

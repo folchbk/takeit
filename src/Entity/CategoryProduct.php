@@ -28,6 +28,11 @@ class CategoryProduct
      */
     private $products;
 
+    /**
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $shownOrder;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -83,5 +88,17 @@ class CategoryProduct
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function getShownOrder(): ?int
+    {
+        return $this->shownOrder;
+    }
+
+    public function setShownOrder(int $shownOrder): self
+    {
+        $this->shownOrder = $shownOrder;
+
+        return $this;
     }
 }
