@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Product;
+use App\Repository\CategoryProductRepository;
 use PhpParser\ErrorHandler\Collecting;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -20,7 +21,12 @@ class ProductType extends AbstractType
             ->add('name')
             ->add('price')
             ->add('description')
-            ->add('category')
+            ->add('category', null, [
+                'group_by' => 'categoryProduct',
+                'query_builder' => function (CategoryProductRepository $categoryProductRepository) {
+                    return $categoryProductRepository->createAlphabeticalQueryBuilder();
+                }
+            ])
             ->add('productIngredients', CollectionType::class, array(
                     'label' => '',
                     'entry_type' => ProductIngredientType::class,
@@ -33,8 +39,7 @@ class ProductType extends AbstractType
                     )
                 )
             )
-            ->add('image', ImageType::class, [])
-        ;
+            ->add('image', ImageType::class, []);
 
     }
 

@@ -47,6 +47,24 @@ class ClientRepository extends ServiceEntityRepository
     }
 
 
+    /**
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function createAlphabeticalQueryBuilder()
+    {
+        if ($this->deal != null) {
+            return $this->createQueryBuilder('c')->select('cl')
+                ->from('App\Entity\Client', 'cl')
+                ->join('cl.tableObject', 't')
+                ->join('t.local', 'l')
+                ->where('l.id = :local')
+                ->setParameter('local', $this->local)
+                ->orderBy('c.createdAt', 'ASC');
+        } else {
+            return $this->createQueryBuilder('u');
+        }
+    }
+
 
     // /**
     //  * @return Client[] Returns an array of Client objects

@@ -1,15 +1,15 @@
 {% extends 'base-backoffice.html.twig' %}
 
-{% block title %}New Product{% endblock %}
+{% block title %}Edit Category{% endblock %}
 
 {% block body %}
     <div class="wrapper">
         <div class="content-wrapper">
             <div class="content-header">
-                <h1>Create new product</h1>
+                <h1>Edit</h1>
             </div>
             <section class="content">
-                {{ include('product/_form.html.twig') }}
+                {{ include('category_product/_form.html.twig', {'button_label': 'Update'}) }}
             </section>
         </div>
     </div>
@@ -18,11 +18,11 @@
     {{ parent() }}
     <script>
         /*
-            Para añadir más de un ingrediente:
+            Para añadir más de una categoria:
          */
         jQuery(document).ready(function() {
-            var wrapper = $('.js-product-ingredient-wrapper');
-            wrapper.on('click', '.js-product-ingredient-add', function(e) {
+            var wrapper = $('.js-category-product-wrapper');
+            wrapper.on('click', '.js-category-product-add', function(e) {
                 e.preventDefault();
                 // Get the data-prototype explained earlier
                 var prototype = wrapper.data('prototype');
