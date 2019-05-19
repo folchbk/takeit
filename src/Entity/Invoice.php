@@ -103,6 +103,11 @@ class Invoice
         return $this;
     }
 
+    public function __toString()
+    {
+        return "Invoice #" . $this->getId();
+    }
+
     /**
      * @return Collection|Order[]
      */

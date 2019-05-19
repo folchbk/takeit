@@ -1,0 +1,70 @@
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">{{ order.client.name|default('New') }}</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    {{ form_start(form) }}
+    <div class="box-body">
+        <div class="form-group">
+            <label>Client</label>
+            {{ form_widget(form.client, {'attr': {
+                'class': 'form-control',
+                'placeholder': 'Enter order name',
+            }}) }}
+            <div class="form-error">
+                {{ form_errors(form.client) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Status</label>
+            {{ form_widget(form.status, {'attr': {
+                'class': 'form-control'
+            }}) }}
+            <div class="form-error">
+                {{ form_errors(form.status) }}
+            </div>
+        </div>
+        {#<div class="form-group">#}
+            {#<label>Products</label>#}
+            {#{{ form_widget(form.orderProducts, {'attr': {#}
+                {#'class': 'form-control'#}
+            {#}}) }}#}
+            {#<div class="form-error">#}
+                {#{{ form_errors(form.orderProducts) }}#}
+            {#</div>#}
+        {#</div>#}
+        
+        <div class="form-group" style="background: #FDEBD0; padding: 15px;">
+            <div class="row js-order-product-wrapper"
+                 data-prototype="{{ form_widget(form.orderProducts.vars.prototype)|e('html_attr') }}"
+                 data-index="{{ form.orderProducts|length }}">
+            </div>
+
+            <div class='js-order-product-wrapper'><a href='#' class='js-product-ingredient-add' style="padding: 25px"><span class='fa fa-plus-circle'></span>Add</a></div>
+            {% for orderProduct in form.orderProducts %}
+                <div class="col-xs-4 js-order-ingredient-item form-group" style="padding: 25px">
+                    <a href="#" class="js-remove-product pull-right">
+                        <span class="fa fa-close"></span>
+                    </a>
+                    {{ form_widget(orderProduct.product, {'attr': {
+                        'class': 'form-control'
+                    }}) }}
+                    {{ form_widget(orderProduct.quantity, {'attr': {
+                        'class': 'form-control'
+                    }}) }}
+                    {{ form_errors(orderProduct) }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- /.box-body -->
+
+    <div class="box-footer">
+        <div style="float:right;">
+            <a class="btn btn-danger" role="button" href="{{ path('order_index') }}">Back to list</a>
+            <button type="submit" class="btn btn-success">{{ button_label|default('Save') }}</button>
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>
