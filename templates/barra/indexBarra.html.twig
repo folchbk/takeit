@@ -55,11 +55,108 @@
         }
         .gestion .pendiente_pago {
             height:50vh;
-            border-bottom:1px solid grey;
+            border-bottom:1px solid #f49738;
         }
         .gestion .solicita_camarero {
             height: 50vh;
-            border-top:1px solid grey;
+            border-top:1px solid #f49738;
+        }
+        .wrapp1 {
+            background:white;
+            overflow: hidden;
+            height:100%;
+            width:100%;
+            padding:30px;
+            display:flex;
+            flex-flow: row wrap;
+            justify-content : flex-start;
+            align-items: flex-start;
+        }
+        .order {
+            border:1px solid #676767;
+            display:flex;
+            flex-flow: column;
+            width:auto;
+            height:auto;
+            margin:15px;
+            box-shadow: 10px 10px 23px -6px rgba(0,0,0,0.75);
+        }
+
+        .order .order-id {
+            background: #676767;
+            color:#f49738;
+            padding:15px;
+            font-size:30px;
+            text-align:right;
+        }
+        .order .order-products {
+            display: grid;
+            grid-auto-flow: column;
+            grid-template-rows: repeat(6, auto);
+            padding:15px;
+            font-family: 'Barlow Semi Condensed', sans-serif;
+
+        }
+        .order .order-products .product{
+            min-width:200px;
+            font-size:30px;
+        }
+        .kitchen-actions {
+            display:flex;
+            flex-flow: row nowrap;
+            border:1px solid black;
+            height:70px;
+            position:fixed;
+            bottom:40px;
+            right:40px;
+        }
+        .kitchen-actions .option {
+            padding:15px;
+            text-align: center;
+            cursor:pointer;
+        }
+        .kitchen-actions .option.finished {
+            background:green;
+        }
+        .kitchen-actions .option.delete {
+            background:red;
+        }
+        .setpay {
+            width:100%;
+            background:#676767;
+            color:white;
+            font-weight: bold;
+            text-align: center;
+            padding:15px;
+            cursor:pointer;
+        }
+        .pendiente_pago .text {
+            font-size:30px;
+            background:#f49738;
+            padding:20px;
+            color:white;
+            width:100%;
+            display:flex;
+            font-weight: 700;
+            align-items: center;
+            font-family: 'Barlow Semi Condensed', sans-serif;
+        }
+        .pendiente_pago img {
+            margin-right:20px;
+        }
+        .solicita_camarero img {
+            margin-right:20px;
+        }
+        .solicita_camarero .text {
+            font-size:30px;
+            background:#f49738;
+            padding:20px;
+            color:white;
+            font-weight: 700;
+            width:100%;
+            display:flex;
+            align-items: center;
+            font-family: 'Barlow Semi Condensed', sans-serif;
         }
     </style>
 </head>
@@ -70,20 +167,189 @@
 {#</div>#}
 <div class="container-fluid all">
     <div class="row">
-        <div class="col-xs-6 gestion" style="border-right:1px solid grey;">
+        <div class="col-xs-6 gestion" style="border-right:1px solid #f49738;">
             <div class="row">
                 <div class="col-xs-12 pendiente_pago">
-                    PEDIDOS PENDIENTES DE PAGO
+                    <div class="row">
+                      <div class="text">
+                          <img width="100" src="{{ asset('img/ProductsIMG/BSCK-01.png') }}">
+                          PEDIDOS PENDIENTES DE PAGO</div>
+                    </div>
+                    <div class="wrapp1">
+                        {% for order in orders %}
+                            <div class="order id_{{ order.id }}" data-id="{{ order.id }}">
+                                <div class="col-xs-12 order-id">M:{{ order.client.tableObject.tableCode }}#{{ order.id }}</div>
+                                <div class="order-products">
+                                    {% for product in order.orderProducts %}
+                                        <div class="product">{{ product.product.name }}   {{ product.quantity }}</div>
+                                    {% endfor %}
+
+                                </div>
+                                <div class="setpay">
+                                    Cobrar
+                                </div>
+                            </div>
+
+                        {% endfor %}
+                    </div>
+                    <script>
+                        $(document).ready(function () {
+
+                            setInterval(requestOrders,1000);
+                            setInterval(requestHelpRequest,1000);
+                            $('.finished').click(function () {
+                                finishOrder($('.order.focus').attr('data-id'));
+                            });
+                            $('.setpay').click(function () {
+                                changeStatus('pending', $(this).closest('.order').attr('data-id'));
+                                $(this).closest('.order').remove();
+                            });
+
+                        });
+                        function requestHelpRequest() {
+                            $.ajax({
+                                type: "POST",
+                                url: '/getHelpRequest',
+                                success : function(data) {
+                                    addHelpRequest(data);
+                                }
+                            });
+                        }
+                        function addHelpRequest(data) {
+                            $.each(data, function (i, val) {
+                                if (validateNotExistRequest(val.id)) {
+                                    console.log("aa");
+                                    var appendRequest =  '    <div class="helpRequest request'+val.id+'" data-id="'+val.id+'">  '  +
+                                        '                                   <div class="row">  '  +
+                                        '                                       <div class="col-xs-12">  '  +
+                                        '                                           MESA: '+val.fromTable.tableCode  +
+                                        '                                       </div>  '  +
+                                        '                                   </div>  '  +
+                                        '                                   <div class="row">  '  +
+                                        '                                       <div class="col-xs-12 attendedHelpRequest">  '  +
+                                        '                                          Atender!  '  +
+                                        '                                       </div>  '  +
+                                        '                                   </div>  '  +
+                                        '                              </div>  ' ;
+                                    $('.wrapp2').append(appendRequest);
+                                }
+                            });
+                        }
+                        function validateNotExistRequest(id) {
+                             return $('.request'+id).length == 0 ? true : false;
+                        }
+                        function requestOrders() {
+                            $.ajax({
+                                type: "POST",
+                                url: '/getActiveOrders',
+                                data: {
+                                  'status': 'pending-pay'
+                                },
+                                success : function(data) {
+                                    addOrders(data);
+                                }
+                            });
+                        }
+                        function changeStatus(status, id) {
+                            $.ajax({
+                                type: "POST",
+                                url: '/changeStatus/'+id,
+                                data: {
+                                    'status': status
+                                },
+                                success : function(data) {
+                                    addOrders(data);
+                                }
+                            });
+                        }
+                        function addOrders(data) {
+                            $.each(data, function (i, val) {
+                                if (validateNotExistOrder(val.id)) {
+                                    var products = "";
+                                    var appendOrder ="";
+                                    $.each(val.orderProducts, function (i, val) {
+                                        products += "<div class='product'>"+val.product.name+"   " +val.quantity+"</div>";
+                                    });
+                                    appendOrder =  '    <div class="order id_'+val.id+'" data-id="'+ val.id+'"> '  +
+                                        '               <div class="col-xs-12 order-id">  '  +
+                                        '                   M:'+val.client.tableObject.tableCode +'#'+ val.id +' '  +
+                                        '               </div>  '  +
+                                        '               <div class="order-products">  '  +
+                                        products +
+                                        '               </div>  '  +
+                                            '  <div class="setpay">' +
+                                        '                                    Cobrar' +
+                                        '                                </div>' +
+                                        '          </div>  ' ;
+                                    $('.wrapp1').append(appendOrder);
+                                }
+                                $('.order').click(function () {
+                                    $('.focus').removeClass('focus');
+                                    $(this).addClass('focus');
+                                });
+                                $('.setpay').click(function () {
+                                    changeStatus('pending', $(this).closest('.order').attr('data-id'));
+                                    $(this).closest('.order').remove();
+                                });
+                            });
+                        }
+                        function validateNotExistOrder(id) {
+                            return $('.id_'+id).length == 0 ?  true: false;
+                        }
+                        function finishOrder(id) {
+                            $.ajax({
+                                type: "POST",
+                                url: '/finishOrder/'+id,
+                                success : function() {
+                                    $('.id_'+id).remove();
+                                }
+                            });
+                        }
+                    </script>
                 </div>
                 <div class="col-xs-12 solicita_camarero">
-                    SE SOLICITA UN KAMARERO EN LA MESA
+                    <div class="row">
+                        <div class="text">
+                            <img width="100" src="{{ asset('img/ProductsIMG/BSCK-01.png') }}">
+                            SE SOLICITA CAMARERO</div>
+                    </div>
+                    <div class="wrapp2">
+                        {% for singleHelp in helpRequest %}
+                            <div class="helpRequest request{{ singleHelp.id }}" data-id="{{ singleHelp.id }}">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        MESA: {{ singleHelp.fromTable.tableCode }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 attendedHelpRequest">
+                                       Atender!
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-xs-6 cart-barra" style="border-left:1px solid grey;padding:0px;">
+        <script>
+            $('.attendedHelpRequest').click(function () {
+                attendHelpRequest($(this).closest('.helpRequest').attr('data-id'));
+            });
+            function attendHelpRequest(id) {
+                $.ajax({
+                    type: "POST",
+                    url: '/attendHelpRequest/'+id,
+                    success : function(data) {
+                        //resetAll();
+                    }
+                });
+            }
+        </script>
+        <div class="col-xs-6 cart-barra" style="border-left:1px solid #f49738;padding:0px;">
             <span class="wrapp">
                 <div class="">
-             <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="position:relative;">
+             <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="position:relative;margin-bottom:0;">
             <div class="row">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -108,11 +374,11 @@
                 <!-- ============ Pricing  ============= -->
     <style>
         .category  {
-            font-family: 'Stylish', sans-serif;
+            font-family: 'Barlow Semi Condensed', sans-serif;
             font-size:80px;
             padding:20px;
-            margin:30px 0px;
-            background:#9f191f;
+             margin-bottom:30px;
+            background:#f49738;
             color:white;
             cursor:pointer;
         }
@@ -163,7 +429,7 @@
             background-position: 60% 50%!important;
         }
         .item .content {
-            font-family: 'Stylish', sans-serif;
+            font-family: 'Barlow Semi Condensed', sans-serif;
             padding:20px;
             display:flex;
             flex-flow:column;
@@ -172,17 +438,18 @@
         }
         .content .title {
             font-size:50px;
-            color: #9f191f;
+            color: #676767;
         }
         .content .price {
             font-size:50px;
-            color: #9f191f;
+            color: #f49738;
             text-align: right;
             padding-right:30px;
         }
         .description {
             font-size:20px;
             font-family: 'Roboto', sans-serif;
+            color:#676767;
         }
         .minus {
             margin:5px;
@@ -487,12 +754,12 @@
 
 
         <div class=" carrito-container">
-            <div class="container">
+            <div class="">
                 <div class="row">
-                    <div class="col-xs-6 carrito-title">
+                    <div class="col-xs-8 carrito-title">
                         Resumen del pedido
                     </div>
-                    <div class="col-xs-6 carrito-close">
+                    <div class="col-xs-4 carrito-close">
                         <i class="fas fa-times" onclick="$('.carrito-container').removeClass('active')"></i>
                     </div>
                 </div>
@@ -534,14 +801,12 @@
             $('.minus').addClass('disabled');
             $('.contador').val(0);
             $('.carrito-content').html('');
-            generateOrder();
         }
     }
     $('.carrito-pagar').click(function () {
         generateOrder('pending')
     });
     function generateOrder(status) {
-        console.log(JSON.stringify(carrito));
         $.ajax({
             type: "POST",
             'data': {

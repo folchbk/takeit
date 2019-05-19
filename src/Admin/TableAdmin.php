@@ -32,6 +32,7 @@ final class TableAdmin extends AbstractAdmin
             ->add('id')
             ->add('tableCode')
             ->add('type')
+            ->add('hashcode')
             ->add('createdAt')
             ->add('updatedAt')
             ->add('deletedAt')

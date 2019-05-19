@@ -59,6 +59,7 @@ class Order
     {
         $this->orderProducts = new ArrayCollection();
         $this->createdAt = new \DateTime("now");
+        $this->updatedAt = new \DateTime("now");
     }
 
     public function getId(): ?int

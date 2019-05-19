@@ -26,7 +26,7 @@ class Client
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="clients")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $userObject;
 
@@ -194,7 +194,7 @@ class Client
      */
     public function __toString()
     {
-        return "Cliente " . $this->getUserObject()->getName() . " en la mesa " . $this->getTableObject();
+        return "Cliente  en la mesa " . $this->getTableObject();
     }
 
 

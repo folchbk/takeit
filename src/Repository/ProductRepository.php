@@ -42,7 +42,13 @@ class ProductRepository extends ServiceEntityRepository
                 ->getResult()
                 ;
         } else {
-            return $this->createQueryBuilder('p');
+            return $this->
+            createQueryBuilder('pa')
+                ->select("p")
+                ->from(Product::class, "p")
+                ->orderBy("p.id", "ASC")
+                ->getQuery()
+                ->getResult();
         }
     }
 

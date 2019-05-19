@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Client;
 use App\Entity\Deal;
 use App\Entity\Order;
 use App\Entity\OrderProduct;
 use App\Entity\Product;
+use App\Entity\Table;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,14 +39,15 @@ class OrderController extends AbstractController
         $date = new \DateTime("now");
         $timestamp = $date->getTimestamp();
         $recentOrders = [];
-
         $em = $this->getDoctrine()->getManager()->getRepository(Order::class);
-        $orders = $em->findBy(array('status' => 'pending'));
+        $orders = $em->findBy(array('status' => $_POST['status']));
 
         foreach ($orders as $order) {
             $orderTimeStamp =$order->getCreatedAt()->getTimestamp();
+            $orderTimeStampUpdate =$order->getUpdatedAt()->getTimestamp();
             $result = $timestamp- $orderTimeStamp ;
-            if ($result < 5) {
+            $resultUpdate = $timestamp- $orderTimeStampUpdate;
+            if ($result < 5 || $resultUpdate < 5) {
                 array_push($recentOrders,$order);
             }
         }
@@ -55,7 +58,6 @@ class OrderController extends AbstractController
             }
         ]));
         $response->headers->set('Content-Type', 'application/json');
-        $this->firstInit = 1;
         return $response;
     }
     /**
@@ -74,25 +76,48 @@ class OrderController extends AbstractController
     /**
      * @Route("/generateOrder", name="generateOrder")
      */
-    public function generateOrder() {
+    public function generateOrder(Request $request) {
 
         $em = $this->getDoctrine()->getManager();
-      $productos = get_object_vars(json_decode($_POST["carrito"]));
-      $order = new Order();
-      $order->setStatus($_POST['status']);
-      $em->persist($order);
-      $em->flush();
-      foreach ($productos["_productos"] as $producto) {
-          $producto = get_object_vars($producto);
-          $productReal = $em->getRepository(Product::class)->findOneBy(array('id' => $producto['_id']));
-          $orderProduct = new OrderProduct();
-          $orderProduct->setOrderObject($order);
-          $orderProduct->setProduct($productReal);
-          $orderProduct->setQuantity($producto['_quantity']);
-          $em->persist($orderProduct);
+        $table = $em->getRepository(Table::class)->findOneBy(array('id' => $request->cookies->get('table')));
+        if ($table) {
+          $client = new Client();
+          $client->setTableObject($table);
+            $em->persist($client);
+            $em->flush();
+
+          $productos = get_object_vars(json_decode($_POST["carrito"]));
+          $order = new Order();
+          $order->setStatus($_POST['status']);
+          $order->setClient($client);
+          $em->persist($order);
           $em->flush();
-      }
-      return new Response('ok');
+          foreach ($productos["_productos"] as $producto) {
+              $producto = get_object_vars($producto);
+              $productReal = $em->getRepository(Product::class)->findOneBy(array('id' => $producto['_id']));
+              $orderProduct = new OrderProduct();
+              $orderProduct->setOrderObject($order);
+              $orderProduct->setProduct($productReal);
+              $orderProduct->setQuantity($producto['_quantity']);
+              $em->persist($orderProduct);
+              $em->flush();
+          }
+          return new Response('ok');
+        }
+    }
+    /**
+     * @Route("/changeStatus/{id}", name="changeStatus")
+     */
+    public function changeStatus($id) {
+
+        $em = $this->getDoctrine()->getManager();
+        $order = $em->getRepository(Order::class)->findOneBy(array('id' => $id));
+        $order->setStatus($_POST['status']);
+        $order->setUpdatedAt(new \DateTime("now"));
+        $em->merge($order);
+        $em->flush();
+
+        return new Response('ok');
 
     }
 

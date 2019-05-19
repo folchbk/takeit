@@ -37,6 +37,13 @@
             cursor: pointer;
             z-index:99;
         }
+        .help-request {
+            position: fixed;
+            bottom:50px;
+            left:50px;
+            cursor: pointer;
+            z-index:99;
+        }
     </style>
 </head>
 
@@ -53,7 +60,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">BriSe Restaurant</a>
+                    <a class="navbar-brand" href="#">BrisVeg <span>Restaurant</span> <i class="fas fa-seedling"></i></a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -78,9 +85,9 @@
     <div id="top" class="starter_container bg">
         <div class="follow_container">
             <div class="col-md-6 col-md-offset-3">
-                <h2 class="top-title"> Restaurant</h2>
-                <h2 class="white second-title">" Best in the city "</h2>
-                <hr>
+                <h2 class="top-title" style="color:#90b44d; text-shadow: 4px 4px 4px black;font-family: 'Unica One', cursive;font-weight: bold;">BrisVeg</h2>
+                <h2 class="white second-title" style="font-family: 'DejaVu Serif';text-shadow: 4px 4px 4px white;font-weight:bold;color:black;text-transform: none;">Verde y de Km.0</h2>
+                <hr style="border-color:black;">
             </div>
         </div>
     </div>
@@ -88,11 +95,12 @@
     <!-- ============ Pricing  ============= -->
     <style>
         .category  {
-            font-family: 'Stylish', sans-serif;
-            font-size:80px;
+            font-family: 'Bree Serif', serif;
+            font-size:50px;
             padding:20px;
+            padding-left:40px;
             margin:30px 0px;
-            background:#9f191f;
+            background:#90b44d;
             color:white;
             cursor:pointer;
         }
@@ -143,7 +151,7 @@
             background-position: 60% 50%!important;
         }
         .item .content {
-            font-family: 'Stylish', sans-serif;
+            font-family: 'Bree Serif', serif;
             padding:20px;
             display:flex;
             flex-flow:column;
@@ -151,18 +159,18 @@
             height:250px;
         }
         .content .title {
-            font-size:50px;
-            color: #9f191f;
+            font-size:45px;
+            color: #90b44d;
         }
         .content .price {
-            font-size:50px;
-            color: #9f191f;
+            font-size:45px;
+            color: black;
             text-align: right;
             padding-right:30px;
         }
         .description {
             font-size:20px;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Barlow Semi Condensed', sans-serif;
         }
         .minus {
             margin:5px;
@@ -356,7 +364,10 @@
     </div>
 
     <span class="cart-open" onclick="openCart()">
-        <img height=75 width=75 src="{{ asset('img/cart/cart-icon.png') }}">
+        <img height=100 width=100 src="https://www.guiabusinesshn.com/wp-content/uploads/2018/02/restaurant-cutlery-circular-symbol-of-a-spoon-and-a-fork-in-a-circle-copia.png">
+    </span>
+    <span class="help-request" onclick="addHelpRequest()">
+        <img height=100 width=100 src="https://www.guiabusinesshn.com/wp-content/uploads/2018/02/restaurant-cutlery-circular-symbol-of-a-spoon-and-a-fork-in-a-circle-copia.png">
     </span>
 
 
@@ -382,16 +393,16 @@
         }
         .carrito-title {
             margin-top:50px;
-            color:#9f191f;
+            color:#90b44d;
             font-size:60px;
-            font-family: 'Rubik Mono One', sans-serif;
+            font-family: 'Bree Serif', serif;
             padding:0px;
             margin-bottom:30px;
         }
         .carrito-close {
             padding:0px;
             margin-top:50px;
-            color:#9f191f;
+            color:black;
             font-size:60px;
             font-family: 'Rubik Mono One', sans-serif;
         }
@@ -426,15 +437,15 @@
             margin:0px 20px;
         }
         .cart-cupon i {
-            color: #004571;
+            color: black;
             font-size:30px;
         }
         .carrito-pagar {
-            background-color:black;
+            background-color:#90b44d;
             color:white;
             padding:20px;
-            font-family: 'Rubik Mono One', sans-serif;
-            font-size:30px;
+            font-family: 'Bree Serif', serif;
+            font-size:40px;
             width:200px;
             text-align: center;
             float:right;
@@ -450,7 +461,7 @@
             padding:15px 30px;
             cursor:pointer;
             font-size:30px;
-            font-family: 'Rubik Mono One', sans-serif;
+            font-family: 'Unica One', cursive;
             color:white;
         }
         .pay-mode i {
@@ -459,23 +470,33 @@
         }
         .cash-pay {
             float:left;
-            background:#00cc66;
+            background:#90b44d;
         }
         .credit-card-pay {
             float:right;
             background:black;
+        }
+        .pay-mode.cancel {
+            position:absolute;
+            bottom:50px;
+            background:brown;
+            text-align: center;
+            left:35%;
         }
     </style>
 
 
     <!-- ============ Footer Section  ============= -->
 
-    <footer class="sub_footer">
+    <footer class="sub_footer" style="padding:0;">
         <div class="container">
-            <div class="col-md-4"><p class="sub-footer-text text-center">&copy; Restaurant 2014, Theme by <a href="https://themewagon.com/">ThemeWagon</a></p></div>
-            <div class="col-md-4"><p class="sub-footer-text text-center">Back to <a href="#top">TOP</a></p>
+            <div class="row">
+                <div class="col-md-1">
+                    <img width="150" src="{{ asset('img/BackStock-Blanco-01.png') }}">
+                </div>
+                <div class="col-md-4" style="float:right;text-align: right;margin-top:40px;"><p class="sub-footer-text">&copy; BackStock - Administradores SL</div>
             </div>
-            <div class="col-md-4"><p class="sub-footer-text text-center">Built With Care By <a href="#" target="_blank">Us</a></p></div>
+            </div>
         </div>
     </footer>
     <div class=" carrito-container">
@@ -500,7 +521,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12">
-                    <div class="carrito-pagar" onclick="pagarModal()">Pagar!</div>
+                    <div class="carrito-pagar" onclick="pagarModal()">PAGAR</div>
                 </div>
             </div>
         </div>
@@ -514,6 +535,9 @@
             <div class="modal-body" style="background:transparent;width:100%;padding:20%;">
                 <div class="pay-mode cash-pay">
                     Pagar en efectivo<i class="fas fa-money-bill-wave"></i>
+                </div>
+                <div class="pay-mode cancel" onclick="$('#payModal').modal('hide');">
+                    Seguir pidiendo
                 </div>
                 <div class="pay-mode credit-card-pay">
                    Pagar con targeta(No disponible)<i class="fas fa-credit-card"></i>
@@ -542,8 +566,20 @@
         }
     }
     $('.cash-pay').click(function () {
-        generateOrder('pending')
+        generateOrder('pending-pay')
     });
+    function addHelpRequest() {
+        $.ajax({
+            type: "POST",
+            'data': {
+                'status': 'pending',
+            },
+            url: '/addHelpRequest',
+            success : function(data) {
+                //resetAll();
+            }
+        });
+    }
     function generateOrder(status) {
         $.ajax({
             type: "POST",

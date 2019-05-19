@@ -70,11 +70,17 @@ class Table
      */
     private $device;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\HelpRequest", mappedBy="fromTable")
+     */
+    private $helpRequest;
+
 
     public function __construct()
     {
         $this->clients = new ArrayCollection();
         $this->createdAt = new \DateTime('now');
+        $this->helpRequest = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -241,6 +247,37 @@ class Table
         $newLinkedTable = $device === null ? null : $this;
         if ($newLinkedTable !== $device->getLinkedTable()) {
             $device->setLinkedTable($newLinkedTable);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|HelpRequest[]
+     */
+    public function getHelpRequest(): Collection
+    {
+        return $this->helpRequest;
+    }
+
+    public function addHelpRequest(HelpRequest $helpRequest): self
+    {
+        if (!$this->helpRequest->contains($helpRequest)) {
+            $this->helpRequest[] = $helpRequest;
+            $helpRequest->setFromTable($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHelpRequest(HelpRequest $helpRequest): self
+    {
+        if ($this->helpRequest->contains($helpRequest)) {
+            $this->helpRequest->removeElement($helpRequest);
+            // set the owning side to null (unless already changed)
+            if ($helpRequest->getFromTable() === $this) {
+                $helpRequest->setFromTable(null);
+            }
         }
 
         return $this;
