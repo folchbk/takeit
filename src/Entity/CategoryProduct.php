@@ -33,9 +33,20 @@ class CategoryProduct
      */
     private $shownOrder;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\CategoryProduct", inversedBy="subCategories")
+     */
+    private $categoryProduct;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CategoryProduct", mappedBy="categoryProduct")
+     */
+    private $subCategories;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->subCategories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -98,6 +109,49 @@ class CategoryProduct
     public function setShownOrder(int $shownOrder): self
     {
         $this->shownOrder = $shownOrder;
+
+        return $this;
+    }
+
+    public function getCategoryProduct(): ?self
+    {
+        return $this->categoryProduct;
+    }
+
+    public function setCategoryProduct(?self $categoryProduct): self
+    {
+        $this->categoryProduct = $categoryProduct;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getSubCategories(): Collection
+    {
+        return $this->subCategories;
+    }
+
+    public function addSubCategory(self $subCategory): self
+    {
+        if (!$this->subCategories->contains($subCategory)) {
+            $this->subCategories[] = $subCategory;
+            $subCategory->setCategoryProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubCategory(self $subCategory): self
+    {
+        if ($this->subCategories->contains($subCategory)) {
+            $this->subCategories->removeElement($subCategory);
+            // set the owning side to null (unless already changed)
+            if ($subCategory->getCategoryProduct() === $this) {
+                $subCategory->setCategoryProduct(null);
+            }
+        }
 
         return $this;
     }

@@ -99,21 +99,21 @@ services:
 
     admin.type_product:
         class: App\Admin\TypeProductAdmin
-        arguments: [~, App\Entity\TypeProduct, App\Controller\TypeProductAdminController]
+        arguments: [~, App\Entity\TypeProduct, App\Controller\SonataAdminControllers\TypeProductAdminController]
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: TypeProduct }
         public: true
 
     admin.category_product:
         class: App\Admin\CategoryProductAdmin
-        arguments: [~, App\Entity\CategoryProduct, App\Controller\CategoryProductAdminController]
+        arguments: [~, App\Entity\CategoryProduct, App\Controller\SonataAdminControllers\CategoryProductAdminController]
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: CategoryProduct }
         public: true
 
     admin.image:
         class: App\Admin\ImageAdmin
-        arguments: [~, App\Entity\Image, App\Controller\ImageAdminController]
+        arguments: [~, App\Entity\Image, App\Controller\SonataAdminControllers\ImageAdminController]
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: Image }
         public: true
