@@ -45,7 +45,7 @@ class CategoryProduct
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Local", inversedBy="categoryProducts")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $local;
 
