@@ -156,7 +156,7 @@
                 $('.focus').removeClass('focus');
                 $(this).addClass('focus');
             });
-           setInterval(requestOrders,1000);
+           setInterval(requestOrders,3000);
            $('.finished').click(function () {
               finishOrder($('.order.focus').attr('data-id'));
            });

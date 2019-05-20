@@ -426,6 +426,10 @@
         <strong>Solo puedes usar un cupón por pedido</strong>
     </div>
 
+     <div class="alert alert-success box-warning success-order">
+        <strong>Pedido realizado con éxito!</strong>
+    </div>
+
     <style>
         .wrap {
             overflow:hidden;
@@ -610,11 +614,14 @@
             setTimeout(function () {$('.no-productsOnCart').fadeOut('slow')},2000);
         } else {
             carrito = new Carrito();
+            $('#payModal').modal('hide');
             $('.carrito-container').removeClass('active');
             $("html, body").animate({ scrollTop: 0 }, 600);
             $('.minus').addClass('disabled');
             $('.contador').val(0);
             $('.carrito-content').html('');
+            $('.success-order').fadeIn('fast');
+            setTimeout(function () {$('.success-order').fadeOut('slow')},2000);
         }
     }
     $('.cash-pay').click(function () {
@@ -642,7 +649,7 @@
             },
             url: '/generateOrder',
             success : function(data) {
-                //resetAll();
+                resetAll();
             }
         });
     }

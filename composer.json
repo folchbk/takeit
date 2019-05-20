@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "ext-http": "*",
         "almasaeed2010/adminlte": "~2.4",
         "doctrine/doctrine-bundle": "^1.10",
         "friendsofsymfony/user-bundle": "~2.0",
@@ -30,8 +31,7 @@
         "symfony/twig-bundle": "4.2.*",
         "symfony/validator": "4.2.*",
         "symfony/web-link": "4.2.*",
-        "symfony/yaml": "4.2.*",
-      "ext-http": "*"
+        "symfony/yaml": "4.2.*"
     },
     "require-dev": {
         "symfony/debug-pack": "*",
