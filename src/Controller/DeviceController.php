@@ -53,8 +53,11 @@ class DeviceController extends AbstractController
                     $response->headers->setCookie($table_cookie);
                     $response->headers->setCookie($deal_cookie);
                     $response->send();
-
-                    return $this->redirect("/cart");
+                    if ($linkedTable->getTableCode() == 'barra') {
+                        return $this->redirect("/barra");
+                    } else {
+                       return $this->redirect("/cart");
+                    }
                 } else {
                     return $this->redirectToRoute('device_new');
                 }

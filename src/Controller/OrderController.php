@@ -129,7 +129,7 @@ class OrderController extends AbstractController
         $timestamp = $date->getTimestamp();
         $recentOrders = [];
         $em = $this->getDoctrine()->getManager()->getRepository(Order::class);
-        $orders = $em->findBy(array('status' => $_POST['status']));
+        $orders = $em->findByStatus($_POST['status']);
 
         foreach ($orders as $order) {
             $orderTimeStamp =$order->getCreatedAt()->getTimestamp();
@@ -217,7 +217,7 @@ class OrderController extends AbstractController
      * @Route("/generateOrder", name="generateOrder")
      */
     public function generateOrder(Request $request) {
-
+        if (isset($_POST['from'])) {}
         $em = $this->getDoctrine()->getManager();
         $table = $em->getRepository(Table::class)->findOneBy(array('id' => $request->cookies->get('table')));
         if ($table) {

@@ -26,6 +26,30 @@ class OrderRepository extends ServiceEntityRepository
         $this->local = $this->session->get('local');
     }
 
+
+    /**
+     * @return Order[] Returns an array of Ingredient objects
+     */
+    public function findByStatus($status)
+    {
+        if ($this->deal != null) {
+            return $this->createQueryBuilder('c')->select('o')
+                ->from('App\Entity\Order', 'o')
+                ->join('o.client', 'cl')
+                ->join('cl.tableObject', 't')
+                ->join('t.local', 'l')
+                ->where('l.id = :local')
+                ->andWhere('o.status = :status')
+                ->setParameter('local', $this->local)
+                ->setParameter('status', $status)
+                ->orderBy('c.createdAt', 'ASC')
+                ->getQuery()
+                ->getResult();
+        } else {
+            return $this->createQueryBuilder('u');
+        }
+    }
+
     /**
      * @return Order[] Returns an array of Ingredient objects
      */
