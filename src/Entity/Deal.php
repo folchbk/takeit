@@ -56,7 +56,7 @@ class Deal
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="deal")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $owner;
 
