@@ -41,9 +41,7 @@
 
 {% set deal = app.session.get('deal') %}
 {% set user = app.user %}
-{% set locals = app.user.locals %}
-
-
+{% set others_locals = app.user.locals %}
 
 {% include 'main-header.html.twig' %}
 {% include 'main-sidebar.html.twig' %}
