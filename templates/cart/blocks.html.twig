@@ -5,7 +5,7 @@
             {% set outOfStock = "outOfStock" %}
         {% endif %}
     {% endfor %}
-    <div class="item row {{ category.name }}-item {% if product.type != "" %}{{ product.type|replace({' ': ''}) }}-type-item{% endif %} {{ outOfStock }}" data-id="{{ product.id }}">
+    <div class="item row {{ category }}-item {% if subCategory in product.category %}{{subCategory|replace({' ': ''}) }}-type-item{% endif %} {{ outOfStock }}" data-id="{{ product.id }}">
         <div class="outOfStockProduct">No hay stock!</div>
         <div class="col-xs-8 content">
             <div class="row" style="height:auto;margin-bottom:10px;">

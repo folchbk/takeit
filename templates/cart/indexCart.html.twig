@@ -67,7 +67,9 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav main-nav  clear navbar-right ">
                         {% for category in categories %}
-                            <li><a class="color_animation menu-item" data-href="{{ category.name }}">{{ category.name }}</a></li>
+                            {% if category.categoryProduct == null %}
+                                <li><a class="color_animation menu-item" data-href="{{ category.name }}">{{ category.name }}</a></li>
+                            {% endif %}
                         {% endfor %}
 
                     </ul>
@@ -209,34 +211,37 @@
                 {% set subCategories = [] %}
                 {% for product in products %}
                     {% if category in product.category %}
-                         {% if product.type not in subCategories and product.type != "" %}
+                         {% if product.category not in subCategories and product.category != "" %}
                              {% set subCategories = subCategories|merge([product.type]) %}
                          {% endif  %}
                     {% endif %}
                 {% endfor %}
-                 <div class="col-xs-12 category" id="{{ category.name }}" data-toggle="collapse" >
-                     <div class="row">
-                        <div class="col-xs-12 title">{{ category.name }}</div>
+                {% if category.categoryProduct == null %}
+                     <div class="col-xs-12 category" id="{{ category.name }}" data-toggle="collapse" >
+                         <div class="row">
+                            <div class="col-xs-12 title">{{ category.name }}</div>
+                         </div>
+                         <div class="row">
+                            <div class="col-xs-12 subtypes">
+                                {% if category.subCategories is not empty %}
+                                    <div class="subtype " data-parent="{{ category }}" data-subCategory="">Todos</div>
+                                {% endif %}
+                                {% for subCategory in category.subCategories %}
+                                    <div class="subtype" data-parent="{{ category }}" data-subCategory="{{ subCategory|replace({' ': ''}) }}">{{ subCategory }}</div>
+                                {% endfor %}
+                            </div>
+                         </div>
                      </div>
-                     <div class="row">
-                        <div class="col-xs-12 subtypes">
-                            {% if subCategories is not empty %}
-                                <div class="subtype " data-parent="{{ category }}" data-subCategory="">Todos</div>
-                            {% endif %}
-                            {% for subCategory in subCategories %}
-                                <div class="subtype" data-parent="{{ category }}" data-subCategory="{{ subCategory|replace({' ': ''}) }}">{{ subCategory }}</div>
-                            {% endfor %}
-                        </div>
-                     </div>
-                 </div>
-                <div class="col-xs-12 items" id="{{ category.name }}-items">
-                  {% for product in products %}
-
-                      {% if category in product.category %}
-                          {{ block('test', "cart/blocks.html.twig") }}
-                      {% endif %}
-                  {% endfor %}
-                </div>
+                    <div class="col-xs-12 items" id="{{ category.name }}-items">
+                      {% for product in products %}
+                        {% for subCategory in category.subCategories %}
+                              {% if subCategory in product.category %}
+                                  {{ block('test', "cart/blocks.html.twig") }}
+                              {% endif %}
+                        {% endfor %}
+                      {% endfor %}
+                    </div>
+                {% endif %}
             {% endfor %}
             <script>
 

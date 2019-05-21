@@ -542,40 +542,42 @@
     </style>
 
         <div class="">
-
-            {% for category in categories %}
-                {% set subCategories = [] %}
-                {% for product in products %}
-                    {% if category in product.category %}
-                        {% if product.type not in subCategories and product.type != "" %}
-                            {% set subCategories = subCategories|merge([product.type]) %}
-                        {% endif  %}
-                    {% endif %}
-                {% endfor %}
+          {% for category in categories %}
+              {% set subCategories = [] %}
+              {% for product in products %}
+                  {% if category in product.category %}
+                      {% if product.category not in subCategories and product.category != "" %}
+                          {% set subCategories = subCategories|merge([product.type]) %}
+                      {% endif  %}
+                  {% endif %}
+              {% endfor %}
+              {% if category.categoryProduct == null %}
                 <div class="col-xs-12 category" id="{{ category.name }}" data-toggle="collapse" >
                      <div class="row">
                         <div class="col-xs-12 title">{{ category.name }}</div>
                      </div>
                      <div class="row">
                         <div class="col-xs-12 subtypes">
-                            {% if subCategories is not empty %}
-                                <div class="subtype " data-parent="{{ category }}" data-subCategory="">Todos</div>
-                            {% endif %}
-                            {% for subCategory in subCategories %}
+                             {% if category.subCategories is not empty %}
+                                 <div class="subtype " data-parent="{{ category }}" data-subCategory="">Todos</div>
+                             {% endif %}
+                            {% for subCategory in category.subCategories %}
                                 <div class="subtype" data-parent="{{ category }}" data-subCategory="{{ subCategory|replace({' ': ''}) }}">{{ subCategory }}</div>
                             {% endfor %}
                         </div>
                      </div>
                  </div>
                 <div class="col-xs-12 items" id="{{ category.name }}-items">
-                  {% for product in products %}
-
-                      {% if category in product.category %}
-                          {{ block('test', "cart/blocks.html.twig") }}
-                      {% endif %}
-                  {% endfor %}
-                </div>
-            {% endfor %}
+                   {% for product in products %}
+                       {% for subCategory in category.subCategories %}
+                           {% if subCategory in product.category %}
+                               {{ block('test', "cart/blocks.html.twig") }}
+                           {% endif %}
+                       {% endfor %}
+                   {% endfor %}
+                    </div>
+              {% endif %}
+          {% endfor %}
             <script>
 
                 var carrito = new Carrito();

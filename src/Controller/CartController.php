@@ -20,17 +20,20 @@ class CartController extends AbstractController
      */
     public function index(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $categories = $em->getRepository(CategoryProduct::class)->findAll();
-        $productRepository = $em->getRepository(Product::class);
-
-        $products = ($request->cookies->get('local') == null)
-            ? $productRepository->findAll() : $productRepository->findBy(['local' => $request->cookies->get('local')]);
-
-        return $this->render('cart/indexCart.html.twig', array(
-            'categories' => $categories,
-            'products' => $products
-        ));
+        $table = $request->cookies->get('table');
+        if (!$table) {
+            return $this->redirect('/');
+        }
+            $em = $this->getDoctrine()->getManager();
+            $categories = ($request->cookies->get('local') == null)
+                ? $em->getRepository(CategoryProduct::class)->findAll() :$em->getRepository(CategoryProduct::class)->findBy(['local' => $request->cookies->get('local')]);
+            $productRepository = $em->getRepository(Product::class);
+            $products = ($request->cookies->get('local') == null)
+                ? $productRepository->findAll() : $productRepository->findBy(['local' => $request->cookies->get('local')]);
+            return $this->render('cart/indexCart.html.twig', array(
+                'categories' => $categories,
+                'products' => $products
+            ));
     }
 
 }
