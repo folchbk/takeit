@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 /**
  * @method Local|null find($id, $lockMode = null, $lockVersion = null)
  * @method Local|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Local|null findByDeal($deal, array $orderBy = null)
  * @method Local[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class LocalRepository extends ServiceEntityRepository

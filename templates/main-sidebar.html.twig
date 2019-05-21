@@ -31,6 +31,7 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">HEADER</li>
             <!-- Optionally, you can add icons to the links -->
+            {% if deal.owner == user %}
             <li class="treeview">
                 <a href="#"><i class="fa fa-link"></i> <span>My Business</span>
                     <span class="pull-right-container">
@@ -43,6 +44,7 @@
                     <li><a href="{{ url('local_index') }}"><i class="fa fa-link"></i> <span>{% trans %}Locals{% endtrans %}</span></a></li>
                 </ul>
             </li>
+            {% endif %}
 
             <li class="treeview">
                 <a href="#"><i class="fa fa-link"></i> <span>Data</span>

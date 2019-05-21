@@ -129,7 +129,9 @@
 
     <div class="box-footer">
         <div style="float:right;">
+            {% if user.id != selected_user.id %}
             <a class="btn btn-danger" role="button" href="{{ path('user_index') }}">Back to list</a>
+            {% endif %}
             <button type="submit" class="btn btn-success">{{ button_label|default('Save') }}</button>
         </div>
     </div>

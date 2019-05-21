@@ -91,10 +91,14 @@ class UserController extends AbstractController
             }
 
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('user_index', [
-                'id' => $user->getId(),
-            ]);
+            $userId = $user->getId();
+            if ($this->getUser()->getId() != $userId) {
+                return $this->redirectToRoute('user_index', [
+                    'id' => $userId,
+                ]);
+            } else {
+                return $this->redirect('/backoffice');
+            }
         }
 
         return $this->render('user/edit.html.twig', [
