@@ -29,6 +29,10 @@ class HomeController extends AbstractController
         foreach ($user->getLocals() as $local) {
             $deals[] = $local->getDeal();
         }
+
+        foreach ($user->getDeals() as $deal) {
+            $deals[] = $deal;
+        }
         $deals = array_unique($deals);
 
         $locals = ($selectedDeal != null) ? $localRepository->findByDeal($selectedDeal) : null;

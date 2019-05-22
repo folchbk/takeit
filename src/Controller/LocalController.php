@@ -19,7 +19,7 @@ class LocalController extends AbstractController
     /**
      * @Route("/", name="local_index", methods={"GET"})
      */
-    public function index(LocalRepository $localRepository, SessionInterface $session): Response
+    public function index(LocalRepository $localRepository): Response
     {
         return $this->render('local/index.html.twig', [
             'locals' => $localRepository->findAll(),

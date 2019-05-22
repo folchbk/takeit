@@ -31,7 +31,7 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">HEADER</li>
             <!-- Optionally, you can add icons to the links -->
-            {% if deal.owner == user %}
+            {% if deal.owner.id == user.id %}
             <li class="treeview">
                 <a href="#"><i class="fa fa-link"></i> <span>My Business</span>
                     <span class="pull-right-container">
