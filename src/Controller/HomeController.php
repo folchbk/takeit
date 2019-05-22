@@ -35,7 +35,7 @@ class HomeController extends AbstractController
         }
         $deals = array_unique($deals);
 
-        $locals = ($selectedDeal != null) ? $localRepository->findByDeal($selectedDeal) : null;
+        $locals = ($selectedDeal != null) ? $localRepository->findByDeal() : null;
 
         if ($selectedDeal != null && $selectedLocal != null) {
             return $this->render('home/index.html.twig', [
