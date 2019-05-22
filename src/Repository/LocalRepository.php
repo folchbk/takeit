@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 /**
  * @method Local|null find($id, $lockMode = null, $lockVersion = null)
  * @method Local|null findOneBy(array $criteria, array $orderBy = null)
- * @method Local|null findByDeal($deal, array $orderBy = null)
  * @method Local[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class LocalRepository extends ServiceEntityRepository
@@ -27,6 +26,26 @@ class LocalRepository extends ServiceEntityRepository
         $this->local = $this->session->get('local');
     }
 
+
+    /**
+     * @return Local[] Returns an array of Local objects
+     */
+    public function findByDeal()
+    {
+        if ($this->deal != null) {
+            return $this->createQueryBuilder('l')
+                ->join('l.users', 'u')
+                ->andWhere('l.deal = :deal')
+                ->andWhere('u.id = :user')
+                ->setParameter('deal', $this->deal)
+                ->setParameter('user', $this->session->get('user'))
+                ->orderBy('l.id', 'ASC')
+                ->getQuery()
+                ->getResult();
+        } else {
+            return $this->createQueryBuilder('l');
+        }
+    }
 
      /**
       * @return Local[] Returns an array of Local objects
