@@ -95,7 +95,7 @@ class Local
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Disccount", mappedBy="local")
+     * @ORM\OneToMany(targetEntity="App\Entity\Disccount", mappedBy="local", cascade={"persist"})
      */
     private $disccounts;
 
